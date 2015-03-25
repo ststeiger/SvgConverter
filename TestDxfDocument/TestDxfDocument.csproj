@@ -101,7 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\netDxf\netDxf.csproj">
-      <Project>{785380e0-ceb9-4c34-82e5-60d0e33e848e}</Project>
+      <Project>{785380E0-CEB9-4C34-82E5-60D0E33E848E}</Project>
       <Name>netDxf</Name>
     </ProjectReference>
   </ItemGroup>

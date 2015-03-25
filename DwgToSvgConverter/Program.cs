@@ -45,8 +45,10 @@ namespace DwgToSvgConverter
                 model = DxfReader.Read(filename);
             }
 
-
-            Export.ExportToSvg(model, @"d:\mytest.svg");
+			if(System.Environment.OSVersion.Platform == PlatformID.Unix)
+				Export.ExportToSvg(model, @"/root/mytest.svg");
+			else
+            	Export.ExportToSvg(model, @"d:\mytest.svg");
 
             System.Console.WriteLine(" --- Press any key to continue --- ");
             System.Console.ReadKey();

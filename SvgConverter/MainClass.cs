@@ -1,7 +1,4 @@
 ﻿
-using netDxf;
-
-
 namespace SvgConverter
 {
 
@@ -10,21 +7,29 @@ namespace SvgConverter
 	{
 
 
+		public static string ToSvgFile(string file)
+		{
+			file = System.IO.Path.GetFileNameWithoutExtension(file);
+			file += ".svg";
+			return file;
+		}
+
+
+
 		public static void Convert()
 		{
-            string file = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            file = System.IO.Path.Combine(file, "..");
-            file = System.IO.Path.Combine(file, "..");
+			string file = System.IO.Path.GetDirectoryName (System.Reflection.Assembly.GetExecutingAssembly ().Location);
+			file = System.IO.Path.Combine (file, "..");
+			file = System.IO.Path.Combine (file, "..");
 
-            file = System.IO.Path.Combine(file, "Zimmertyp_1_.dxf");
-            // file = System.IO.Path.Combine(file, "drawing.dxf");
+			// file = System.IO.Path.Combine (file, "Zimmertyp_1_.dxf");
+			file = System.IO.Path.Combine(file, "drawing.dxf");
 
-            // D:\Stefan.Steiger\Documents\Visual Studio 2013\Projects\SvgConverter\SvgConverter\drawing.dxf
+			// D:\Stefan.Steiger\Documents\Visual Studio 2013\Projects\SvgConverter\SvgConverter\drawing.dxf
 
-            file = System.IO.Path.GetFullPath(file);
+			file = System.IO.Path.GetFullPath (file);
 
-
-#if false
+#if true 
 
 
 			// InfoDump.DumpFile (file);
@@ -39,7 +44,6 @@ namespace SvgConverter
 
 			System.Console.WriteLine("\t{0}; count: {1}", netDxf.Entities.EntityType.Line, doc.Lines.Count);
 
-
             // https://www.alt-soft.com/tutorial/svg_tutorial/file_struct.html
 
             // <?xml version="1.0" standalone="no"?>
@@ -51,85 +55,112 @@ namespace SvgConverter
             
 
             // xmlns:dc="http://purl.org/dc/elements/1.1/"
-            //xmlns:cc="http://creativecommons.org/ns#"
-            //xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-            //xmlns:svg="http://www.w3.org/2000/svg"
+            // xmlns:cc="http://creativecommons.org/ns#"
+            // xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+            // xmlns:svg="http://www.w3.org/2000/svg"
+
+			cSVG SVG = new cSVG ();
 
 			foreach (netDxf.Entities.Line l in doc.Lines)
 			{
+				System.Console.WriteLine( l.Handle );
 				System.Console.WriteLine (l.StartPoint);
 				System.Console.WriteLine (l.EndPoint);
+
+				SVG.AddLine(l.StartPoint, l.EndPoint);
 			} // Next l
+
+
+			SVG.Save(ToSvgFile(file));
 
 #endif
 
-            // https://www.alt-soft.com/tutorial/svg_tutorial/file_struct.html
-            // http://commons.wikimedia.org/wiki/SVG_examples
+			// CreateSampleDocument();
 
-            // https://code.google.com/p/opus/source/browse/#svn%2Fbranches%2Fsvg%2FOpus.Core%2FSVG
-            // https://code.google.com/p/opus/source/browse/branches/svg/Opus.Core/SVG/SVG.cs
+
+			// https://www.alt-soft.com/tutorial/svg_tutorial/file_struct.html
+			// http://commons.wikimedia.org/wiki/SVG_examples
+
+			// https://code.google.com/p/opus/source/browse/#svn%2Fbranches%2Fsvg%2FOpus.Core%2FSVG
+			// https://code.google.com/p/opus/source/browse/branches/svg/Opus.Core/SVG/SVG.cs
             
-            // http://kooboo.codeplex.com/
+			// http://kooboo.codeplex.com/
 
 
-            // http://www.java2s.com/Tutorial/CSharp/0540__XML/GetNamespaceURIPrefixandLocalName.htm
-            // Console.WriteLine(doc.DocumentElement.NamespaceURI);
-            // Console.WriteLine(doc.DocumentElement.Prefix);
-            // Console.WriteLine(doc.DocumentElement.LocalName);
+			// http://www.java2s.com/Tutorial/CSharp/0540__XML/GetNamespaceURIPrefixandLocalName.htm
+			// Console.WriteLine(doc.DocumentElement.NamespaceURI);
+			// Console.WriteLine(doc.DocumentElement.Prefix);
+			// Console.WriteLine(doc.DocumentElement.LocalName);
+		}
 
-            string SVGnamespace = "http://www.w3.org/2000/svg";
-            string version = "1.1";
 
-			System.Xml.XmlDocument svgDocument = new System.Xml.XmlDocument();
-            svgDocument.XmlResolver = null;
+		public static void CreateSampleDocument()
+		{
+			cSVG SVG = new cSVG ();
 
-            //System.Xml.XmlDocumentType doctype = svgDocument.CreateDocumentType("html", "-//W3C//DTD HTML 4.01//EN", "http://www.w3.org/TR/html4/strict.dtd", null);
-            System.Xml.XmlDocumentType doctype = svgDocument.CreateDocumentType("svg", "-//W3C//DTD SVG 1.1//EN", "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd", null);
-            svgDocument.AppendChild(doctype);
 
-            System.Xml.XmlElement svgElement = svgDocument.CreateElement("svg", SVGnamespace);
-            
-            svgElement.SetAttribute("xmlns:dc", "http://purl.org/dc/elements/1.1/");
-            svgElement.SetAttribute("xmlns:cc", "http://creativecommons.org/ns#");
-            svgElement.SetAttribute("xmlns:rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-            svgElement.SetAttribute("xmlns:svg", SVGnamespace);
+			System.Xml.XmlElement textElement  = SVG.CreateText ("Hello & <World>", 123, 456);
+			SVG.RootNode.AppendChild(textElement);
 
-            // System.Xml.XmlAttribute attribute = svgDocument.CreateAttribute("version"); ;
-            // attribute.Value = version;
-            // svgElement.Attributes.Append(attribute);
 
-            svgElement.SetAttribute("version", version);
+			// http://www.w3schools.com/svg/svg_ellipse.asp
+
+			System.Xml.XmlElement line = SVG.CreateLine (0, 0, 123, 456);
+			SVG.RootNode.AppendChild(line);
 
 
 
-            svgElement.SetAttribute("width", "500");
-            svgElement.SetAttribute("height", "500");
-
-            // http://tutorials.jenkov.com/svg/svg-viewport-view-box.html
-            // svgElement.SetAttribute("viewBox", "0 0 500 500");
-            svgElement.SetAttribute("viewBox", "0 0 " + svgElement.Attributes["width"].Value + " " + svgElement.Attributes["height"].Value);
-            
-            // preserveAspectRatio="none"
+			System.Xml.XmlElement rect = SVG.CreateRectangle (100, 100, 20, 20);
+			// rect.SetAttribute("style", "fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)");
+			SVG.RootNode.AppendChild(rect);
 
 
 
+			System.Xml.XmlElement circle = SVG.CreateCircle (50, 50, 50);
+			// circle.SetAttribute("style", "fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)");
+			// circle.SetAttribute ("stroke", "black");
+			// circle.SetAttribute ("stroke-width", "3");
+			// circle.SetAttribute ("fill", "red");
+			SVG.RootNode.AppendChild(circle);
 
 
 
-
-            System.Xml.XmlNode rootNode = svgDocument.AppendChild(svgElement);
-
-            System.Xml.XmlElement textElement = svgDocument.CreateElement("text", SVGnamespace);
-            textElement.InnerText = "Hello & <World>";
-            textElement.SetAttribute("x", "123");
-            textElement.SetAttribute("y", "456");
-
-            rootNode.AppendChild(textElement);
-
-            
+			System.Xml.XmlElement ellipse = SVG.CreateEllipse (200, 200, 20, 50);
+			// ellipse.SetAttribute("style", "fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)");
+			// ellipse.SetAttribute ("stroke", "black");
+			// ellipse.SetAttribute ("stroke-width", "3");
+			// ellipse.SetAttribute ("fill", "red");
+			SVG.RootNode.AppendChild(ellipse);
 
 
-            svgDocument.Save("foo.xml.svg");
+
+			System.Xml.XmlElement polygon = SVG.CreatePolygon ("200,10 250,190 160,210");
+			// polygon.SetAttribute("style", "fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)");
+			// polygon.SetAttribute ("stroke", "black");
+			// polygon.SetAttribute ("stroke-width", "3");
+			// polygon.SetAttribute ("fill", "red");
+			SVG.RootNode.AppendChild(polygon);
+
+
+
+			System.Xml.XmlElement polyline = SVG.CreatePolyline ("300,300 320,320 340,300 360,350 380,300 400,400");
+			// polyline.SetAttribute("style", "fill:none;stroke-width:3;stroke:rgb(0,0,0)");
+			// polyline.SetAttribute ("stroke", "black");
+			// polyline.SetAttribute ("stroke-width", "3");
+			// polyline.SetAttribute ("fill", "red");
+			SVG.RootNode.AppendChild(polyline);
+
+
+
+			System.Xml.XmlElement path = SVG.CreatePath ("M150 0 L75 200 L225 200 Z");
+			path.SetAttribute("style", "fill:rgb(255,0,0);stroke-width:3;stroke:rgb(0,0,0)");
+			// path.SetAttribute ("stroke", "black");
+			// path.SetAttribute ("stroke-width", "3");
+			// path.SetAttribute ("fill", "red");
+			SVG.RootNode.AppendChild(path);
+
+
+			SVG.Save ("foo.xml.svg");
 
 			System.Console.WriteLine (" --- Press any key to continue --- ");
             System.Console.ReadKey();
