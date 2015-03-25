@@ -1,0 +1,1172 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WW.GL</name>
+    </assembly>
+    <members>
+        <member name="T:WW.OpenGL.PixelCopyType">
+            <summary>
+            The pixel copy type as used in <see cref="M:WW.OpenGL.GL.CopyPixels(System.Int32,System.Int32,System.Int32,System.Int32,WW.OpenGL.PixelCopyType)"/>.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.QuadricDrawStyle">
+            <summary>
+            The quadric draw style.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.Capability">
+            <summary>
+            OpenGL capabilities that can be enabled and disabled.
+            </summary>
+            <seealso cref="M:WW.OpenGL.GL.Enable(WW.OpenGL.Capability)"/>
+            <seealso cref="M:WW.OpenGL.GL.Disable(WW.OpenGL.Capability)"/>
+            <seealso cref="M:WW.OpenGL.GL.IsEnabled(WW.OpenGL.Capability)"/>
+        </member>
+        <member name="F:WW.OpenGL.Capability.FogSpecularTexture">
+            <summary>
+            Enables specularly lit textures (Windows only).
+            See also: http://oss.sgi.com/projects/ogl-sample/registry/WIN/specular_fog.txt
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.Win.WGL">
+            <summary>
+            This class contains OpenGL utility methods specific to the Windows platform.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.GetDC(System.IntPtr)">
+            <summary>
+            Gets the device context of the window with given handle.
+            </summary>
+            <param name="hWnd">Handle to window</param>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.ChoosePixelFormat(System.IntPtr,WW.OpenGL.Win.PixelFormatDescriptor@)">
+            <summary>
+            Retrieves an index for a pixel format closest to what is passed.
+            </summary>
+            <param name="hdc">Device context</param>
+            <param name="pfd">Pixel Format Descriptor struct</param>
+            <returns>
+            The one-based pixel format index. Returns zero if the call failed.
+            </returns>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.DescribePixelFormat(System.IntPtr,System.Int32,System.UInt32,WW.OpenGL.Win.PixelFormatDescriptor@)">
+            <summary>
+            Obtains information about the pixel format identified by pixelFormat of the 
+            device associated with hdc. The function sets the members of the PixelFormatDescriptor
+            structure pointed to by pfd with that pixel format data.
+            </summary>
+            <param name="hdc">Device context</param>
+            <param name="pixelFormat">Pixelformat index</param>
+            <param name="size">Size (in bytes) of the pixelformat descriptor object</param>
+            <param name="pfd">The pixelformat descriptor object</param>
+            <returns>Returns maximum pixelformat index of the device context or zero in case of failure.</returns>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.SetPixelFormat(System.IntPtr,System.Int32,WW.OpenGL.Win.PixelFormatDescriptor@)">
+            <summary>
+            Sets the pixel format for the device context to the format specified by the index.
+            </summary>
+            <param name="hdc">Device Context</param>
+            <param name="iPixelFormat">Index to a pixel format returned ChoosePixelFormat (one-base).</param>
+            <param name="pfd">The logical pixel format descriptor.</param>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.CreateCompatibleDC(System.IntPtr)">
+            <summary>
+            Creates a compatible device context.
+            </summary>
+            <param name="hdc">Device context</param>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.CreateContext(System.IntPtr)">
+            <summary>
+            Creates a rendering context for the device context.
+            </summary>
+            <param name="hdc">Device context</param>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.GetCurrentContext">
+            <summary>
+            Gets the handle to the current OpenGL rendering context of the calling thread.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.MakeCurrent(System.IntPtr,System.IntPtr)">
+            <summary>
+            Sets the current rendering context.
+            </summary>
+            <param name="hdc">Device context.</param>
+            <param name="hglrc">Rendering context.</param>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.DeleteContext(System.IntPtr)">
+            <summary>
+            Deletes the rendering context.
+            </summary>
+            <param name="hglrc">Rendering context to delete.</param>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.SwapBuffers(System.IntPtr)">
+            <summary>
+            Swaps the display buffers in a double buffer context.
+            </summary>
+            <param name="hdc">Device context.</param>
+        </member>
+        <member name="M:WW.OpenGL.Win.WGL.#cctor">
+            <summary>
+            Initializes the <see cref="T:WW.OpenGL.Win.WGL"/> class.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.GLU">
+            <summary>
+            The OpenGL Utility (GLU) library methods.
+            </summary>
+            <remarks>
+            The GLU library is implemented in software (so a OpenGL rendering context is not required).
+            </remarks>
+        </member>
+        <member name="M:WW.OpenGL.GLU.GetString(WW.OpenGL.GLUStringName)">
+            <summary>
+            Wrapper method around <see cref="M:WW.OpenGL.GLU.GetStringIntPtr(WW.OpenGL.GLUStringName)"/> (which is gluGetString).
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLU.ScaleImage(WW.OpenGL.PixelFormat,System.Int32,System.Int32,WW.OpenGL.DataType,System.IntPtr,System.Int32,System.Int32,WW.OpenGL.DataType,System.IntPtr)">
+            <summary>
+            The gluScaleImage function scales an image to an arbitrary size.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLU.TessProperty(System.IntPtr,WW.OpenGL.TessellationProperty,System.Double)">
+            <summary>
+            Set one of the tessellation object properties.
+            </summary>
+            <param name="tess">The tessellation object pointer.</param>
+            <param name="which">
+            Which parameter (should be <see cref="F:WW.OpenGL.TessellationProperty.BoundaryOnly"/> or
+            <see cref="F:WW.OpenGL.TessellationProperty.Tolerance"/>.
+            </param>
+            <param name="value">When a true/false is expected use 1 or 0.</param>
+        </member>
+        <member name="M:WW.OpenGL.GLU.NurbsCurve(System.IntPtr,System.Int32,System.Single[],System.Int32,System.Single[],System.Int32,WW.OpenGL.MapTarget)">
+            <summary>
+            The gluNurbsCurve function defines the shape of a NURBS curve.
+            </summary>
+            <param name="nobj"></param>
+            <param name="nknots"></param>
+            <param name="knot"></param>
+            <param name="stride"></param>
+            <param name="ctlarray"></param>
+            <param name="order"></param>
+            <param name="type">Only use the one-dimensional evaluator types.</param>
+        </member>
+        <member name="M:WW.OpenGL.GLU.NurbsSurface(System.IntPtr,System.Int32,System.Single[],System.Int32,System.Single[],System.Int32,System.Int32,System.Single[],System.Int32,System.Int32,WW.OpenGL.MapTarget)">
+            <summary>
+            The gluNurbsSurface function defines the shape of a NURBS surface.
+            </summary>
+            <param name="nobj">The nobj.</param>
+            <param name="sKnotCount">The s knot count.</param>
+            <param name="sKnots">The s knots.</param>
+            <param name="tKnotCount">The t knot count.</param>
+            <param name="tKnots">The t knots.</param>
+            <param name="sStride">The s stride.</param>
+            <param name="tStride">The t stride.</param>
+            <param name="ctlArray">The CTL array.</param>
+            <param name="sOrder">The s order.</param>
+            <param name="tOrder">The t order.</param>
+            <param name="type">Only use the two-dimensional evaluator types.</param>
+        </member>
+        <member name="M:WW.OpenGL.GLU.NurbsCallback(System.IntPtr,WW.OpenGL.CallbackType,WW.OpenGL.GLU.ErrorDelegate)">
+            <summary>
+            Registers a NURBS callback.
+            </summary>
+            <param name="nobj">The NURBS object pointer.</param>
+            <param name="which">The type of callback.</param>
+            <param name="callback">The callback (a <see cref="T:WW.OpenGL.NurbsErrorCode"/> is passed as parameter).</param>
+        </member>
+        <member name="T:WW.OpenGL.TessellationProperty">
+            <summary>
+            The type of tessellation.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.Win.DIBDataType">
+            <summary>
+            Specifies the type of data contained in the bmiColors array member 
+            of the <see cref="T:WW.OpenGL.Win.BitmapInfo"/> structure (either logical palette indexes or literal RGB values). 
+            </summary>
+            <seealso cref="M:WW.OpenGL.Win.WGL.CreateDIBSection(System.IntPtr,WW.OpenGL.Win.BitmapInfo@,WW.OpenGL.Win.DIBDataType,System.IntPtr@,System.IntPtr,System.UInt32)"/>
+        </member>
+        <member name="T:WW.OpenGL.GLUErrorCode">
+            <summary>
+            GLU error code.
+            </summary>
+            <remarks>
+            Use <see cref="M:WW.OpenGL.GLU.ErrorString(WW.OpenGL.GLUErrorCode)"/> to get the error string corresponding to the error code.
+            </remarks>
+            <seealso cref="M:WW.OpenGL.GLU.ErrorString(WW.OpenGL.GLUErrorCode)"/>
+        </member>
+        <member name="T:WW.OpenGL.Win.PixelFormatDescriptor">
+            <summary>
+            Represents a pixel format descriptor of a drawing surface.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.Win.PixelFormatDescriptor.GetSupportedFixelFormatDescriptors(System.IntPtr)">
+            <summary>
+            Gets the supported fixel format descriptors for specified device context.
+            </summary>
+            <param name="hdc">
+            The device context handle.
+            The device context associate with a window can be retrieved with <see cref="M:WW.OpenGL.Win.WGL.GetDC(System.IntPtr)"/>.
+            </param>
+        </member>
+        <member name="T:WW.OpenGL.QuadricNormal">
+            <summary>
+            Normal vector type.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.ShadingModel.Phong">
+            <summary>
+            Enables rendering Phong shaded primitives using OpenGL (Windows only).
+            See also: http://oss.sgi.com/projects/ogl-sample/registry/WIN/phong_shading.txt
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.TextureEnvironmentParameterName.LodBias">
+            <summary>
+            Bias the mipmapping level-of-detail.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.GLGraphics">
+            <summary>
+            Helper class for OpenGL drawing onto a device context using back buffering.
+            </summary>
+            <remarks>
+            <para>
+            This class handles rendering on the back buffer and swapping the
+            front and back buffers.
+            </para>
+            <para>
+            Anti-aliasing is provided optionally, see properties <see cref="P:WW.OpenGL.GLGraphics.AntiAliasingEnabled"/>,
+            <see cref="P:WW.OpenGL.GLGraphics.AntiAliasingDegree"/> and <see cref="P:WW.OpenGL.GLGraphics.AntiAliasJitterVectors"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.#ctor(WW.OpenGL.RenderingContext)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.Finalize">
+            <summary>
+            Finalizer releasing all OpenGL resources.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.Initialize(WW.OpenGL.RenderingContext)">
+            <summary>
+            Initialize the graphics using given OpenGL rendering context.
+            </summary>
+            <remarks>
+            This object will become the owner of the rendering context and
+            will dispose it when this object is disposed.
+            </remarks>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.Paint(System.Int32,System.Int32)">
+            <summary>
+            Paint.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.Paint(WW.OpenGL.RenderingContext,System.Int32,System.Int32)">
+            <summary>
+            Paint the scene.
+            </summary>
+            <remarks>
+            <para>
+            Calls <see cref="M:WW.OpenGL.GLGraphics.DrawSceneHelper"/>, and optionally handles anti aliasing by
+            modifying the projection matrix using jitter vectors.
+            In case anti aliasing is enabled, <c>DrawSceneHelper</c> is called multiple times.
+            </para>
+            <para>
+            This method also handles swapping buffers.
+            </para>
+            </remarks>
+            <seealso cref="M:WW.OpenGL.GLGraphics.DrawSceneHelper"/>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasingEnabled"/>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasingDegree"/>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasJitterVectors"/>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.Resize(System.Int32,System.Int32)">
+            <summary>
+            Event handler called when the control is resized.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.DrawSceneHelper">
+            <summary>
+            Draws the scene.
+            </summary>
+            <remarks>
+            Calls <see cref="M:WW.OpenGL.GLGraphics.OnBeforeDrawScene(System.EventArgs)"/>, <see cref="M:WW.OpenGL.GLGraphics.OnDrawScene(System.EventArgs)"/>
+            and <see cref="M:WW.OpenGL.GLGraphics.OnAfterDrawScene(System.EventArgs)"/> in this order.
+            </remarks>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.OnDrawScene(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:DrawScene"/> event.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.OnBeforeDrawScene(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:BeforeDrawScene"/> event.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.OnAfterDrawScene(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:AfterDrawScene"/> event.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLGraphics.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="E:WW.OpenGL.GLGraphics.DrawScene">
+            <summary>
+            Raised when the scene is drawn.
+            </summary>
+        </member>
+        <member name="E:WW.OpenGL.GLGraphics.BeforeDrawScene">
+            <summary>
+            Raised before the scene is drawn.
+            </summary>
+        </member>
+        <member name="E:WW.OpenGL.GLGraphics.AfterDrawScene">
+            <summary>
+            Raised after the scene is drawn.
+            </summary>
+        </member>
+        <member name="P:WW.OpenGL.GLGraphics.RenderingContext">
+            <summary>
+            Gets the OpenGL rendering context.
+            </summary>
+        </member>
+        <member name="P:WW.OpenGL.GLGraphics.AntiAliasingEnabled">
+            <summary>
+            Gets or sets whether anti-aliasing is enabled.
+            </summary>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasingEnabled"/>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasJitterVectors"/>
+        </member>
+        <member name="P:WW.OpenGL.GLGraphics.AntiAliasingDegree">
+            <summary>
+            Gets or sets the anti-aliasing degree (default value is 2).
+            </summary>
+            <remarks>
+            Settings this property will generate a degree x degree jitter vectors
+            into <see cref="P:WW.OpenGL.GLGraphics.AntiAliasJitterVectors"/>.
+            </remarks>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasingEnabled"/>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasJitterVectors"/>
+        </member>
+        <member name="P:WW.OpenGL.GLGraphics.AntiAliasJitterVectors">
+            <summary>
+            Gets or sets the anti-alias jitter vectors.
+            </summary>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasingEnabled"/>
+            <seealso cref="P:WW.OpenGL.GLGraphics.AntiAliasingDegree"/>
+        </member>
+        <member name="T:WW.OpenGL.TessellationCallbackType">
+            <summary>
+            Tesselation callback types to use with <see cref="M:WW.OpenGL.GLU.TessCallback(System.IntPtr,WW.OpenGL.TessellationCallbackType,System.IntPtr)"/>.
+            Every callback type has an associated delegate in class <see cref="T:WW.OpenGL.GLU"/>.
+            </summary>
+            <seealso cref="T:WW.OpenGL.GLU"/>
+        </member>
+        <member name="F:WW.OpenGL.TessellationCallbackType.Begin">
+            <summary>
+            Matches delegate <see cref="T:WW.OpenGL.GLU.TessellationBeginDelegate"/>.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.TessellationCallbackType.Vertex">
+            <summary>
+            Matches delegate <see cref="!:GLU.TessellationVertexDelegate3dv"/>.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.TessellationCallbackType.End">
+            <summary>
+            Matches delegate <see cref="T:WW.OpenGL.GLU.TessellationEndDelegate"/>.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.TessellationCallbackType.Error">
+            <summary>
+            Matches delegate <see cref="T:WW.OpenGL.GLU.TessellationErrorDelegate"/>.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.TessellationCallbackType.EdgeFlag">
+            <summary>
+            Matches delegate <see cref="T:WW.OpenGL.GLU.TessellationEdgeFlagDelegate"/>.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.TessellationCallbackType.Combine">
+            <summary>
+            Matches delegate <see cref="T:WW.OpenGL.GLU.TessellationCombineDelegate"/>.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.NurbsErrorCode">
+            <summary>
+            NURBS error code as passed in the NURBS call back method (see <see cref="M:WW.OpenGL.GLU.NurbsCallback(System.IntPtr,WW.OpenGL.CallbackType,WW.OpenGL.GLU.ErrorDelegate)"/>).
+            </summary>
+            <remarks>
+            Use <see cref="M:WW.OpenGL.GLU.ErrorString(WW.OpenGL.NurbsErrorCode)"/> to get the error string corresponding to the error code.
+            </remarks>
+            <seealso cref="M:WW.OpenGL.GLU.ErrorString(WW.OpenGL.NurbsErrorCode)"/>
+        </member>
+        <member name="T:NineRays.Decompiler.NotDecompile">
+            <summary>
+            This attribute you can use in your assemblies to prevent from Spices.Net Decompiler decompilation 
+            You can attach this attribute to type(class) or to entire assembly
+            Simply attach this attribute to assembly attributes (usually located in AssemblyInfo.cs) as following:
+            [assembly: NineRays.Decompiler.NotDecompile]
+            Warning: If you use antiILDASM do not include and attach this attribute to your assembly
+                     In this case Spices.Obfuscator embeds this attribute and attaches to assembly 
+                     attributes automatically
+            </summary>
+        </member>
+        <member name="T:NineRays.Obfuscator.DontEncryptStringsAttribute">
+            <summary>
+            Attribute to disable string encryption on some methos or constructor
+            </summary>
+        </member>
+        <member name="T:NineRays.Obfuscator.SpecialNamespaceAttribute">
+            <summary>
+            Attribute to define namespace of the obfuscated type
+            </summary>
+        </member>
+        <member name="T:NineRays.Obfuscator.SpecialNameAttribute">
+            <summary>
+            Attribute to define name of the obfuscated type
+            </summary>
+        </member>
+        <member name="T:NineRays.Obfuscator.ObfuscateAttribute">
+            <summary>
+            Attribute to include member into obfuscation
+            </summary>
+        </member>
+        <member name="T:NineRays.Obfuscator.NotObfuscateAttribute">
+            <summary>
+            Attribute to exclude member from obfuscation
+            </summary>
+        </member>
+        <member name="T:NineRays.Obfuscator.NotObfuscateMembersAttribute">
+            <summary>
+            Allows to exclude from obfuscation classes that matches attribute pattern string
+            Note: pattern string will be used for analysis only on the assembly, that attribute attached
+            Analysis based on member fully qualified name 
+            Example: [assembly:NineRays.Obfuscator.NotObfuscateMembersAttribute("MyCompany.Fo*")]
+             - will be exluded all types with names beginning MyCompany.Fo (MyCompany.Foo, MyCompany.ForEachEnumerator) and his members (methods, fields, properties) 
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.VertexArray">
+            <summary>
+            Enumeration of constants used by the GL_EXT_vertex_array extension.
+            See <see cref="!:http://www.opengl.org/registry/specs/EXT/vertex_array.txt"/>.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.HintTarget">
+            <summary>
+            The hint target (see <see cref="M:WW.OpenGL.GL.Hint(WW.OpenGL.HintTarget,WW.OpenGL.HintMode)"/>).
+            </summary>
+            <seealso cref="M:WW.OpenGL.GL.Hint(WW.OpenGL.HintTarget,WW.OpenGL.HintMode)"/>
+        </member>
+        <member name="F:WW.OpenGL.HintTarget.PhongHint">
+            <summary>
+            Enables rendering Phong shaded primitives using OpenGL (Windows only).
+            See also: http://oss.sgi.com/projects/ogl-sample/registry/WIN/phong_shading.txt
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.PixelFormatInternal">
+            <summary>
+            Internal pixel format as used in <see cref="M:WW.OpenGL.GL.TexImage1D(WW.OpenGL.TextureTarget,System.Int32,WW.OpenGL.PixelFormatInternal,System.Int32,System.Int32,WW.OpenGL.PixelFormat,WW.OpenGL.DataType,System.IntPtr)"/> and <see cref="M:WW.OpenGL.GL.TexImage2D(WW.OpenGL.TextureTarget,System.Int32,WW.OpenGL.PixelFormatInternal,System.Int32,System.Int32,System.Int32,WW.OpenGL.PixelFormat,WW.OpenGL.DataType,System.IntPtr)"/>.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.PixelFormatInternal.One">
+            <summary>
+            Texture has one color component.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.PixelFormatInternal.Two">
+            <summary>
+            Texture has two color component.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.PixelFormatInternal.Three">
+            <summary>
+            Texture has three color component.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.PixelFormatInternal.Four">
+            <summary>
+            Texture has four color component.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.DisplayList">
+            <summary>
+            This class represents an OpenGL display list.
+            </summary>
+            <remarks>
+            Child display lists must be constructed before this display list was created,
+            otherwise the child display list is not rendered.
+            </remarks>
+        </member>
+        <member name="M:WW.OpenGL.DisplayList.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WW.OpenGL.DisplayList"/> class.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.DisplayList.EndList">
+            <summary>
+            After constructing the display list the list must be ended by calling this method.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.DisplayList.Delete">
+            <summary>
+            Deletes this display list and its children recursively.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.DisplayList.Draw">
+            <inheritdoc/>
+        </member>
+        <member name="P:WW.OpenGL.DisplayList.Children">
+            <summary>
+            Gets the children.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.ClientArrayType">
+            <summary>
+            Client array type as used in <see cref="M:WW.OpenGL.GL.DisableClientState(WW.OpenGL.ClientArrayType)"/> and 
+            <see cref="M:WW.OpenGL.GL.EnableClientState(WW.OpenGL.ClientArrayType)"/>.
+            </summary>
+        </member>
+        <member name="M:WW.LicenseChecker.#cctor">
+            <summary>
+            See for more details <see href="http://www.pcreview.co.uk/forums/signedxml-checksignature-very-slow-t3428177.html"/>.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.FeedBackToken">
+            <summary>
+            Enumeration of tokens placed in the feedback-buffer returned by <see cref="M:WW.OpenGL.GL.FeedbackBuffer(System.Int32,WW.OpenGL.FeedBackMode,System.Single[])"/>.
+            See <see cref="!:http://www.opengl.org/documentation/specs/man_pages/hardcopy/GL/html/gl/feedbackbuffer.html"/>.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.GL">
+            <summary>
+            OpenGL utility class with wrapper methods.
+            </summary>
+            <remarks>
+            <para>
+            OpenGL constants can be used in the form of type safe enumerations for maximum usability.
+            Enum <see cref="T:WW.OpenGL.Capability"/> is an example of this:
+            methods <see cref="M:WW.OpenGL.GL.Enable(WW.OpenGL.Capability)"/> and <see cref="M:WW.OpenGL.GL.Disable(WW.OpenGL.Capability)"/>takes this capability as
+            a parameter.
+            This makes it harder to pass the wrong OpenGL constant as a method parameter and
+            the auto-completion can now greatly improve programming speed, since the IDE will
+            suggest which enums can be used after typing <c>GL.Enable(</c>.
+            Some OpenGL methods have been overloaded, where more than one enum can be passed as a parameter 
+            (see again e.g. <see cref="M:WW.OpenGL.GL.Enable(WW.OpenGL.Capability)"/>).
+            </para>
+            <para>
+            Some overloads are created to directly operate on the WW.Math structs, like 
+            <see cref="T:WW.Math.Point3D"/> and <see cref="T:WW.Math.Matrix4D"/> 
+            (where there is no or negligible performance penalty).
+            Methods <see cref="M:WW.OpenGL.GL.Vertex3d(WW.Math.Point3D)"/> and <see cref="M:WW.OpenGL.GL.LoadMatrixd(WW.Math.Matrix4D@)"/> are examples of these.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:WW.OpenGL.GL.CopyTexImage1D(WW.OpenGL.TextureTarget,System.Int32,WW.OpenGL.PixelFormatInternal,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            The CopyTexImage1D function copies pixels from the framebuffer into a one-dimensional texture image.
+            </summary>
+            <param name="target">The texture target (must be <see cref="F:WW.OpenGL.TextureTarget.Texture1D"/>).</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.CopyTexImage2D(WW.OpenGL.TextureTarget,System.Int32,WW.OpenGL.PixelFormatInternal,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            The CopyTexImage2D function copies pixels from the framebuffer into a two-dimensional texture image.
+            </summary>
+            <param name="target">The texture target (must be <see cref="F:WW.OpenGL.TextureTarget.Texture2D"/>).</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.CopyTexSubImage1D(WW.OpenGL.TextureTarget,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            The CopyTexSubImage1D function copies a sub-image of a one-dimensional texture image from the framebuffer.
+            </summary>
+            <param name="target">The texture target (must be <see cref="F:WW.OpenGL.TextureTarget.Texture1D"/>).</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.CopyTexSubImage2D(WW.OpenGL.TextureTarget,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            The CopyTexSubImage2D function copies a sub-image of a two-dimensional texture image from the framebuffer.
+            </summary>
+            <param name="target">The texture target (must be <see cref="F:WW.OpenGL.TextureTarget.Texture2D"/>).</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.DepthFunc(WW.OpenGL.ComparisonFunction)">
+            <summary>
+            Sets the comparison function for the depth test.
+            </summary>
+            <param name="func">The comparison function to use for the depth test.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.Fogf(WW.OpenGL.FogParameter,WW.OpenGL.FogMode)">
+            <summary>
+            Sets the parameter and function for calculating fog.
+            </summary>
+            <param name="fogParameter">Parameter-name. Must be Mode.</param>
+            <param name="param">Fog factor.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.Fogf(WW.OpenGL.FogParameter,System.Single)">
+            <summary>
+            Sets the parameter and function for calculating fog.
+            </summary>
+            <param name="fogParameter">Parameter-name. Must be Density, Start, End or Index.</param>
+            <param name="param">Value for density, start or end in the fog equations.
+            When fogParameter is Index, specifies the the fog's color index.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.Fogfv(WW.OpenGL.FogParameter,System.Single[])">
+            <summary>
+            Sets the parameter and function for calculating fog.
+            </summary>
+            <param name="fogParameter">Parameter-name. Must be Color.</param>
+            <param name="param">Specifies the RGBA-values for the fog's color.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.Fogi(WW.OpenGL.FogParameter,WW.OpenGL.FogMode)">
+            <summary>
+            Sets the parameter and function for calculating fog.
+            </summary>
+            <param name="fogParameter">Parameter-name. Must be Mode.</param>
+            <param name="param">Fog factor.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.Fogi(WW.OpenGL.FogParameter,System.Int32)">
+            <summary>
+            Sets the parameter and function for calculating fog.
+            </summary>
+            <param name="fogParameter">Parameter-name. Must be Density, Start, End or Index.</param>
+            <param name="param">Value for density, start or end in the fog equations.
+            When fogParameter is Index, specifies the the fog's color index.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.Fogiv(WW.OpenGL.FogParameter,System.Int32[])">
+            <summary>
+            Sets the parameter and function for calculating fog.
+            </summary>
+            <param name="fogParameter">Parameter-name. Must be Color.</param>
+            <param name="param">Specifies the RGBA-values for the fog's color.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.GetColorTableParameterfvEXT(WW.OpenGL.ColorTableParameterTarget,WW.OpenGL.ColorTableParameterName,System.Single[])">
+            <summary>
+            This extension defines a new RGBA-format color lookup mechanism.
+            See: http://oss.sgi.com/projects/ogl-sample/registry/SGI/color_table.txt
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GL.GetColorTableParameterivEXT(WW.OpenGL.ColorTableParameterTarget,WW.OpenGL.ColorTableParameterName,System.Int32[])">
+            <summary>
+            This extension defines a new RGBA-format color lookup mechanism.
+            See: http://oss.sgi.com/projects/ogl-sample/registry/SGI/color_table.txt
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GL.GetString(WW.OpenGL.StringName)">
+            <summary>
+            Wrapper method around <see cref="M:WW.OpenGL.GL.GetStringIntPtr(WW.OpenGL.StringName)"/> (which is glGetString).
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexEnvf(WW.OpenGL.TextureEnvironmentTarget,WW.OpenGL.TextureEnvironmentParameterName,System.Single)">
+            <summary>
+            Sets the current texturing function.
+            </summary>
+            <param name="target">Target of the texturing function.</param>
+            <param name="pname">If target is FilterControl, then pname must be LodBias, and param is the value used to bias the mipmapping level-of-detail.</param>
+            <param name="param">Value used to bias the mipmapping level-of-detail.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexEnvf(WW.OpenGL.TextureEnvironmentTarget,WW.OpenGL.TextureEnvironmentParameterName,WW.OpenGL.TextureEnvironmentMode)">
+            <summary>
+            Sets the current texturing function.
+            </summary>
+            <param name="target">Target of the texturing function. Must be Environment.</param>
+            <param name="pname">Parameter-name. Must be Mode.</param>
+            <param name="param">Specifies how texture values are combined with the color values of the fragment being processed.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexEnvfv(WW.OpenGL.TextureEnvironmentTarget,WW.OpenGL.TextureEnvironmentParameterName,System.Single[])">
+            <summary>
+            Sets the current texturing function.
+            </summary>
+            <param name="target">Target of the texturing function. Must be Environment.</param>
+            <param name="pname">Parameter-name. Must be Color.</param>
+            <param name="parameters">Array of 4 floats (R,G,B,A) which denotes a color to be used for Blend-operations.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexEnvi(WW.OpenGL.TextureEnvironmentTarget,WW.OpenGL.TextureEnvironmentParameterName,System.Int32)">
+            <summary>
+            Sets the current texturing function.
+            </summary>
+            <param name="target">Target of the texturing function.</param>
+            <param name="pname">If target is FilterControl, then pname must be LodBias, and param is the value used to bias the mipmapping level-of-detail.</param>
+            <param name="param">Value used to bias the mipmapping level-of-detail.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexEnvi(WW.OpenGL.TextureEnvironmentTarget,WW.OpenGL.TextureEnvironmentParameterName,WW.OpenGL.TextureEnvironmentMode)">
+            <summary>
+            Sets the current texturing function.
+            </summary>
+            <param name="target">Target of the texturing function. Must be Environment.</param>
+            <param name="pname">Parameter-name. Must be Mode.</param>
+            <param name="param">Specifies how texture values are combined with the color values of the fragment being processed.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexEnviv(WW.OpenGL.TextureEnvironmentTarget,WW.OpenGL.TextureEnvironmentParameterName,System.Int32[])">
+            <summary>
+            Sets the current texturing function.
+            </summary>
+            <param name="target">Target of the texturing function. Must be Environment.</param>
+            <param name="pname">Parameter-name. Must be Color.</param>
+            <param name="parameters">Array of 4 floats (R,G,B,A) which denotes a color to be used for Blend-operations.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGend(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,WW.OpenGL.TextureGenMode)">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter. Must be TextureGenMode.</param>
+            <param name="param">Function to use to generate texture coordinates.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGenf(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,WW.OpenGL.TextureGenMode)">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter. Must be TextureGenMode.</param>
+            <param name="param">Function to use to generate texture coordinates.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGeni(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,WW.OpenGL.TextureGenMode)">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter. Must be TextureGenMode.</param>
+            <param name="param">Function to use to generate texture coordinates.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGend(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,System.Double)">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter.</param>
+            <param name="param">Value to use with the texture-generation function.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGendv(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,System.Double[])">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter.</param>
+            <param name="parameters">Values to use with the texture-generation function.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGenf(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,System.Single)">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter.</param>
+            <param name="param">Value to use with the texture-generation function.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGenfv(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,System.Single[])">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter.</param>
+            <param name="parameters">Values to use with the texture-generation function.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGeni(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,System.Int32)">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter.</param>
+            <param name="param">Value to use with the texture-generation function.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexGeniv(WW.OpenGL.TextureCoordName,WW.OpenGL.TextureGenParameter,System.Int32[])">
+            <summary>
+            Automatically generates texture coordinates.
+            </summary>
+            <param name="coord">Name of texture coordinate to be generated (s, t, r or q).</param>
+            <param name="pname">Parameter.</param>
+            <param name="parameters">Values to use with the texture-generation function.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterf(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.TextureWrapMode)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be WrapS, WrapT or WrapR.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterf(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.TextureMagFilter)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be MagnificationFilter.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterf(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.TextureMinFilter)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be MinificationFilter.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterf(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.ComparisonFunction)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be CompareFunction.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterf(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.TextureCompareMode)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be CompareMode.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterf(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.DepthTextureMode)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be DepthTextureMode.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterf(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,System.Boolean)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be GenerateMipmap.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterf(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,System.Single)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameterfv(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,System.Single[])">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set.</param>
+            <param name="parameters">Values of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteri(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.TextureWrapMode)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be WrapS, WrapT or WrapR.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteri(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.TextureMagFilter)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be MagnificationFilter.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteri(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.TextureMinFilter)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be MinificationFilter.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteri(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.ComparisonFunction)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be CompareFunction.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteri(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.TextureCompareMode)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be CompareMode.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteri(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,WW.OpenGL.DepthTextureMode)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be DepthTextureMode.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteri(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,System.Boolean)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set. Must be GenerateMipmap.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteri(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,System.Int32)">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set.</param>
+            <param name="param">Value of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.TexParameteriv(WW.OpenGL.TextureTarget,WW.OpenGL.TextureParameterName,System.Int32[])">
+            <summary>
+            Sets various parameters that control how a texture is treated as it's applied to a fragment or stored in a texture object.
+            </summary>
+            <param name="target">Type of target texture.</param>
+            <param name="pname">Name of the parameter to set.</param>
+            <param name="parameters">Values of the parameter to set.</param>
+        </member>
+        <member name="M:WW.OpenGL.GL.VertexPointer(System.Int32,WW.OpenGL.DataType,System.Int32,System.IntPtr)">
+            <summary>
+            Passes a vertex pointer.
+            </summary>
+            <param name="size">The size.</param>
+            <param name="dataType">Type of the data.</param>
+            <param name="stride">The stride.</param>
+            <param name="pointer">
+            The pointer. 
+            Note that the referenced array must be pinned until it is no longer used by OpenGL!
+            </param>
+        </member>
+        <member name="M:WW.OpenGL.GL.VertexPointer(System.Int32,WW.OpenGL.DataType,System.Int32,System.Double[])">
+            <summary>
+            Passes a vertex pointer.
+            </summary>
+            <param name="size">The size.</param>
+            <param name="dataType">Type of the data.</param>
+            <param name="stride">The stride.</param>
+            <param name="vertices">
+            The vertex array. 
+            Note that the array must be pinned until it is no longer used by OpenGL!
+            </param>
+        </member>
+        <member name="M:WW.OpenGL.GL.IsExtensionSupported(System.String)">
+            <summary>
+            Determines whether the specified OpenGL extension is supported on the system.
+            </summary>
+            <param name="extension">The OpenGL extension to check support for.</param>
+            <returns>Returns True when the specified OpenGL extension is supported, False otherwise.</returns>
+        </member>
+        <member name="M:WW.OpenGL.GL.GetSupportedExtensions">
+            <summary>
+            Gets the supported OpenGL extensions.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.InterleavedArrayFormat">
+            <summary>
+            Interleaved array format.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.TessellationWinding">
+            <summary>
+            The tesselation winding type determines which parts of a polygon are on the interior.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.TessellationWinding.AbsoluteGreaterEqualTwo">
+            <summary>
+            Absolute value greater or equal to two.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.NurbsDisplay">
+            <summary>
+            This enum defines how a NURBS surface is to be rendered.
+            Used in <see cref="M:WW.OpenGL.GLU.NurbsProperty(System.IntPtr,WW.OpenGL.NurbsProperty,System.Single)"/>.
+            </summary>
+            <seealso cref="M:WW.OpenGL.GLU.NurbsProperty(System.IntPtr,WW.OpenGL.NurbsProperty,System.Single)"/>
+        </member>
+        <member name="T:WW.OpenGL.RenderingContext">
+            <summary>
+            Convenience wrapper around the OpenGL rendering context.
+            </summary>
+            <remarks>
+            <para>
+            Per thread one rendering context can be current (see <see cref="M:WW.OpenGL.RenderingContext.MakeCurrent"/>).
+            </para>
+            <para>
+            Makes sure to dispose this wrapper as soon as possible. This wrapper may not be disposed
+            while the OpenGL rendering context is still current on another thread.
+            When just releasing this rendering context wrapper while the wrapped OpenGL rendering context
+            is still current (in e.g. the main thread), 
+            this wrapper will be disposed of in the garbage collection thread through the finalizer
+            and will cause an error. 
+            See for more details the MSDN documentation on the wglDeleteContext Function
+            (It is illegal to call wglDeleteContext while the rendering context
+            is current on another thread).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:WW.OpenGL.RenderingContext.MakeCurrent">
+            <summary>
+            Makes this rendering context current for OpenGL.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.RenderingContext.FromWindowHandle(System.IntPtr,WW.OpenGL.Win.PixelFormatDescriptor)">
+            <summary>
+            Creates an OpenGL rendering context from a window handle.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.RenderingContext.FromWindowHandle(System.IntPtr,System.Int32)">
+            <summary>
+            Creates an OpenGL rendering context from a window handle.
+            </summary>
+            <param name="windowHandle">The window handle.</param>
+            <param name="pixelFormatIndex">
+            The one-based pixel format index (see also <see cref="T:WW.OpenGL.Win.PixelFormatDescriptor"/>.
+            </param>
+        </member>
+        <member name="M:WW.OpenGL.RenderingContext.FromBitmapInfo(WW.OpenGL.Win.BitmapInfo,WW.OpenGL.Win.PixelFormatDescriptor,System.IntPtr@)">
+            <summary>
+            Creates an OpenGL rendering context for rendering onto a bitmap.
+            </summary>
+            <param name="bitmapInfo">The bitmap info.</param>
+            <param name="bitmapHandle">The handle of the created bitmap.</param>
+        </member>
+        <member name="M:WW.OpenGL.RenderingContext.Dispose">
+            <summary>
+            See <see cref="T:System.IDisposable"/>.
+            This wrapper may not be disposed
+            while the OpenGL rendering context is still current on another thread.
+            </summary>
+            <remarks>
+            This method calls <see cref="M:WW.OpenGL.Win.WGL.DeleteContext(System.IntPtr)"/> and 
+            <see cref="M:WW.OpenGL.Win.WGL.DeleteDC(System.IntPtr)"/> or <see cref="M:WW.OpenGL.Win.WGL.ReleaseDC(System.IntPtr,System.IntPtr)"/> (depending on how the device context was created).
+            </remarks>
+        </member>
+        <member name="P:WW.OpenGL.RenderingContext.WindowHandle">
+            <summary>
+            Gets the window handle.
+            </summary>
+        </member>
+        <member name="P:WW.OpenGL.RenderingContext.HDC">
+            <summary>
+            Gets the device context handle.
+            </summary>
+        </member>
+        <member name="P:WW.OpenGL.RenderingContext.HRC">
+            <summary>
+            Gets the OpenGL rendering context handle.
+            </summary>
+        </member>
+        <member name="P:WW.OpenGL.RenderingContext.PixelFormatIndex">
+            <summary>
+            Gets the pixel format index (one based! Value is zero if invalid pixel format index).
+            </summary>
+            <remarks>
+            See also <see cref="M:WW.OpenGL.Win.PixelFormatDescriptor.GetSupportedFixelFormatDescriptors(System.IntPtr)"/>.
+            </remarks>
+        </member>
+        <member name="T:WW.OpenGL.NurbsSampling">
+            <summary>
+            NURBS sampling method, specifying how to tessallate a NURBS surface.
+            Used in <see cref="M:WW.OpenGL.GLU.NurbsProperty(System.IntPtr,WW.OpenGL.NurbsProperty,System.Single)"/>.
+            </summary>
+            <seealso cref="M:WW.OpenGL.GLU.NurbsProperty(System.IntPtr,WW.OpenGL.NurbsProperty,System.Single)"/>
+        </member>
+        <member name="T:WW.OpenGL.NurbsProperty">
+            <summary>
+            The nurbs property type.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.TextureEnvironmentTarget.FilterControl">
+            <summary>
+            When used with GL.TexEnv*, pname must be <see cref="F:WW.OpenGL.TextureEnvironmentParameterName.LodBias"/>.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.DataType.Bitmap">
+            <summary>
+            Note: only used with <see cref="!:GL.TexImage"/>.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.TextureTarget">
+            <summary>
+            Texture target as used in <see cref="M:WW.OpenGL.GL.BindTexture(WW.OpenGL.TextureTarget,System.UInt32)"/>.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.GLException">
+            <summary>
+            OpenGL exception.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLException.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLException.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:WW.OpenGL.GLException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.GetTarget">
+            <summary>
+            Target parameter for methods 
+            <see cref="M:WW.OpenGL.GL.GetBooleanv(WW.OpenGL.GetTarget,System.UInt32[])"/>, 
+            <see cref="M:WW.OpenGL.GL.GetDoublev(WW.OpenGL.GetTarget,System.Double[])"/>,
+            <see cref="M:WW.OpenGL.GL.GetFloatv(WW.OpenGL.GetTarget,System.Single[])"/>,
+            <see cref="M:WW.OpenGL.GL.GetIntegerv(WW.OpenGL.GetTarget,System.Int32[])"/>.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.GetTarget.MaxElementsVertices">
+            <summary>
+            Use with <see cref="!:WW.OpenGL.GetIntegerv">GetIntegerv</see> to determine the recommended maximum amount of vertex data (Windows-only).
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.GetTarget.MaxElementsIndices">
+            <summary>
+            Use with <see cref="!:WW.OpenGL.GetIntegerv">GetIntegerv</see> to determine the recommended maximum amount of index data (Windows-only).
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.Win.PFD">
+            <summary>
+            Helper types for use with the <see cref="T:WW.OpenGL.Win.PixelFormatDescriptor"/>.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.Win.PFD.PixelType">
+            <summary>
+            Pixel type.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.Win.PFD.LayerType">
+            <summary>
+            Layer type.
+            </summary>
+        </member>
+        <member name="T:WW.OpenGL.Win.PFD.Flags">
+            <summary>
+            <see cref="T:WW.OpenGL.Win.PixelFormatDescriptor"/> flags.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.Win.PFD.Flags.DepthDontCare">
+            <summary>
+            For use in <see cref="M:WW.OpenGL.Win.WGL.ChoosePixelFormat(System.IntPtr,WW.OpenGL.Win.PixelFormatDescriptor@)"/> only.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.Win.PFD.Flags.DoubleBufferDontCare">
+            <summary>
+            For use in <see cref="M:WW.OpenGL.Win.WGL.ChoosePixelFormat(System.IntPtr,WW.OpenGL.Win.PixelFormatDescriptor@)"/> only.
+            </summary>
+        </member>
+        <member name="F:WW.OpenGL.Win.PFD.Flags.StereoDontCare">
+            <summary>
+            For use in <see cref="M:WW.OpenGL.Win.WGL.ChoosePixelFormat(System.IntPtr,WW.OpenGL.Win.PixelFormatDescriptor@)"/> only.
+            </summary>
+        </member>
+    </members>
+</doc>
