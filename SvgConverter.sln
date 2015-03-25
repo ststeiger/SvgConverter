@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvgConverter", "SvgConverter\SvgConverter.csproj", "{6E80F672-882C-49DF-9A6A-0B27934C05B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netDxf", "netDxf\netDxf.csproj", "{785380E0-CEB9-4C34-82E5-60D0E33E848E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDxfDocument", "TestDxfDocument\TestDxfDocument.csproj", "{65B33B00-93CE-484A-8023-7A9BA972D4D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E80F672-882C-49DF-9A6A-0B27934C05B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E80F672-882C-49DF-9A6A-0B27934C05B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E80F672-882C-49DF-9A6A-0B27934C05B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E80F672-882C-49DF-9A6A-0B27934C05B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{785380E0-CEB9-4C34-82E5-60D0E33E848E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{785380E0-CEB9-4C34-82E5-60D0E33E848E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{785380E0-CEB9-4C34-82E5-60D0E33E848E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{785380E0-CEB9-4C34-82E5-60D0E33E848E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B33B00-93CE-484A-8023-7A9BA972D4D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B33B00-93CE-484A-8023-7A9BA972D4D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B33B00-93CE-484A-8023-7A9BA972D4D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B33B00-93CE-484A-8023-7A9BA972D4D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
