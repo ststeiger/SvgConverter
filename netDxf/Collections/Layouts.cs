@@ -157,7 +157,11 @@ namespace netDxf.Collections
                 // The ModelSpace block cannot be removed. 
                 if (l.IsPaperSpace)
                 {
-                    Debug.Assert(l.AssociatedBlock != null, String.Format("The layout {0} associated block cannot be null.", l.Name));
+                    // Debug.Assert(l.AssociatedBlock != null, String.Format("The layout {0} associated block cannot be null.", l.Name));
+                    if (l.AssociatedBlock == null)
+                        throw new System.IO.InvalidDataException(String.Format("The layout {0} associated block cannot be null.", l.Name));
+
+
                     this.document.Blocks.References[l.AssociatedBlock.Name].Remove(l);
                     this.document.Blocks.Remove(l.AssociatedBlock);
                     l.AssociatedBlock = null;

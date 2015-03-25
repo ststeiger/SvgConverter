@@ -410,7 +410,7 @@ namespace netDxf.Entities
                     if (token == '\\' | token == '{' | token == '}') // escape chars
                         rawText.Append(token);
                     else if (token == 'L' | token == 'l' | token == 'O' | token == 'o' | token == 'K' | token == 'k' | token == 'P' | token == 'X') // one char commands
-                        if (token == 'P') rawText.Append(Environment.NewLine);
+                        if (token == 'P') rawText.Append(netDxf.Env.NewLine);
                         else { } // discard other commands
                     else // formatting commands of more than one character always terminate in ';'
                     {

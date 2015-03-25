@@ -96,6 +96,7 @@
     <Compile Include="Entities\MeshEdge.cs" />
     <Compile Include="Entities\MLineFlags.cs" />
     <Compile Include="Entities\MLineJustification.cs" />
+    <Compile Include="Environment.cs" />
     <Compile Include="Tables\ViewMode.cs" />
     <Compile Include="TextCodeValueWriter.cs" />
     <Compile Include="ICodeValueWriter.cs" />

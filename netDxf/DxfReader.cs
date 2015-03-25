@@ -431,7 +431,9 @@ namespace netDxf
 
         private void ReadHeader()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.HeaderSection);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.HeaderSection);
+            if (this.chunk.ReadString() != DxfObjectCode.HeaderSection)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.HeaderSection");
 
             this.chunk.Next();
             while (this.chunk.ReadString() != DxfObjectCode.EndSection)
@@ -632,7 +634,9 @@ namespace netDxf
 
         private void ReadClasses()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.ClassesSection);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.ClassesSection);
+            if (this.chunk.ReadString() != DxfObjectCode.ClassesSection)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.ClassesSection");
 
             this.chunk.Next();
             while (this.chunk.ReadString() != DxfObjectCode.EndSection)
@@ -645,7 +649,9 @@ namespace netDxf
 
         private void ReadTables()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.TablesSection);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.TablesSection);
+            if (this.chunk.ReadString() != DxfObjectCode.TablesSection)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.TablesSection");
 
             this.chunk.Next();
             while (this.chunk.ReadString() != DxfObjectCode.EndSection)
@@ -667,7 +673,10 @@ namespace netDxf
 
         private void ReadBlocks()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.BlocksSection);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.BlocksSection);
+            if (this.chunk.ReadString() != DxfObjectCode.BlocksSection)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.BlocksSection");
+
 
             // the blocks list will be added to the document after reading the blocks section to handle possible nested insert cases.
             Dictionary<string, Block> blocks = new Dictionary<string, Block>(StringComparer.OrdinalIgnoreCase);
@@ -729,7 +738,9 @@ namespace netDxf
 
         private void ReadEntities()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.EntitiesSection);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.EntitiesSection);
+            if (this.chunk.ReadString() != DxfObjectCode.EntitiesSection)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.EntitiesSection");
 
             this.chunk.Next();
             while (this.chunk.ReadString() != DxfObjectCode.EndSection)
@@ -740,7 +751,10 @@ namespace netDxf
 
         private void ReadObjects()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.ObjectsSection);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.ObjectsSection);
+            if (this.chunk.ReadString() != DxfObjectCode.ObjectsSection)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.ObjectsSection");
+
 
             this.chunk.Next();
             while (this.chunk.ReadString() != DxfObjectCode.EndSection)
@@ -801,7 +815,9 @@ namespace netDxf
 
         private void ReadThumbnailImage()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.ThumbnailImageSection);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.ThumbnailImageSection);
+            if (this.chunk.ReadString() != DxfObjectCode.ThumbnailImageSection)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.ThumbnailImageSection");
 
             while (this.chunk.ReadString() != DxfObjectCode.EndSection)
             {
@@ -813,7 +829,11 @@ namespace netDxf
 
         private void ReadAcdsData()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.AcdsDataSection);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.AcdsDataSection);
+            if (this.chunk.ReadString() != DxfObjectCode.AcdsDataSection)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.AcdsDataSection");
+
+
 
             while (this.chunk.ReadString() != DxfObjectCode.EndSection)
             {
@@ -829,7 +849,10 @@ namespace netDxf
 
         private void CreateTableCollection(string name, string handle)
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.Table);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.Table);
+            if (this.chunk.ReadString() != SubclassMarker.Table)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.Table");
+
 
             // number of entries in table, this code is optional
             short numberOfEntries = 0;
@@ -875,7 +898,10 @@ namespace netDxf
 
         private void ReadTable()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.Table);
+            string str = this.chunk.ReadString();
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.Table);
+            if (this.chunk.ReadString() != DxfObjectCode.Table)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.Table");
 
             string handle = null;
             this.chunk.Next();
@@ -893,7 +919,11 @@ namespace netDxf
                     case 330:
                         string owner = this.chunk.ReadString();
                         // owner should be always, 0 handle of the document.
-                        Debug.Assert(owner == "0");
+                        // Debug.Assert(owner == "0");
+                        if (owner != "0")
+                            throw new InvalidDataException("owner != \"0\"");
+
+
                         this.chunk.Next();
                         break;
                     case 102:
@@ -901,7 +931,10 @@ namespace netDxf
                         this.chunk.Next();
                         break;
                     case 100:
-                        Debug.Assert(this.chunk.ReadString() == SubclassMarker.Table);
+                        // Debug.Assert(this.chunk.ReadString() == SubclassMarker.Table);
+                        if (this.chunk.ReadString() != SubclassMarker.Table)
+                            throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.Table");
+
                         this.CreateTableCollection(tableName, handle);
                         break;
                     default:
@@ -943,7 +976,10 @@ namespace netDxf
                         case 330:
                             string owner = this.chunk.ReadString();
                             // owner should be always, the handle of the list to which the entry belongs.
-                            Debug.Assert(owner == ownerHandle);
+                            // Debug.Assert(owner == ownerHandle)
+                            if (owner != ownerHandle)
+                                throw new InvalidDataException("owner != ownerHandle");
+
                             this.chunk.Next();
                             break;
                         case 102:
@@ -1033,7 +1069,10 @@ namespace netDxf
 
         private ApplicationRegistry ReadApplicationId()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.ApplicationId);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.ApplicationId);
+            if (this.chunk.ReadString() != SubclassMarker.ApplicationId)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.ApplicationId");
+
 
             string appId = string.Empty;
             this.chunk.Next();
@@ -1056,7 +1095,9 @@ namespace netDxf
 
         private BlockRecord ReadBlockRecord()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.BlockRecord);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.BlockRecord);
+            if (this.chunk.ReadString() != SubclassMarker.BlockRecord)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.BlockRecord");
 
             string name = null;
             DrawingUnits units = DrawingUnits.Unitless;
@@ -1134,7 +1175,9 @@ namespace netDxf
 
         private DimensionStyle ReadDimensionStyle()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.DimensionStyle);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.DimensionStyle);
+            if (this.chunk.ReadString() != SubclassMarker.DimensionStyle)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.DimensionStyle");
 
             DimensionStyle defaultDim = DimensionStyle.Default;
             string name = null;
@@ -1353,7 +1396,10 @@ namespace netDxf
 
         private Layer ReadLayer()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.Layer);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.Layer);
+            if (this.chunk.ReadString() != SubclassMarker.Layer)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.Layer");
+
 
             string name = null;
             bool isVisible = true;
@@ -1447,7 +1493,9 @@ namespace netDxf
 
         private LineType ReadLineType()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.LineType);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.LineType);
+            if (this.chunk.ReadString() != SubclassMarker.LineType)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.LineType");
 
             string name = null;
             string description = null;
@@ -1494,7 +1542,10 @@ namespace netDxf
 
         private TextStyle ReadTextStyle()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.TextStyle);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.TextStyle);
+            if (this.chunk.ReadString() != SubclassMarker.TextStyle)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.TextStyle");
+
 
             string name = null;
             string font = null;
@@ -1573,7 +1624,9 @@ namespace netDxf
 
         private UCS ReadUCS()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.Ucs);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.Ucs);
+            if (this.chunk.ReadString() != SubclassMarker.Ucs)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.Ucs");
 
             string name = null;
             Vector3 origin = Vector3.Zero;
@@ -1635,7 +1688,10 @@ namespace netDxf
 
         private View ReadView()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.View);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.View);
+            if (this.chunk.ReadString() != SubclassMarker.View)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.View");
+
 
             this.chunk.Next();
 
@@ -1649,7 +1705,9 @@ namespace netDxf
 
         private VPort ReadVPort()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.VPort);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.VPort);
+            if (this.chunk.ReadString() != SubclassMarker.VPort)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.VPort");
 
             this.chunk.Next();
 
@@ -1674,7 +1732,10 @@ namespace netDxf
 
         private Block ReadBlock()
         {
-            Debug.Assert(this.chunk.ReadString() == DxfObjectCode.BeginBlock);
+            // Debug.Assert(this.chunk.ReadString() == DxfObjectCode.BeginBlock);
+            if (this.chunk.ReadString() != DxfObjectCode.BeginBlock)
+                throw new InvalidDataException("this.chunk.ReadString() != DxfObjectCode.BeginBlock");
+
 
             BlockRecord blockRecord;
             Layer layer = null;
@@ -2478,7 +2539,9 @@ namespace netDxf
 
         private Viewport ReadViewport()
         {
-            Debug.Assert(this.chunk.ReadString() == SubclassMarker.Viewport);
+            // Debug.Assert(this.chunk.ReadString() == SubclassMarker.Viewport);
+            if (this.chunk.ReadString()  != SubclassMarker.Viewport)
+                throw new InvalidDataException("this.chunk.ReadString() != SubclassMarker.Viewport");
 
             Viewport viewport = new Viewport();
             Vector3 center = viewport.Center;

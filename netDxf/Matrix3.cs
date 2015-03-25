@@ -378,9 +378,9 @@ namespace netDxf
         public override string ToString()
         {
             StringBuilder s = new StringBuilder();
-            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + Environment.NewLine, this.mM11, this.mM12, this.mM13, Thread.CurrentThread.CurrentCulture.TextInfo.ListSeparator));
-            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + Environment.NewLine, this.mM21, this.mM22, this.mM23, Thread.CurrentThread.CurrentCulture.TextInfo.ListSeparator));
-            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + Environment.NewLine, this.mM31, this.mM32, this.mM33, Thread.CurrentThread.CurrentCulture.TextInfo.ListSeparator));
+            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + netDxf.Env.NewLine, this.mM11, this.mM12, this.mM13, Thread.CurrentThread.CurrentCulture.TextInfo.ListSeparator));
+            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + netDxf.Env.NewLine, this.mM21, this.mM22, this.mM23, Thread.CurrentThread.CurrentCulture.TextInfo.ListSeparator));
+            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + netDxf.Env.NewLine, this.mM31, this.mM32, this.mM33, Thread.CurrentThread.CurrentCulture.TextInfo.ListSeparator));
             return s.ToString();
         }
 
@@ -393,9 +393,9 @@ namespace netDxf
         {
             string separator = Thread.CurrentThread.CurrentCulture.TextInfo.ListSeparator;
             StringBuilder s = new StringBuilder();
-            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + Environment.NewLine, this.mM11.ToString(provider), this.mM12.ToString(provider), this.mM13.ToString(provider), separator));
-            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + Environment.NewLine, this.mM21.ToString(provider), this.mM22.ToString(provider), this.mM23.ToString(provider), separator));
-            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + Environment.NewLine, this.mM31.ToString(provider), this.mM32.ToString(provider), this.mM33.ToString(provider), separator));
+            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + netDxf.Env.NewLine, this.mM11.ToString(provider), this.mM12.ToString(provider), this.mM13.ToString(provider), separator));
+            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + netDxf.Env.NewLine, this.mM21.ToString(provider), this.mM22.ToString(provider), this.mM23.ToString(provider), separator));
+            s.Append(string.Format("|{0}{3}{1}{3}{2}|" + netDxf.Env.NewLine, this.mM31.ToString(provider), this.mM32.ToString(provider), this.mM33.ToString(provider), separator));
             return s.ToString();
         }
 

@@ -368,7 +368,10 @@ namespace netDxf
         /// <remarks>There can be only one type section.</remarks>
         private void BeginSection(string section)
         {
-            Debug.Assert(this.activeSection == DxfObjectCode.Unknown);
+            // Debug.Assert(this.activeSection == DxfObjectCode.Unknown);
+            if (this.activeSection != DxfObjectCode.Unknown)
+                throw new InvalidDataException("this.activeSection != DxfObjectCode.Unknown");
+
 
             this.chunk.Write(0, DxfObjectCode.BeginSection);
             this.chunk.Write(2, section);
@@ -380,7 +383,10 @@ namespace netDxf
         /// </summary>
         private void EndSection()
         {
-            Debug.Assert(this.activeSection != DxfObjectCode.Unknown);
+            // Debug.Assert(this.activeSection != DxfObjectCode.Unknown);
+
+            if (this.activeSection != DxfObjectCode.Unknown)
+                throw new InvalidDataException("this.activeSection != DxfObjectCode.Unknown");
 
             this.chunk.Write(0, DxfObjectCode.EndSection);
             this.activeSection = DxfObjectCode.Unknown;
@@ -393,7 +399,10 @@ namespace netDxf
         /// <param name="handle">Handle assigned to this table</param>
         private void BeginTable(string table, short numEntries, string handle)
         {
-            Debug.Assert(this.activeSection == DxfObjectCode.TablesSection);
+            // Debug.Assert(this.activeSection == DxfObjectCode.TablesSection);
+            if (this.activeSection != DxfObjectCode.TablesSection)
+                throw new InvalidDataException("this.activeSection != DxfObjectCode.TablesSection");
+
 
             this.chunk.Write(0, DxfObjectCode.Table);
             this.chunk.Write(2, table);
@@ -414,7 +423,9 @@ namespace netDxf
         /// </summary>
         private void EndTable()
         {
-            Debug.Assert(this.activeSection != DxfObjectCode.Unknown);
+            // Debug.Assert(this.activeSection != DxfObjectCode.Unknown);
+            if (this.activeSection == DxfObjectCode.Unknown)
+                throw new InvalidDataException("this.activeSection == DxfObjectCode.Unknown");
 
             this.chunk.Write(0, DxfObjectCode.EndTable);
             this.activeTable = DxfObjectCode.Unknown;
@@ -432,7 +443,9 @@ namespace netDxf
 
         private void WriteSystemVariable(HeaderVariable variable)
         {
-            Debug.Assert(this.activeSection == DxfObjectCode.HeaderSection);
+            // Debug.Assert(this.activeSection == DxfObjectCode.HeaderSection);
+            if (this.activeSection != DxfObjectCode.HeaderSection)
+                throw new InvalidDataException("this.activeSection != DxfObjectCode.HeaderSection");
 
             string name = variable.Name;
             object value = variable.Value;
@@ -656,7 +669,10 @@ namespace netDxf
         /// <param name="appReg">Name of the application registry.</param>
         private void RegisterApplication(ApplicationRegistry appReg)
         {
-            Debug.Assert(this.activeTable == DxfObjectCode.ApplicationIDTable);
+            // Debug.Assert(this.activeTable == DxfObjectCode.ApplicationIDTable);
+            if (this.activeTable != DxfObjectCode.ApplicationIDTable)
+                throw new InvalidDataException("this.activeTable != DxfObjectCode.ApplicationIDTable");
+
 
             this.chunk.Write(0, DxfObjectCode.ApplicationIDTable);
             this.chunk.Write(5, appReg.Handle);
@@ -676,7 +692,10 @@ namespace netDxf
         /// <param name="vp">Viewport.</param>
         private void WriteVPort(VPort vp)
         {
-            Debug.Assert(this.activeTable == DxfObjectCode.VportTable);
+            // Debug.Assert(this.activeTable == DxfObjectCode.VportTable);
+            if (this.activeTable != DxfObjectCode.VportTable)
+                throw new InvalidDataException("this.activeTable != DxfObjectCode.VportTable");
+
 
             this.chunk.Write(0, vp.CodeName);
             this.chunk.Write(5, vp.Handle);
@@ -724,7 +743,11 @@ namespace netDxf
         /// <param name="style">DimensionStyle.</param>
         private void WriteDimensionStyle(DimensionStyle style)
         {
-            Debug.Assert(this.activeTable == DxfObjectCode.DimensionStyleTable);
+            // Debug.Assert(this.activeTable == DxfObjectCode.DimensionStyleTable);
+            if (this.activeTable != DxfObjectCode.DimensionStyleTable)
+                throw new System.IO.InvalidDataException("this.activeTable != DxfObjectCode.DimensionStyleTable");
+
+
 
             this.chunk.Write(0, style.CodeName);
             this.chunk.Write(105, style.Handle);
@@ -800,7 +823,9 @@ namespace netDxf
         /// <param name="blockRecord">Block.</param>
         private void WriteBlockRecord(BlockRecord blockRecord)
         {
-            Debug.Assert(this.activeTable == DxfObjectCode.BlockRecordTable);
+            // Debug.Assert(this.activeTable == DxfObjectCode.BlockRecordTable);
+            if (this.activeTable != DxfObjectCode.BlockRecordTable)
+                throw new InvalidDataException("this.activeTable != DxfObjectCode.BlockRecordTable");
 
             this.chunk.Write(0, blockRecord.CodeName);
             this.chunk.Write(5, blockRecord.Handle);
@@ -832,7 +857,9 @@ namespace netDxf
         /// <param name="tl">Line type.</param>
         private void WriteLineType(LineType tl)
         {
-            Debug.Assert(this.activeTable == DxfObjectCode.LineTypeTable);
+            // Debug.Assert(this.activeTable == DxfObjectCode.LineTypeTable);
+            if (this.activeTable != DxfObjectCode.LineTypeTable)
+                throw new InvalidDataException("this.activeTable != DxfObjectCode.LineTypeTable");
 
             this.chunk.Write(0, tl.CodeName);
             this.chunk.Write(5, tl.Handle);
@@ -864,7 +891,9 @@ namespace netDxf
         /// <param name="layer">Layer.</param>
         private void WriteLayer(Layer layer)
         {
-            Debug.Assert(this.activeTable == DxfObjectCode.LayerTable);
+            // Debug.Assert(this.activeTable == DxfObjectCode.LayerTable);
+            if (this.activeTable != DxfObjectCode.LayerTable)
+                throw new InvalidDataException("this.activeTable != DxfObjectCode.LayerTable");
 
             this.chunk.Write(0, layer.CodeName);
             this.chunk.Write(5, layer.Handle);
@@ -914,7 +943,10 @@ namespace netDxf
         /// <param name="style">TextStyle.</param>
         private void WriteTextStyle(TextStyle style)
         {
-            Debug.Assert(this.activeTable == DxfObjectCode.TextStyleTable);
+            // Debug.Assert(this.activeTable == DxfObjectCode.TextStyleTable);
+            if (this.activeTable != DxfObjectCode.TextStyleTable)
+                throw new InvalidDataException("this.activeTable != DxfObjectCode.TextStyleTable");
+
 
             this.chunk.Write(0, style.CodeName);
             this.chunk.Write(5, style.Handle);
@@ -959,7 +991,10 @@ namespace netDxf
         /// <param name="ucs">UCS.</param>
         private void WriteUCS(UCS ucs)
         {
-            Debug.Assert(this.activeTable == DxfObjectCode.UcsTable);
+            // Debug.Assert(this.activeTable == DxfObjectCode.UcsTable);
+            if (this.activeTable != DxfObjectCode.UcsTable)
+                throw new InvalidDataException("this.activeTable != DxfObjectCode.UcsTable");
+
 
             this.chunk.Write(0, ucs.CodeName);
             this.chunk.Write(5, ucs.Handle);
@@ -996,7 +1031,9 @@ namespace netDxf
 
         private void WriteBlock(Block block, Layout layout)
         {
-            Debug.Assert(this.activeSection == DxfObjectCode.BlocksSection);
+            // Debug.Assert(this.activeSection == DxfObjectCode.BlocksSection);
+            if (this.activeSection != DxfObjectCode.BlocksSection)
+                throw new InvalidDataException("this.activeSection != DxfObjectCode.BlocksSection");
 
             string name = this.EncodeNonAsciiCharacters(block.Name);
 
@@ -1065,7 +1102,9 @@ namespace netDxf
 
         private void WriteEntity(EntityObject entityObject, Layout layout)
         {
-            Debug.Assert(this.activeSection == DxfObjectCode.EntitiesSection || this.activeSection == DxfObjectCode.BlocksSection);
+            // Debug.Assert(this.activeSection == DxfObjectCode.EntitiesSection || this.activeSection == DxfObjectCode.BlocksSection);
+            if (this.activeSection != DxfObjectCode.EntitiesSection && this.activeSection != DxfObjectCode.BlocksSection)
+                throw new System.IO.InvalidDataException("this.activeSection != DxfObjectCode.EntitiesSection && this.activeSection != DxfObjectCode.BlocksSection");
 
             this.WriteEntityCommonCodes(entityObject, layout);
 
