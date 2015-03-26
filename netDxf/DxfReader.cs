@@ -973,12 +973,16 @@ namespace netDxf
                             handle = this.chunk.ReadString();
                             this.chunk.Next();
                             break;
-                        case 330:
-                            string owner = this.chunk.ReadString();
+						case 330:
+							string owner = this.chunk.ReadString ();
                             // owner should be always, the handle of the list to which the entry belongs.
-                            // Debug.Assert(owner == ownerHandle)
-                            if (owner != ownerHandle)
-                                throw new InvalidDataException("owner != ownerHandle");
+							// Debug.Assert (owner == ownerHandle);
+
+							if (netDxf.Env.StrictErrorChecking)
+							{
+								if (owner != ownerHandle)
+									throw new InvalidDataException ("owner != ownerHandle");
+							}
 
                             this.chunk.Next();
                             break;

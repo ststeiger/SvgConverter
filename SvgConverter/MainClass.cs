@@ -61,6 +61,7 @@ namespace SvgConverter
 
 			cSVG SVG = new cSVG ();
 
+
 			foreach (netDxf.Entities.Line l in doc.Lines)
 			{
 				System.Console.WriteLine( l.Handle );
