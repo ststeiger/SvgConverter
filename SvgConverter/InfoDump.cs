@@ -17,8 +17,12 @@ using netDxf.Header;
 
 namespace SvgConverter
 {
+
+
 	public class InfoDump
 	{
+
+
 		public InfoDump()
 		{
 		}

@@ -32,7 +32,7 @@ namespace ApertureService
 
         // Nur mit IE
         // https://www6.cor-asp.ch/FM_COR_Demo/test/DWG.html
-        public static void ClickDrawing(string d, string projname)
+        public static string ClickDrawing(string d, string projname)
         {
             string l = "RaumNutzung"; // Layerset
 
@@ -83,6 +83,19 @@ namespace ApertureService
             string cmdname = "_DrawingClick";
             string strRes = ass.ExecuteCommand(cmdname, projname, parameters);
             System.Console.WriteLine(strRes);
+
+
+			System.Xml.XmlDocument doc = new System.Xml.XmlDocument ();
+			doc.LoadXml (strRes);
+
+			System.Xml.XmlNode nd = doc.SelectSingleNode ("//ObjectID");
+			System.Console.WriteLine (nd);
+
+			string strApertureObjId = null;
+			if(nd != null)
+				strApertureObjId = nd.InnerText;
+
+			return strApertureObjId;
         }
 
 
@@ -97,6 +110,7 @@ namespace ApertureService
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
 #endif
+
 
             string d = "0001_GB01_OG14_0000";
             string projname = "COR_Demo_Portal";

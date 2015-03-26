@@ -15,7 +15,6 @@ namespace SvgConverter
 		}
 
 
-
 		public static void Convert()
 		{
 			string file = System.IO.Path.GetDirectoryName (System.Reflection.Assembly.GetExecutingAssembly ().Location);
