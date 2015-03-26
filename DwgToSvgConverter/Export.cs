@@ -49,10 +49,17 @@ namespace DwgToSvgConverter
                 exporter.Title = "tempSvg";
                 exporter.ExportCadLayersAsSvgGroups = true;
                 exporter.WriteSvgXmlElementAttributes += AdditionalAttribute;
-
+                // exporter.WriteSvgXmlElementAttributes += OverwriteStrokeWidth;
+                
                 exporter.Draw(model, WW.Cad.Drawing.GraphicsConfig.WhiteBackgroundCorrectForBackColor, to2DTransform);
             }
 
+        }
+
+
+        public static void OverwriteStrokeWidth(System.Xml.XmlTextWriter w, WW.Cad.Model.Entities.DxfEntity entity)
+        {
+            w.WriteAttributeString("stroke-width", "5");
         }
 
 

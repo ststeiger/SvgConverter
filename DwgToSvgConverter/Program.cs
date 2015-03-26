@@ -32,7 +32,12 @@ namespace DwgToSvgConverter
 #endif
 
             string filename = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            filename = System.IO.Path.Combine(filename, "..", "..", "Zimmertyp_1_.dwg");
+            // filename = System.IO.Path.Combine(filename, "..", "..", "Zimmertyp_1_.dwg");
+            //filename = System.IO.Path.Combine(filename, "..", "..", "..", "SvgConverter", "drawing.dxf");
+            filename = System.IO.Path.Combine(filename, "..", "..", "..", "ApertureService", "0001_GB01_OG14_0000_Aperture.dxf");
+            filename = System.IO.Path.GetFullPath(filename);
+            // filename = @"D:\stefan.steiger\Downloads\7602_GB01_OG01_0000_Aperture.dxf";
+
 
             DxfModel model;
             string extension = System.IO.Path.GetExtension(filename);
@@ -45,10 +50,12 @@ namespace DwgToSvgConverter
                 model = DxfReader.Read(filename);
             }
 
+
 			if(System.Environment.OSVersion.Platform == PlatformID.Unix)
-				Export.ExportToSvg(model, @"/root/mytest.svg");
+                Export.ExportToSvg(model, System.IO.Path.Combine("/root", System.IO.Path.GetFileNameWithoutExtension(filename) + ".svg"));
 			else
-            	Export.ExportToSvg(model, @"d:\mytest.svg");
+                Export.ExportToSvg(model, System.IO.Path.Combine(@"D:\", System.IO.Path.GetFileNameWithoutExtension(filename) + ".svg"));
+                //Export.ExportToSvg(model, @"d:\mytest.svg");
 
             System.Console.WriteLine(" --- Press any key to continue --- ");
             System.Console.ReadKey();

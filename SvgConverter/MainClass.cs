@@ -29,6 +29,8 @@ namespace SvgConverter
 
 			file = System.IO.Path.GetFullPath (file);
 
+            file = @"D:\stefan.steiger\Downloads\7602_GB01_OG01_0000_Aperture.dxf";
+
 #if true 
 
 
@@ -61,14 +63,54 @@ namespace SvgConverter
 
 			cSVG SVG = new cSVG ();
 
+            netDxf.Vector3 TopLeft = new netDxf.Vector3() { X = 0, Y = 0, Z = 0 };
+            netDxf.Vector3 BottomRight = new netDxf.Vector3() { X = 0, Y = 0, Z = 0 };
+
+            foreach (netDxf.Entities.Line l in doc.Lines)
+            {
+                TopLeft.X = System.Math.Min(TopLeft.X, l.StartPoint.X);
+                TopLeft.X = System.Math.Min(TopLeft.X, l.EndPoint.X);
+
+                TopLeft.Y = System.Math.Max(TopLeft.Y, l.StartPoint.Y);
+                TopLeft.Y = System.Math.Max(TopLeft.Y, l.EndPoint.Y);
+
+                BottomRight.X = System.Math.Max(BottomRight.X, l.StartPoint.X);
+                BottomRight.X = System.Math.Max(BottomRight.X, l.EndPoint.X);
+
+                BottomRight.Y = System.Math.Min(BottomRight.Y, l.StartPoint.Y);
+                BottomRight.Y = System.Math.Min(BottomRight.Y, l.EndPoint.Y);            
+            }
+
 
 			foreach (netDxf.Entities.Line l in doc.Lines)
 			{
-				System.Console.WriteLine( l.Handle );
+                long handle = System.Convert.ToInt64(l.Handle, 16);
+
+                // System.Console.WriteLine( l.Handle );
+                System.Console.WriteLine(handle);
 				System.Console.WriteLine (l.StartPoint);
 				System.Console.WriteLine (l.EndPoint);
 
-				SVG.AddLine(l.StartPoint, l.EndPoint);
+                // Transform
+                netDxf.Vector3 vecStart = l.StartPoint - TopLeft;
+                netDxf.Vector3 vecEnd = l.EndPoint - TopLeft;
+
+                vecStart.Y *= -1;
+                vecEnd.Y *= -1;
+                // End Transform
+
+
+                // Margin
+                vecStart.X += 10;
+                vecEnd.X += 10;
+
+                vecStart.Y += 10;
+                vecEnd.Y += 10;
+                // End Margin
+
+
+                //SVG.AddLine(l.StartPoint, l.EndPoint);
+                SVG.AddLine(vecStart, vecEnd);
 			} // Next l
 
 
