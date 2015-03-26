@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+
+<OutParamsBlock>
+  <OutParamsBlock>
+    <OutParams>
+      <DrawingEntityData>
+        <ObjectID>NONE</ObjectID>
+      </DrawingEntityData>
+    </OutParams>
+
+    <ApxScriptLog>
+      Script _DrawingClick started
+      Drawing 0001_GB01_OG14_0000 Accessed
+    </ApxScriptLog>
+  </OutParamsBlock>
+</OutParamsBlock>
+
+
+
+

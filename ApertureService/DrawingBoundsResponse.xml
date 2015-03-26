@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<OutParamsBlock>
+  <OutParamsBlock>
+    <OutParams>
+    <DrawingBounds>
+    <L>195.326569</L>
+    <R>225.331299</R>
+    <T>134.932205</T>
+    <B>165.386215</B>
+    </DrawingBounds>
+    </OutParams>
+    
+    <ApxScriptLog>Script DrawingBounds started
+    Drawing 0001_GB01_OG14_0000 Accessed
+    </ApxScriptLog>
+    
+  </OutParamsBlock>
+</OutParamsBlock>
