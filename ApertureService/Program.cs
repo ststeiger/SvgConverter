@@ -61,8 +61,8 @@ namespace ApertureService
                 .Replace("{@dwg}", d)
                 .Replace("{@r}", b.sR.Replace(",", "."))
 
-#if true // Vertausche b & t
-.Replace("{@b}", b.sT.Replace(",", "."))
+#if true // interchange b & t because Aperture is buggy...
+                .Replace("{@b}", b.sT.Replace(",", "."))
                 .Replace("{@t}", b.sB.Replace(",", "."))
 #else
                 .Replace("{@b}", b.sB.Replace(",", "."))

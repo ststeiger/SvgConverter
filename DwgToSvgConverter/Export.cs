@@ -50,13 +50,19 @@ namespace DwgToSvgConverter
                 exporter.ExportCadLayersAsSvgGroups = true;
                 exporter.WriteSvgXmlElementAttributes += AdditionalAttribute;
                 // exporter.WriteSvgXmlElementAttributes += OverwriteStrokeWidth;
-                
+
+
+                // WW.Cad.Drawing.GraphicsConfig gc = new WW.Cad.Drawing.GraphicsConfig();
+                // gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(255, 0, 0));
+
                 exporter.Draw(model, WW.Cad.Drawing.GraphicsConfig.WhiteBackgroundCorrectForBackColor, to2DTransform);
+                //exporter.Draw(model, gc, to2DTransform);
             }
 
         }
 
 
+        // For better visibility when testing.
         public static void OverwriteStrokeWidth(System.Xml.XmlTextWriter w, WW.Cad.Model.Entities.DxfEntity entity)
         {
             w.WriteAttributeString("stroke-width", "5");
