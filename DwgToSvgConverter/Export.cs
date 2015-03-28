@@ -51,12 +51,18 @@ namespace DwgToSvgConverter
                 exporter.WriteSvgXmlElementAttributes += AdditionalAttribute;
                 // exporter.WriteSvgXmlElementAttributes += OverwriteStrokeWidth;
 
+                exporter.WriteBackgroundRectangle = false;
+                
 
-                // WW.Cad.Drawing.GraphicsConfig gc = new WW.Cad.Drawing.GraphicsConfig();
-                // gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(255, 0, 0));
 
-                exporter.Draw(model, WW.Cad.Drawing.GraphicsConfig.WhiteBackgroundCorrectForBackColor, to2DTransform);
-                //exporter.Draw(model, gc, to2DTransform);
+                WW.Cad.Drawing.GraphicsConfig gc = new WW.Cad.Drawing.GraphicsConfig();
+                gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(255, 0, 0));
+                gc.CorrectColorForBackgroundColor = false;
+                gc.ShowDimensionDefinitionPoints = true;
+                gc.BackColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColors.White);
+
+                // exporter.Draw(model, WW.Cad.Drawing.GraphicsConfig.WhiteBackgroundCorrectForBackColor, to2DTransform);
+                exporter.Draw(model, gc, to2DTransform);
             }
 
         }
