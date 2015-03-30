@@ -73,24 +73,28 @@ namespace ApertureService
             w = 2098; // Bildgrösse 
             h = 2969; // Bildgrösse 
 
-            x = 510;
-            y = 261;
+            w = 790;
+            h = 1121;
 
-            double mx = w / 2.0;
-            double my = h / 2.0;
+            x = 190;
+            y = 490;
 
-            x = mx - x;
-            y = my - y;
+            //double mx = w / 2.0;
+            //double my = h / 2.0;
+
+            //x = mx - x;
+            //y = my - y;
             
 
-            // double s = GetFitFactor(2098, 2969, 800, 600);
-            // double sx = 800.0 / 2098.0;
-            // double sy = 600.0 / 2969.0;
+            //double s = GetFitFactor(2098, 2969, 800, 600);
+            //double sx = 800.0 / w;
+            //double sy = 600.0 / h;
 
-            // x = x * sx;
-            // y = y * sy;
+            //x = x * sx;
+            //y = y * sy;
 
-
+            //w = 800;
+            //h = 600;
 
 
 

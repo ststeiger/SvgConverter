@@ -98,6 +98,14 @@
         }
 
 
+        function showClickCoords(e)
+        {
+            var cursorX = e.clientX;
+            var cursorY = e.clientY;
+            console.log("X: " + cursorX + " Y: " + cursorY);
+        }
+
+
         function showEntity(e)
         {
             console.log("showEntity");
@@ -122,6 +130,14 @@
             // stroke="black" stroke-width="0"
 
             SD.rootElement.appendChild(shape);
+        }
+
+
+        function ser()
+        {
+            var S = document.getElementById("sv")
+            var markup = (new XMLSerializer()).serializeToString(S.contentDocument.rootElement);
+            // console.log(markup);
         }
 
 
@@ -155,7 +171,7 @@
             }
 
             // Doesn't get the entity
-            // SD.addEventListener('click', showEntity);
+            SD.addEventListener('click', showClickCoords);
 
             var el = SD.getElementById("FM_OBJEKT_RAUM");
             var paths = el.getElementsByTagName("path")
