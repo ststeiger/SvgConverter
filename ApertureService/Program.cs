@@ -70,27 +70,27 @@ namespace ApertureService
             
 
             // SVG
-            w = "2098"; // Bildgrösse 
-            h = "2969"; // Bildgrösse 
+            // w = "2098"; // Bildgrösse 
+            // h = "2969"; // Bildgrösse 
 
-            double mx = 2098.0 / 2.0;
-            double my = 2969 / 2.0;
+            //double mx = 2098.0 / 2.0;
+            //double my = 2969 / 2.0;
 
-            double dx = mx - 625;
-            double dy = my - 411;
-            x = dx.ToString();
-            y = dy.ToString();
-
-            //x = "612";
-            //y = "411";
-
-
-            //double s = GetFitFactor(2098, 2969, 800, 600);
-            //double dx = 612 * s;
-            //double dy = 411 * s;
-
+            //double dx = mx - 625;
+            //double dy = my - 411;
             //x = dx.ToString();
             //y = dy.ToString();
+
+            x = "510";
+            y = "261";
+
+
+            // double s = GetFitFactor(2098, 2969, 800, 600);
+            double sx = 800.0 / 2098.0;
+            double sy = 600.0 / 2969.0;
+
+            x = (510 * sx).ToString();
+            y = (1029 * sy).ToString();
 
 
 

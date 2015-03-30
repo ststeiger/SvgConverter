@@ -55,7 +55,7 @@ namespace DwgToSvgConverter
                 
 
                 WW.Cad.Drawing.GraphicsConfig gc = new WW.Cad.Drawing.GraphicsConfig();
-                gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(255, 0, 0));
+                gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(0, 0, 0));
                 gc.CorrectColorForBackgroundColor = false;
                 gc.ShowDimensionDefinitionPoints = true;
                 gc.BackColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColors.White);
