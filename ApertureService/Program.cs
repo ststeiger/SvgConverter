@@ -57,40 +57,38 @@ namespace ApertureService
         {
             string l = "RaumNutzung"; // Layerset
 
-            string w = "800"; // Bildgrösse 
-            string h = "600"; // Bildgrösse 
+            double w = 800; // Bildgrösse 
+            double h = 600; // Bildgrösse 
 
-            string x = "336"; // Click-Position
-            string y = "292"; // Click-Position
+            double x = 336; // Click-Position
+            double y = 292; // Click-Position
 
-            x = "625";
-            y = "182";
+            x = 625;
+            y = 182;
 
 
             
 
             // SVG
-            // w = "2098"; // Bildgrösse 
-            // h = "2969"; // Bildgrösse 
+            w = 2098; // Bildgrösse 
+            h = 2969; // Bildgrösse 
 
-            //double mx = 2098.0 / 2.0;
-            //double my = 2969 / 2.0;
+            x = 510;
+            y = 261;
 
-            //double dx = mx - 625;
-            //double dy = my - 411;
-            //x = dx.ToString();
-            //y = dy.ToString();
+            double mx = w / 2.0;
+            double my = h / 2.0;
 
-            x = "510";
-            y = "261";
-
+            x = mx - x;
+            y = my - y;
+            
 
             // double s = GetFitFactor(2098, 2969, 800, 600);
-            double sx = 800.0 / 2098.0;
-            double sy = 600.0 / 2969.0;
+            // double sx = 800.0 / 2098.0;
+            // double sy = 600.0 / 2969.0;
 
-            x = (510 * sx).ToString();
-            y = (1029 * sy).ToString();
+            // x = x * sx;
+            // y = y * sy;
 
 
 
@@ -117,11 +115,11 @@ namespace ApertureService
 #endif
 
 .Replace("{@l}", b.sL.Replace(",", "."))
-                .Replace("{@width}", w)
-                .Replace("{@height}", h)
+                .Replace("{@width}", ToAwsString(w))
+                .Replace("{@height}", ToAwsString(h))
                 .Replace("{@layerset}", l)
-                .Replace("{@y}", y)
-                .Replace("{@x}", x)
+                .Replace("{@y}", ToAwsString(y))
+                .Replace("{@x}", ToAwsString(x))
                 // .Replace("<", "&lt;")
                 // .Replace(">", "&gt;")
                 ;
@@ -145,6 +143,12 @@ namespace ApertureService
 			return strApertureObjId;
         }
 
+
+        // To ApertureWebServiceString
+        public static string ToAwsString(double d)
+        {
+            return d.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
