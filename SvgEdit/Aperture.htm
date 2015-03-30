@@ -32,12 +32,46 @@
 
         function getBoundingBoxCenter(el)
         {
+            // Returns coordinates in screen-space
             var bbox = el.getBoundingClientRect();
+
+            
+            var S = document.getElementById("sv")
+            var SD = S.getSVGDocument();
+            /*
+            //var  ctm = document.getElementById("object_7").getCTM()
+            var ctm = el.getCTM();
+            // console.log(ctm);
+
+            var pt = SD.rootElement.createSVGPoint();
+
+            
+            pt.x = bbox.left + bbox.width / 2,
+            pt.y = bbox.top + bbox.height / 2
+            pt = pt.matrixTransform(ctm);
+             var center = {
+                 x: pt.x
+                ,y: pt.y
+            };
+            */
+
             var center = {
                 x: bbox.left + bbox.width / 2,
                 y: bbox.top + bbox.height / 2
             };
 
+
+
+            var pt = SD.rootElement.createSVGPoint();
+            pt.x = center.x;
+            pt.y = center.y;
+
+            var ctm = SD.rootElement.getScreenCTM();
+            var inverse = ctm.inverse();
+            var p = pt.matrixTransform(inverse);
+            center.x = p.x;
+            center.y = p.y;
+            
             return center;
         }
 
@@ -86,12 +120,25 @@
             var el = SD.getElementById("FM_OBJEKT_RAUM");
             var paths = el.getElementsByTagName("path")
 
+            var midpoints = [];
+
+            
+
             for (var i = 0; i < paths.length; ++i)
             {
                 // console.log(paths[i]);
                 paths[i].addEventListener('click', showEntity);
+
+                midpoints.push(getBoundingBoxCenter(paths[i]));
+
+                console.log(getBoundingBoxCenter(paths[i]));
             }
             
+            // console.log(midpoints);
+
+
+            console.log(SD.rootElement.getBoundingClientRect());
+
         }
 
         // addClickEvents(); // Wrong, must wait until SVG load-complete, not doc.ready
