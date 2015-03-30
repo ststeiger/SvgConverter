@@ -85,6 +85,24 @@
         }
 
 
+        function createCircle(bbc)
+        {
+            var svgns = "http://www.w3.org/2000/svg";
+            var S = document.getElementById("sv")
+            var SD = S.getSVGDocument();
+
+            var shape = SD.createElementNS(svgns, "circle");
+            shape.setAttributeNS(null, "cx", bbc.x);
+            shape.setAttributeNS(null, "cy", bbc.y);
+            shape.setAttributeNS(null, "r", 10);
+            shape.setAttributeNS(null, "fill", "red");
+
+            // stroke="black" stroke-width="0"
+
+            SD.rootElement.appendChild(shape);
+        }
+
+
         function addClickEvents()
         {
             var S = document.getElementById("sv")
@@ -132,6 +150,9 @@
                 midpoints.push(getBoundingBoxCenter(paths[i]));
 
                 console.log(getBoundingBoxCenter(paths[i]));
+
+
+                createCircle(getBoundingBoxCenter(paths[i]));
             }
             
             // console.log(midpoints);
