@@ -166,11 +166,10 @@ namespace ApertureService
             Application.Run(new Form1());
 #endif
 
-
             string d = "0001_GB01_OG14_0000";
             string projname = "COR_Demo_Portal";
-            ClickDrawing(d, projname);
-            // TransformPath ();
+            // ClickDrawing(d, projname);
+            TransformPath ();
         }
 
 
@@ -191,16 +190,13 @@ namespace ApertureService
 			doc.Load (file);
 
 			System.Xml.XmlNamespaceManager nspmgr = new System.Xml.XmlNamespaceManager (doc.NameTable);
-			nspmgr.AddNamespace ("svg", doc.DocumentElement.NamespaceURI);
+            nspmgr.AddNamespace(doc.DocumentElement.Name, doc.DocumentElement.NamespaceURI);
 
             // System.Xml.XmlNode nd = doc.SelectSingleNode("//svg:g[@id='FM_OBJEKT_RAUM']", nspmgr);
             // System.Xml.XmlNodeList paths = nd.SelectNodes ("./svg:path", nspmgr);
             System.Xml.XmlNodeList paths = doc.SelectNodes("//svg:g[@id='FM_OBJEKT_RAUM']/svg:path", nspmgr);
 
             System.Console.WriteLine(paths);
-
-
-            System.Collections.Generic.List<System.Collections.Generic.List<double[]>> RoomList = new System.Collections.Generic.List<System.Collections.Generic.List<double[]>>();
 
 
             foreach (System.Xml.XmlNode path in paths)
@@ -217,25 +213,62 @@ namespace ApertureService
 
                 string[] coords = d.Split('L');
 
-                System.Collections.Generic.List<double[]> points = new System.Collections.Generic.List<double[]>();
 
+                System.Collections.Generic.List<System.Drawing.Point> points = 
+                    new System.Collections.Generic.List<System.Drawing.Point>();
+
+            
                 foreach (string coord in coords)
                 {
                     string[] xyc = coord.Split(' ');
 
-                    double dblX = 0;
-                    double dblY = 0;
-                    double.TryParse(xyc[0], out dblX);
-                    double.TryParse(xyc[1], out dblY);
+                    float fX = 0;
+                    float fY = 0;
+                    float.TryParse(xyc[0], out fX);
+                    float.TryParse(xyc[1], out fY);
 
-                    points.Add(new double[] { dblX, dblY });
-
-
-                    System.Console.WriteLine("Pxy: [{0},{1}]", dblX, dblY);
+                    // points.Add(new double[] { dblX, dblY });
+                    points.Add(  new System.Drawing.Point((int)fX, (int)fY)  );
+                    System.Console.WriteLine("Pxy: [{0},{1}]", fX, fY);
                 } // Next coord
 
-                RoomList.Add(points);
+
+                int j = points.Count - 1;
+                for (int i = 0; i < points.Count; ++i)
+                {
+                    if (j <= i)
+                        break;
+
+                    if (points[i] == points[j])
+                        points.RemoveAt(j);
+                    else
+                    {
+                        System.Console.WriteLine(points[i] == points[j]);
+                        break;
+                    }
+                       
+
+                    j--;
+                } // Next i
+
+                string str = "";
+                for (int i = 0; i < points.Count; ++i)
+                {
+                    if (i == 0 && points.Count == 1)
+                        str += string.Format("M{0} {1} z", points[i].X, points[i].Y);
+                    else if (i == 0)
+                        str += string.Format("M{0} {1}", points[i].X, points[i].Y);
+                    else if (i == points.Count - 1)
+                        str += string.Format("L{0} {1} z", points[i].X, points[i].Y);
+                    else
+                        str += string.Format("L{0} {1}", points[i].X, points[i].Y);
+                }
+
+                // System.Console.WriteLine(str);
+                path.Attributes["d"].Value = str;
             } // Next path
+
+            doc.Save(@"c:\lolipop.svg");
 
             System.Console.WriteLine(System.Environment.NewLine);
             System.Console.WriteLine(" --- Press any key to continue --- ");
