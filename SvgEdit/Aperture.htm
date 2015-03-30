@@ -76,6 +76,28 @@
         }
 
 
+        function ScreenToSvg(center)
+        {
+            var S = document.getElementById("sv")
+            var SD = S.getSVGDocument();
+
+            var pt = SD.rootElement.createSVGPoint();
+            pt.x = center.width;
+            pt.y = center.height;
+
+            var ctm = SD.rootElement.getScreenCTM();
+            var inverse = ctm.inverse();
+            var p = pt.matrixTransform(inverse);
+            
+            var dimensions = {
+                 width: p.x
+                ,height: p.y
+            };
+
+            return dimensions;
+        }
+
+
         function showEntity(e)
         {
             console.log("showEntity");
@@ -158,7 +180,10 @@
             // console.log(midpoints);
 
 
-            console.log(SD.rootElement.getBoundingClientRect());
+            // console.log(SD.rootElement.getBoundingClientRect());
+            console.log(ScreenToSvg(SD.rootElement.getBoundingClientRect()));
+            
+            
 
         }
 
