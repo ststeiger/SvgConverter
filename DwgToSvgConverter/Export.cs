@@ -50,10 +50,8 @@ namespace DwgToSvgConverter
                 exporter.ExportCadLayersAsSvgGroups = true;
                 exporter.WriteSvgXmlElementAttributes += AdditionalAttribute;
                 // exporter.WriteSvgXmlElementAttributes += OverwriteStrokeWidth;
-
                 exporter.WriteBackgroundRectangle = false;
                 
-
 
                 WW.Cad.Drawing.GraphicsConfig gc = new WW.Cad.Drawing.GraphicsConfig();
                 gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(255, 0, 0));
