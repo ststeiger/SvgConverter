@@ -65,6 +65,16 @@ namespace SvgConverter
             netDxf.Vector3 TopLeft = new netDxf.Vector3() { X = 0, Y = 0, Z = 0 };
             netDxf.Vector3 BottomRight = new netDxf.Vector3() { X = 0, Y = 0, Z = 0 };
 
+
+
+			foreach( netDxf.Entities.EntityObject dim in doc.Dimensions)
+			{
+				System.Console.WriteLine(dim);
+			}
+
+
+
+
             foreach (netDxf.Entities.Line l in doc.Lines)
             {
                 TopLeft.X = System.Math.Min(TopLeft.X, l.StartPoint.X);
@@ -133,6 +143,66 @@ namespace SvgConverter
 			// Console.WriteLine(doc.DocumentElement.NamespaceURI);
 			// Console.WriteLine(doc.DocumentElement.Prefix);
 			// Console.WriteLine(doc.DocumentElement.LocalName);
+		}
+
+
+		public class SvgTransform
+		{
+
+			netDxf.Vector3 TopLeft = new netDxf.Vector3() { X = 0, Y = 0, Z = 0 };
+			netDxf.Vector3 BottomRight = new netDxf.Vector3() { X = 0, Y = 0, Z = 0 };
+
+			public SvgTransform()
+			{}
+
+			public SvgTransform(string file) : this(netDxf.DxfDocument.Load(file))
+			{}
+
+			public SvgTransform(netDxf.DxfDocument doc)
+			{}
+
+
+			public class SvgLine
+			{
+				public netDxf.Vector3 StartPoint ;
+				public netDxf.Vector3 EndPoint;
+
+				public SvgLine()
+				{}
+
+
+				public SvgLine(netDxf.Vector3 pStartPoint, netDxf.Vector3 pEndPoint)
+				{
+					this.StartPoint = pStartPoint;
+					this.EndPoint = pEndPoint;
+				}
+
+
+			}
+
+
+			public SvgLine xxx(netDxf.Vector3 startPoint, netDxf.Vector3 endPoint)
+			{
+				// Transform
+				netDxf.Vector3 vecStart = startPoint - TopLeft;
+				netDxf.Vector3 vecEnd = endPoint - TopLeft;
+
+				vecStart.Y *= -1;
+				vecEnd.Y *= -1;
+				// End Transform
+
+
+				// Margin
+				vecStart.X += 10;
+				vecEnd.X += 10;
+
+				vecStart.Y += 10;
+				vecEnd.Y += 10;
+
+				return new SvgLine(vecStart, vecEnd);
+			}
+
+
 		}
 
 

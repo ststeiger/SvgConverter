@@ -114,8 +114,37 @@ namespace ApertureService
 
             string d = "0001_GB01_OG14_0000";
             string projname = "COR_Demo_Portal";
-            ClickDrawing(d, projname);
+            // ClickDrawing(d, projname);
+			TransformPath ();
         }
+
+
+		public static void TransformPath()
+		{
+			string str = System.IO.Path.GetDirectoryName (System.Reflection.Assembly.GetExecutingAssembly ().Location);
+			str = System.IO.Path.Combine (str, "..");
+			str = System.IO.Path.Combine (str, "..");
+			str = System.IO.Path.Combine (str, "0001_GB01_OG14_0000_Aperture.svg");
+			str = System.IO.Path.GetFullPath (str);
+
+			TransformPath (str);
+		}
+
+		public static void TransformPath(string file)
+		{
+			System.Xml.XmlDocument doc = new System.Xml.XmlDocument ();
+			doc.Load (file);
+
+			System.Xml.XmlNamespaceManager nspmgr = new System.Xml.XmlNamespaceManager (doc.NameTable);
+			string lollol = doc.DocumentElement.GetPrefixOfNamespace (doc.DocumentElement.NamespaceURI);
+			nspmgr.AddNamespace ("svg", doc.DocumentElement.NamespaceURI);
+
+			System.Xml.XmlNode nd = doc.SelectSingleNode ("//g[id='FM_OBJEKT_RAUM']", nspmgr);
+			var paths = nd.SelectNodes ("./path", nspmgr);
+
+
+		}
+
 
 
     }
