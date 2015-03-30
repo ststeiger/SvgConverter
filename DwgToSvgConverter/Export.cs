@@ -28,7 +28,8 @@ namespace DwgToSvgConverter
             const float hundredthsInchToCm = 2.54f / 100f;
             float pageWidth = paperSize.Width * hundredthsInchToCm * 100f;
             float pageHeight = paperSize.Height * hundredthsInchToCm * 100f;
-            float margin = 200f;
+            // float margin = 200f;
+            float margin = 0f;
 
             // Scale and transform such that its fits max width/height
             // and the top left middle of the cad drawing will match the 

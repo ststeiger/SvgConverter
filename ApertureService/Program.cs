@@ -30,9 +30,30 @@ namespace ApertureService
         }
 
 
+        public static string ClickDrawing(string d, string projname)
+        {
+
+            ApertureBounds b = GetBounds(d, projname);
+            System.Console.WriteLine(b);
+
+            return ClickDrawing(d, projname, b);
+        }
+
+
+        public static double GetFitFactor(double svgWidth, double svgHeight, double boxWidth, double boxHeight)
+        {
+            // TODO: Check for arguments (for null and <=0)
+            var widthScale = boxWidth / (double)svgWidth;
+            var heightScale = boxHeight / (double)svgHeight;
+            double scale = (double) System.Math.Min(widthScale, heightScale);
+            return scale;
+        }
+
+
+
         // Nur mit IE
         // https://www6.cor-asp.ch/FM_COR_Demo/test/DWG.html
-        public static string ClickDrawing(string d, string projname)
+        public static string ClickDrawing(string d, string projname, ApertureBounds b)
         {
             string l = "RaumNutzung"; // Layerset
 
@@ -46,8 +67,34 @@ namespace ApertureService
             y = "182";
 
 
-            ApertureBounds b = GetBounds(d, projname);
-            System.Console.WriteLine(b);
+            
+
+            // SVG
+            w = "2098"; // Bildgrösse 
+            h = "2969"; // Bildgrösse 
+
+            double mx = 2098.0 / 2.0;
+            double my = 2969 / 2.0;
+
+            double dx = mx - 625;
+            double dy = my - 411;
+            x = dx.ToString();
+            y = dy.ToString();
+
+            //x = "612";
+            //y = "411";
+
+
+            //double s = GetFitFactor(2098, 2969, 800, 600);
+            //double dx = 612 * s;
+            //double dy = 411 * s;
+
+            //x = dx.ToString();
+            //y = dy.ToString();
+
+
+
+
 
             ApertureCrap.ApScriptingService ass = GetApertureWebService();
 
@@ -114,8 +161,8 @@ namespace ApertureService
 
             string d = "0001_GB01_OG14_0000";
             string projname = "COR_Demo_Portal";
-            // ClickDrawing(d, projname);
-			TransformPath ();
+            ClickDrawing(d, projname);
+            // TransformPath ();
         }
 
 

@@ -25,6 +25,23 @@ namespace ApertureService
         public ApertureBounds()
         { }
 
+
+        public ApertureBounds(double pL, double pR, double pT, double pB)
+        {
+            this.L = pL;
+            this.R = pR;
+            this.T = pT;
+            this.B = pB;
+
+            this.sL = this.L.ToString();
+            this.sR = this.R.ToString();
+            this.sT = this.T.ToString();
+            this.sB = this.B.ToString();
+        }
+
+
+
+
         public ApertureBounds(string s)
         {
             System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
