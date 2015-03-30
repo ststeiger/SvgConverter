@@ -136,18 +136,59 @@ namespace ApertureService
 			doc.Load (file);
 
 			System.Xml.XmlNamespaceManager nspmgr = new System.Xml.XmlNamespaceManager (doc.NameTable);
-			string lollol = doc.DocumentElement.GetPrefixOfNamespace (doc.DocumentElement.NamespaceURI);
 			nspmgr.AddNamespace ("svg", doc.DocumentElement.NamespaceURI);
 
-			System.Xml.XmlNode nd = doc.SelectSingleNode ("//g[id='FM_OBJEKT_RAUM']", nspmgr);
-			var paths = nd.SelectNodes ("./path", nspmgr);
+            // System.Xml.XmlNode nd = doc.SelectSingleNode("//svg:g[@id='FM_OBJEKT_RAUM']", nspmgr);
+            // System.Xml.XmlNodeList paths = nd.SelectNodes ("./svg:path", nspmgr);
+            System.Xml.XmlNodeList paths = doc.SelectNodes("//svg:g[@id='FM_OBJEKT_RAUM']/svg:path", nspmgr);
+
+            System.Console.WriteLine(paths);
 
 
-		}
+            System.Collections.Generic.List<System.Collections.Generic.List<double[]>> RoomList = new System.Collections.Generic.List<System.Collections.Generic.List<double[]>>();
 
 
+            foreach (System.Xml.XmlNode path in paths)
+            {
+                System.Xml.XmlAttribute da = path.Attributes["d"];
+                if (da == null)
+                    continue;
 
-    }
+                string d = da.Value.Trim();
+                if(d.StartsWith("M"))
+                    d = d.Substring(1);
+                if (d.EndsWith("z"))
+                    d = d.Substring(0, d.Length - 1);
+
+                string[] coords = d.Split('L');
+
+                System.Collections.Generic.List<double[]> points = new System.Collections.Generic.List<double[]>();
+
+                foreach (string coord in coords)
+                {
+                    string[] xyc = coord.Split(' ');
+
+                    double dblX = 0;
+                    double dblY = 0;
+                    double.TryParse(xyc[0], out dblX);
+                    double.TryParse(xyc[1], out dblY);
+
+                    points.Add(new double[] { dblX, dblY });
 
 
-}
+                    System.Console.WriteLine("Pxy: [{0},{1}]", dblX, dblY);
+                } // Next coord
+
+                RoomList.Add(points);
+            } // Next path
+
+            System.Console.WriteLine(System.Environment.NewLine);
+            System.Console.WriteLine(" --- Press any key to continue --- ");
+            System.Console.ReadKey();
+		} // End Sub TransformPath
+
+
+    } // End Class 
+
+
+} // End Namespace 
