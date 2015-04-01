@@ -34,11 +34,14 @@ namespace DwgToSvgConverter
             string filename = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             // filename = System.IO.Path.Combine(filename, "..", "..", "Zimmertyp_1_.dwg");
             //filename = System.IO.Path.Combine(filename, "..", "..", "..", "SvgConverter", "drawing.dxf");
-            filename = System.IO.Path.Combine(filename, "..", "..", "..", "ApertureService", "0001_GB01_OG14_0000_Aperture.dxf");
+            //filename = System.IO.Path.Combine(filename, "..", "..", "..", "ApertureService", "0001_GB01_OG14_0000_Aperture.dxf");
+            filename = System.IO.Path.Combine(filename, "..", "..", "0001_GB01_OG14_0000_Aperture_dxf13.dxf");
+            
+
             filename = System.IO.Path.GetFullPath(filename);
-            // filename = @"D:\stefan.steiger\Downloads\7602_GB01_OG01_0000_Aperture.dxf";
+            // filename = string.Format( @"D:\{0}\Downloads\7602_GB01_OG01_0000_Aperture.dxf", Environment.UserName);
 
-
+            MessageBoxHandler.CloseNextMessageBoxByTitle("Wout Ware trial"); // Annoying
             DxfModel model;
             string extension = System.IO.Path.GetExtension(filename);
             if (string.Compare(extension, ".dwg", true) == 0)
@@ -48,6 +51,74 @@ namespace DwgToSvgConverter
             else
             {
                 model = DxfReader.Read(filename);
+            }
+
+            
+
+            /*
+            foreach (WW.Cad.Model.Objects.DxfGroup x in model.Groups)
+            {
+                
+            }
+            
+
+
+
+            foreach (WW.Cad.Model.Tables.DxfBlock thisBlock in model.AnonymousBlocks)
+            {
+                foreach (WW.Cad.Model.Entities.DxfEntity ent in thisBlock.Entities)
+                {
+                    if (StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer))
+                    {
+                        System.Console.WriteLine(ent.AcClass);
+                        System.Console.WriteLine(ent.LineWeight);
+                        System.Console.WriteLine(ent.EntityType);
+                        System.Console.WriteLine(ent.LineType);
+                        System.Console.WriteLine(ent.LineTypeScale);
+                        System.Console.WriteLine(ent.Layer);
+                    }
+                }
+            }
+
+            
+            foreach (WW.Cad.Model.Tables.DxfBlock thisBlock in model.Blocks)
+            {
+                foreach (WW.Cad.Model.Entities.DxfEntity ent in thisBlock.Entities)
+                {
+                    if (StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer))
+                    {
+                        System.Console.WriteLine(ent.AcClass);
+                        System.Console.WriteLine(ent.LineWeight);
+                        System.Console.WriteLine(ent.EntityType);
+                        System.Console.WriteLine(ent.LineType);
+                        System.Console.WriteLine(ent.LineTypeScale);
+                        System.Console.WriteLine(ent.Layer);
+                    }
+                }
+
+            }
+            */
+
+
+            foreach (WW.Cad.Model.Entities.DxfEntity ent in model.Entities)
+            {
+
+                if(StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer.Name))
+                {
+                    
+                    System.Console.WriteLine(ent.AcClass);
+                    System.Console.WriteLine(ent.LineWeight);
+                    System.Console.WriteLine(ent.EntityType);
+                    System.Console.WriteLine(ent.LineType);
+                    System.Console.WriteLine(ent.LineTypeScale);
+                    System.Console.WriteLine(ent.Layer.Name);
+
+                    // http://www.woutware.com/doc/cadlib3.5/html/3a2347ab-838e-26ca-5aed-889ec5f96526.htm
+                    WW.Cad.Model.Entities.DxfPolyline2D dp = (WW.Cad.Model.Entities.DxfPolyline2D)ent;
+                    System.Console.WriteLine(dp.LineWeight);
+
+                }
+
             }
 
 

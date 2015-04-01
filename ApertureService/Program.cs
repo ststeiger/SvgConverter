@@ -194,7 +194,8 @@ namespace ApertureService
 
             // System.Xml.XmlNode nd = doc.SelectSingleNode("//svg:g[@id='FM_OBJEKT_RAUM']", nspmgr);
             // System.Xml.XmlNodeList paths = nd.SelectNodes ("./svg:path", nspmgr);
-            System.Xml.XmlNodeList paths = doc.SelectNodes("//svg:g[@id='FM_OBJEKT_RAUM']/svg:path", nspmgr);
+            //System.Xml.XmlNodeList paths = doc.SelectNodes("//svg:g[@id='FM_OBJEKT_RAUM']/svg:path", nspmgr);
+            System.Xml.XmlNodeList paths = doc.SelectNodes("//svg:g[@id='FM_OBJEKT_RAUM']/svg:path[@data-handle='4']", nspmgr);
 
             System.Console.WriteLine(paths);
 
@@ -204,6 +205,7 @@ namespace ApertureService
                 System.Xml.XmlAttribute da = path.Attributes["d"];
                 if (da == null)
                     continue;
+
 
                 string d = da.Value.Trim();
                 if(d.StartsWith("M"))
@@ -268,7 +270,7 @@ namespace ApertureService
                 path.Attributes["d"].Value = str;
             } // Next path
 
-            doc.Save(@"c:\lolipop.svg");
+            doc.Save(@"D:\lolipop.svg");
 
             System.Console.WriteLine(System.Environment.NewLine);
             System.Console.WriteLine(" --- Press any key to continue --- ");
