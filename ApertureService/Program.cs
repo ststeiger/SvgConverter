@@ -1,7 +1,4 @@
 ﻿
-using System.Windows.Forms;
-
-
 namespace ApertureService
 {
 
@@ -15,7 +12,7 @@ namespace ApertureService
             ApertureCrap.ApScriptingService ass = new ApertureCrap.ApScriptingService();
             ass.Url = "https://www6.cor-asp.ch/ApWebServices/ApScriptingService.asmx";
             return ass;
-        }
+        } // End Function GetApertureWebService 
 
 
         public static ApertureBounds GetBounds(string d, string projname)
@@ -27,9 +24,9 @@ namespace ApertureService
 
             string strBounds = ass.ExecuteCommand(cmdname, projname, parameters);
             return new ApertureBounds(strBounds);
-        }
+        } // End Function GetBounds 
 
-
+        
         public static string ClickDrawing(string d, string projname)
         {
 
@@ -37,7 +34,7 @@ namespace ApertureService
             System.Console.WriteLine(b);
 
             return ClickDrawing(d, projname, b);
-        }
+        } // End Function ClickDrawing 
 
 
         public static double GetFitFactor(double svgWidth, double svgHeight, double boxWidth, double boxHeight)
@@ -47,8 +44,7 @@ namespace ApertureService
             var heightScale = boxHeight / (double)svgHeight;
             double scale = (double) System.Math.Min(widthScale, heightScale);
             return scale;
-        }
-
+        } // End Function GetFitFactor 
 
 
         // Nur mit IE
@@ -118,7 +114,7 @@ namespace ApertureService
                 .Replace("{@t}", b.sT.Replace(",", "."))
 #endif
 
-.Replace("{@l}", b.sL.Replace(",", "."))
+                .Replace("{@l}", b.sL.Replace(",", "."))
                 .Replace("{@width}", ToAwsString(w))
                 .Replace("{@height}", ToAwsString(h))
                 .Replace("{@layerset}", l)
@@ -145,14 +141,15 @@ namespace ApertureService
 				strApertureObjId = nd.InnerText;
 
 			return strApertureObjId;
-        }
+        } // End Function ClickDrawing 
 
 
         // To ApertureWebServiceString
         public static string ToAwsString(double d)
         {
             return d.ToString(System.Globalization.CultureInfo.InvariantCulture);
-        }
+        } // End Function ToAwsString 
+
 
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
@@ -168,9 +165,9 @@ namespace ApertureService
 
             string d = "0001_GB01_OG14_0000";
             string projname = "COR_Demo_Portal";
-            // ClickDrawing(d, projname);
-            TransformPath ();
-        }
+            ClickDrawing(d, projname);
+            // TransformPath ();
+        } // End Sub Main 
 
 
 		public static void TransformPath()
@@ -186,7 +183,8 @@ namespace ApertureService
             file = @"d:\3507_GB01_EG00_0000.svg";
             
             TransformPath(file);
-		}
+		} // End Sub TransformPath 
+
 
 		public static void TransformPath(string file)
 		{
@@ -243,16 +241,13 @@ path
             System.Console.WriteLine(paths);
 
 
-
-
-
             int r = 20;
 
             foreach (System.Xml.XmlNode path in paths)
             {
 
                 // string col = string.Format("#0000{0:X2}", r);
-                //path.Attributes["fill"].Value = "#FF0000";
+                // path.Attributes["fill"].Value = "#FF0000";
                 path.Attributes["fill"].Value = string.Format("#00{0:X2}00", r);
                 r += 37;
                 r = r % 255;
@@ -260,9 +255,6 @@ path
                 System.Xml.XmlAttribute da = path.Attributes["d"];
                 if (da == null)
                     continue;
-
-
-                
 
 
                 string d = da.Value.Trim();
@@ -322,7 +314,7 @@ path
                         str += string.Format("L{0} {1} z", points[i].X, points[i].Y);
                     else
                         str += string.Format("L{0} {1}", points[i].X, points[i].Y);
-                }
+                } // Next i
 
                 // System.Console.WriteLine(str);
                 path.Attributes["d"].Value = str;
@@ -340,7 +332,7 @@ path
             System.Console.WriteLine(" --- Press any key to continue --- ");
             System.Console.ReadKey();
 		} // End Sub TransformPath
-
+        
 
         public static bool PointsEqual(System.Drawing.Point pt1, System.Drawing.Point pt2)
         {
@@ -359,10 +351,10 @@ path
                 return true;
 
             return false;
-        }
+        } // End Function PointsEqual 
 
 
-    } // End Class 
+    } // End Class Program 
 
 
-} // End Namespace 
+} // End Namespace ApertureService 

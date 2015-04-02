@@ -1,9 +1,11 @@
-﻿using System;
-
+﻿
 namespace DwgToSvgConverter
 {
+
+
 	public class Modifier
 	{
+
 
 		public static string GetInlineStyle()
 		{
@@ -22,9 +24,10 @@ path
 }
 ";
 			return style;
-		}
+		} // End Function GetInlineStyle
 
-		public static void ModifySVG(string file)
+
+        public static void ModifySVG(string file)
 		{
 			System.Xml.XmlDocument doc = new System.Xml.XmlDocument ();
 			doc.XmlResolver = null;
@@ -56,14 +59,12 @@ path
 			else
 				doc.DocumentElement.InsertBefore(xe, doc.DocumentElement.FirstChild);
 
-
-
 			// System.Xml.XmlNode nd = doc.SelectSingleNode("//svg:g[@id='FM_OBJEKT_RAUM']", nspmgr);
 			// System.Xml.XmlNodeList paths = nd.SelectNodes ("./svg:path", nspmgr);
 			System.Xml.XmlNodeList paths = doc.SelectNodes("//svg:g[@id='FM_OBJEKT_RAUM']/svg:path", nspmgr);
 			// System.Xml.XmlNodeList paths = doc.SelectNodes("//svg:g[@id='FM_OBJEKT_RAUM']/svg:path[@data-handle='4']", nspmgr);
 
-			System.Console.WriteLine(paths);
+			// System.Console.WriteLine(paths);
 
 			int r = 20;
 
@@ -75,24 +76,21 @@ path
 				path.Attributes ["fill"].Value = string.Format ("#00{0:X2}00", r);
 				r += 37;
 				r = r % 255;
-			}
+            } // Next path
 
 
 			string newFileName = null;
 			if (System.Environment.OSVersion.Platform == System.PlatformID.Unix)
 				newFileName = @"/root/" + "Rooms_" + System.IO.Path.GetFileNameWithoutExtension(file) + @".svg";
-			else
+			else if(StorageHelper.DriveExists(@"D:\"))
 				newFileName = @"D:\" + "Rooms_" + System.IO.Path.GetFileNameWithoutExtension(file) + @".svg";
-
-			doc.Save(newFileName);
-
-			System.Console.WriteLine(System.Environment.NewLine);
-			System.Console.WriteLine(" --- Press any key to continue --- ");
-			System.Console.ReadKey();
-		} // End Sub TransformPath
+            else newFileName = StorageHelper.GetDesktopPath("Rooms_" + System.IO.Path.GetFileNameWithoutExtension(file) + @".svg");
+			
+            doc.Save(newFileName);
+        } // End Sub ModifySVG
 
 
-	}
+    } // End Class Modifier
 
 
-}
+} // End Namespace DwgToSvgConverter 

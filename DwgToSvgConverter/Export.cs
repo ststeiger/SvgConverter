@@ -62,33 +62,30 @@ namespace DwgToSvgConverter
                 gc.NodeColor = WW.Drawing.ArgbColors.HotPink;
                 // gc.BackColor = WW.Drawing.ArgbColors.HotPink;
                 
-                
-
-
                 gc.ShowDimensionDefinitionPoints = false;
                 gc.BackColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColors.White);
 
                 // exporter.Draw(model, WW.Cad.Drawing.GraphicsConfig.WhiteBackgroundCorrectForBackColor, to2DTransform);
                 exporter.Draw(model, gc, to2DTransform);
-            }
+            } // End using stream 
 
-        }
+        } // End Sub ExportToSvg
 
 
         // For better visibility when testing.
         public static void OverwriteStrokeWidth(System.Xml.XmlTextWriter w, WW.Cad.Model.Entities.DxfEntity entity)
         {
             w.WriteAttributeString("stroke-width", "5");
-        }
+        } // End Sub OverwriteStrokeWidth
 
 
         public static void AdditionalAttribute(System.Xml.XmlTextWriter w, WW.Cad.Model.Entities.DxfEntity entity)
         {
             w.WriteAttributeString("data-handle", entity.Handle.ToString(System.Globalization.CultureInfo.InvariantCulture));
-        }
+        } // End Sub AdditionalAttribute
 
 
-    }
+    } // End Class Export 
 
 
-}
+} // End Namespace DwgToSvgConverter 

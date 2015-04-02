@@ -1,11 +1,8 @@
 ﻿
-using System.Collections.Generic;
-using System.Linq;
-
 using WW.Cad.IO;
 using WW.Cad.Model;
-
 using WW.Cad.Drawing;
+
 using WW.Math;
 
 
@@ -57,13 +54,13 @@ namespace DwgToSvgConverter
                 model = DxfReader.Read(filename);
             }
 
-            
+
 
             /*
-            foreach (WW.Cad.Model.Objects.DxfGroup x in model.Groups)
+            foreach (WW.Cad.Model.Objects.DxfGroup thisGroup in model.Groups)
             {
                 
-            }
+            } // Next thisGroup 
             
 
 
@@ -81,8 +78,9 @@ namespace DwgToSvgConverter
                         System.Console.WriteLine(ent.LineTypeScale);
                         System.Console.WriteLine(ent.Layer);
                     }
-                }
-            }
+                } // Next ent
+                
+            } // Next thisBlock
 
             
             foreach (WW.Cad.Model.Tables.DxfBlock thisBlock in model.Blocks)
@@ -98,9 +96,9 @@ namespace DwgToSvgConverter
                         System.Console.WriteLine(ent.LineTypeScale);
                         System.Console.WriteLine(ent.Layer);
                     }
-                }
+                } // Next ent
 
-            }
+            } // Next thisBlock
             */
 
 
@@ -132,13 +130,13 @@ namespace DwgToSvgConverter
                     // dp.LineType = WW.Cad.Model
 
 
-                    foreach (WW.Cad.Model.Entities.DxfVertex2D x in dp.Vertices)
+                    foreach (WW.Cad.Model.Entities.DxfVertex2D thisVertex in dp.Vertices)
                     {
-                        x.StartWidth = 0.0;
-                        x.EndWidth = 0.0;
-                        // x.LineTypeScale = -1;
-                        // x.LineWeight = (short)0.0;
-                    }
+                        thisVertex.StartWidth = 0.0;
+                        thisVertex.EndWidth = 0.0;
+                        // thisVertex.LineTypeScale = -1;
+                        // thisVertex.LineWeight = (short)0.0;
+                    } // Next thisVertex
                     
                     // System.Console.WriteLine(dp.DefaultStartWidth);
                     // System.Console.WriteLine(dp.DefaultEndWidth);
@@ -147,7 +145,6 @@ namespace DwgToSvgConverter
 
             } // Next ent
 
-
             
 			string ExportName = null;
 
@@ -155,17 +152,17 @@ namespace DwgToSvgConverter
 				ExportName = System.IO.Path.Combine ("/root", System.IO.Path.GetFileNameWithoutExtension (filename) + ".svg");
 			else if (StorageHelper.DriveExists (@"D:\"))
 				ExportName = System.IO.Path.Combine (@"D:\", System.IO.Path.GetFileNameWithoutExtension (filename) + ".svg");
-            //Export.ExportToSvg(model, @"d:\mytest.svg");
             else
 				ExportName = StorageHelper.GetDesktopPath (System.IO.Path.GetFileNameWithoutExtension (filename) + ".svg");
 
 			Export.ExportToSvg(model, ExportName);
 			Modifier.ModifySVG(ExportName);
 
+
+            System.Console.WriteLine(System.Environment.NewLine);
             System.Console.WriteLine(" --- Press any key to continue --- ");
             System.Console.ReadKey();
-        }
-
+        } // End Sub Main 
 
 
         // SaveAImage(model, @"test.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -184,10 +181,10 @@ namespace DwgToSvgConverter
             // context.Response.ContentType = "image/jpeg";
             // bitmap.Save(context.Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             bitmap.Save(path, fmt);
-        }
+        } // End Sub SaveAImage 
 
 
-    } // End Class 
+    } // End Class Program 
 
 
-} // End Namespace 
+} // End Namespace DwgToSvgConverter 

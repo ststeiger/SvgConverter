@@ -1,14 +1,10 @@
 ﻿
-using System;
-using System.Web;
-
-
 namespace SvgEdit
 {
 
 
 	// http://stackoverflow.com/questions/23785317/mime-types-for-xsp-mono-webserver
-	public class SvgHandler : IHttpHandler
+	public class SvgHandler : System.Web.IHttpHandler
 	{
 
 
@@ -16,7 +12,7 @@ namespace SvgEdit
 		{ }
 
 
-		public void ProcessRequest(HttpContext context)
+        public void ProcessRequest(System.Web.HttpContext context)
 		{
 			context.Response.ClearContent ();
 			context.Response.ClearHeaders ();
@@ -40,7 +36,7 @@ namespace SvgEdit
 				context.Response.Flush ();
 				context.Response.End ();
 				return;
-			}
+            } // End if (!fi.Exists)
 
 			long length = fi.Length;
 			context.Response.CacheControl = "Public";
@@ -49,7 +45,7 @@ namespace SvgEdit
 			context.Response.Headers.Add ("Pragma", "no-cache");
 			context.Response.Headers.Add ("Pragma", "no-cache");
 			context.Response.Cache.SetExpires (System.DateTime.UtcNow.AddYears (-1));
-			context.Response.Cache.SetCacheability (HttpCacheability.NoCache);
+            context.Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
 			context.Response.ContentType = "image/svg+xml";
 			context.Response.WriteFile (absolutePath);
 			context.Response.Flush ();
@@ -66,7 +62,7 @@ namespace SvgEdit
 		} // End Property IsReusable
 
 
-	} // End Class
+	} // End Class SvgHandler : System.Web.IHttpHandler 
 
-		
-} // End Namespace
+
+} // End Namespace SvgEdit 
