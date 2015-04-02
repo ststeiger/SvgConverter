@@ -151,7 +151,7 @@ namespace DwgToSvgConverter
             
 			string ExportName = null;
 
-			if (System.Environment.OSVersion.Platform == PlatformID.Unix)
+			if (System.Environment.OSVersion.Platform == System.PlatformID.Unix)
 				ExportName = System.IO.Path.Combine ("/root", System.IO.Path.GetFileNameWithoutExtension (filename) + ".svg");
 			else if (StorageHelper.DriveExists (@"D:\"))
 				ExportName = System.IO.Path.Combine (@"D:\", System.IO.Path.GetFileNameWithoutExtension (filename) + ".svg");
