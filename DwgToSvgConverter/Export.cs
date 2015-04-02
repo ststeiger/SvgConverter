@@ -51,13 +51,21 @@ namespace DwgToSvgConverter
                 exporter.ExportCadLayersAsSvgGroups = true;
                 exporter.WriteSvgXmlElementAttributes += AdditionalAttribute;
                 // exporter.WriteSvgXmlElementAttributes += OverwriteStrokeWidth;
-                exporter.WriteBackgroundRectangle = false;
+                exporter.WriteBackgroundRectangle = true;
                 
 
                 WW.Cad.Drawing.GraphicsConfig gc = new WW.Cad.Drawing.GraphicsConfig();
-                gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(0, 0, 0));
+                gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(0, 0, 0)); // stroke
+                // gc.FixedForegroundColor = WW.Drawing.ArgbColors.HotPink; // Stroke
                 gc.CorrectColorForBackgroundColor = false;
-                gc.ShowDimensionDefinitionPoints = true;
+                
+                gc.NodeColor = WW.Drawing.ArgbColors.HotPink;
+                // gc.BackColor = WW.Drawing.ArgbColors.HotPink;
+                
+                
+
+
+                gc.ShowDimensionDefinitionPoints = false;
                 gc.BackColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColors.White);
 
                 // exporter.Draw(model, WW.Cad.Drawing.GraphicsConfig.WhiteBackgroundCorrectForBackColor, to2DTransform);
@@ -76,7 +84,7 @@ namespace DwgToSvgConverter
 
         public static void AdditionalAttribute(System.Xml.XmlTextWriter w, WW.Cad.Model.Entities.DxfEntity entity)
         {
-            w.WriteAttributeString("data-handle", entity.Handle.ToString());
+            w.WriteAttributeString("data-handle", entity.Handle.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
 

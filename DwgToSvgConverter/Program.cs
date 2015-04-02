@@ -120,25 +120,34 @@ namespace DwgToSvgConverter
 
 
 
-					// WW.Cad.Model.Entities.DxfLwPolyline
-
                     
+
+
+					// WW.Cad.Model.Entities.DxfLwPolyline
 
 
                     // http://www.woutware.com/doc/cadlib3.5/html/3a2347ab-838e-26ca-5aed-889ec5f96526.htm
                     WW.Cad.Model.Entities.DxfPolyline2D dp = (WW.Cad.Model.Entities.DxfPolyline2D)ent;
 
-                    ent.LineTypeScale = -1;
+                    //ent.LineTypeScale = -1;
                     // System.Console.WriteLine(dp.LineWeight);
-                    dp.DefaultStartWidth = -1;
-                    dp.DefaultEndWidth = -1;
+                    dp.DefaultStartWidth = 0.0;
+                    dp.DefaultEndWidth = 0.0;
+                    // dp.LineWeight = (short)0.0;
+
+                    // dp.LineType = WW.Cad.Model
+
+
+                    foreach (WW.Cad.Model.Entities.DxfVertex2D x in dp.Vertices)
+                    {
+                        x.StartWidth = 0.0;
+                        x.EndWidth = 0.0;
+                        // x.LineTypeScale = -1;
+                        // x.LineWeight = (short)0.0;
+                    }
                     
-
-                    // dp.Vertices
-
                     // System.Console.WriteLine(dp.DefaultStartWidth);
                     // System.Console.WriteLine(dp.DefaultEndWidth);
-
 
                 } // End if(StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer.Name))
 
