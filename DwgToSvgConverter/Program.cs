@@ -40,6 +40,11 @@ namespace DwgToSvgConverter
 
             filename = System.IO.Path.GetFullPath(filename);
             // filename = string.Format( @"D:\{0}\Downloads\7602_GB01_OG01_0000_Aperture.dxf", Environment.UserName);
+            // filename = string.Format(@"D:\{0}\Downloads\8001_GB01_EG00_0000.dxf", Environment.UserName); // JB
+            // filename = string.Format(@"D:\{0}\Downloads\3507_GB01_EG00_0000.dxf", Environment.UserName); // WC
+            // filename = string.Format(@"D:\{0}\Downloads\7602_GB01_EG00_0000.dxf", Environment.UserName); // WC
+            
+
 
             MessageBoxHandler.CloseNextMessageBoxByTitle("Wout Ware trial"); // Annoying
             DxfModel model;
@@ -117,10 +122,14 @@ namespace DwgToSvgConverter
 
 					// WW.Cad.Model.Entities.DxfLwPolyline
 
-				
+                    
+
+
                     // http://www.woutware.com/doc/cadlib3.5/html/3a2347ab-838e-26ca-5aed-889ec5f96526.htm
                     WW.Cad.Model.Entities.DxfPolyline2D dp = (WW.Cad.Model.Entities.DxfPolyline2D)ent;
-                    System.Console.WriteLine(dp.LineWeight);
+
+                    ent.LineTypeScale = -1;
+                    // System.Console.WriteLine(dp.LineWeight);
                     dp.DefaultStartWidth = -1;
                     dp.DefaultEndWidth = -1;
                     
