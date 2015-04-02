@@ -22,13 +22,17 @@ namespace SvgConverter
 			file = System.IO.Path.Combine (file, "..");
 
 			// file = System.IO.Path.Combine (file, "Zimmertyp_1_.dxf");
-			file = System.IO.Path.Combine(file, "drawing.dxf");
+			// file = System.IO.Path.Combine(file, "drawing.dxf");
+
+			file = System.IO.Path.Combine(file,  "../DwgToSvgConverter/0001_GB01_OG14_0000_Aperture_dxf13.dxf");
+
+
 
 			// D:\Stefan.Steiger\Documents\Visual Studio 2013\Projects\SvgConverter\SvgConverter\drawing.dxf
 
 			file = System.IO.Path.GetFullPath (file);
 
-            file = @"D:\stefan.steiger\Downloads\7602_GB01_OG01_0000_Aperture.dxf";
+            // file = @"D:\stefan.steiger\Downloads\7602_GB01_OG01_0000_Aperture.dxf";
 
 #if true 
 
@@ -67,6 +71,25 @@ namespace SvgConverter
 
 
 
+			/* 
+			foreach(netDxf.Blocks.Block x in doc.Blocks)
+			{
+			}
+			*/
+
+
+			// doc.UCSs.
+
+
+
+			foreach(netDxf.Entities.LwPolyline x in doc.LwPolylines)
+			{
+				if(System.StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", x.Layer.Name))
+				System.Console.WriteLine(x.Layer.Name);
+			}
+
+
+
 			foreach( netDxf.Entities.EntityObject dim in doc.Dimensions)
 			{
 				System.Console.WriteLine(dim);
@@ -89,7 +112,6 @@ namespace SvgConverter
                 BottomRight.Y = System.Math.Min(BottomRight.Y, l.StartPoint.Y);
                 BottomRight.Y = System.Math.Min(BottomRight.Y, l.EndPoint.Y);            
             }
-
 
 			foreach (netDxf.Entities.Line l in doc.Lines)
 			{

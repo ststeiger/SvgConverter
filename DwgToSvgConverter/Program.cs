@@ -113,6 +113,11 @@ namespace DwgToSvgConverter
                     //System.Console.WriteLine(ent.LineTypeScale);
                     //System.Console.WriteLine(ent.Layer.Name);
 
+
+
+					// WW.Cad.Model.Entities.DxfLwPolyline
+
+				
                     // http://www.woutware.com/doc/cadlib3.5/html/3a2347ab-838e-26ca-5aed-889ec5f96526.htm
                     WW.Cad.Model.Entities.DxfPolyline2D dp = (WW.Cad.Model.Entities.DxfPolyline2D)ent;
                     System.Console.WriteLine(dp.LineWeight);
