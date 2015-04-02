@@ -1,33 +1,32 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-
-
 
 using WW.Cad.IO;
 using WW.Cad.Model;
-
 
 using WW.Cad.Drawing;
 using WW.Math;
 
 
-
 namespace DwgToSvgConverter
 {
+
+
     static class Program
     {
+
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
-        [STAThread]
+        [System.STAThread]
         static void Main()
         {
 #if false
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+			System.Windows.Forms.Application.EnableVisualStyles();
+			System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+			System.Windows.Forms.Application.Run(new Form1());
             return;
 #endif
 
@@ -108,19 +107,14 @@ namespace DwgToSvgConverter
             foreach (WW.Cad.Model.Entities.DxfEntity ent in model.Entities)
             {
 
-                if(StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer.Name))
+                if(System.StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer.Name))
                 {
-                    
                     //System.Console.WriteLine(ent.AcClass);
                     //System.Console.WriteLine(ent.LineWeight);
                     //System.Console.WriteLine(ent.EntityType);
                     //System.Console.WriteLine(ent.LineType);
                     //System.Console.WriteLine(ent.LineTypeScale);
                     //System.Console.WriteLine(ent.Layer.Name);
-
-
-
-                    
 
 
 					// WW.Cad.Model.Entities.DxfLwPolyline
@@ -155,14 +149,18 @@ namespace DwgToSvgConverter
 
 
             
+			string ExportName = null;
 
-			if(System.Environment.OSVersion.Platform == PlatformID.Unix)
-                Export.ExportToSvg(model, System.IO.Path.Combine("/root", System.IO.Path.GetFileNameWithoutExtension(filename) + ".svg"));
-            else if (DriveExists(@"D:\"))
-                Export.ExportToSvg(model, System.IO.Path.Combine(@"D:\", System.IO.Path.GetFileNameWithoutExtension(filename) + ".svg"));
+			if (System.Environment.OSVersion.Platform == PlatformID.Unix)
+				ExportName = System.IO.Path.Combine ("/root", System.IO.Path.GetFileNameWithoutExtension (filename) + ".svg");
+			else if (StorageHelper.DriveExists (@"D:\"))
+				ExportName = System.IO.Path.Combine (@"D:\", System.IO.Path.GetFileNameWithoutExtension (filename) + ".svg");
             //Export.ExportToSvg(model, @"d:\mytest.svg");
             else
-                Export.ExportToSvg(model, GetDesktopPath(System.IO.Path.GetFileNameWithoutExtension(filename) + ".svg"));
+				ExportName = StorageHelper.GetDesktopPath (System.IO.Path.GetFileNameWithoutExtension (filename) + ".svg");
+
+			Export.ExportToSvg(model, ExportName);
+			Modifier.ModifySVG(ExportName);
 
             System.Console.WriteLine(" --- Press any key to continue --- ");
             System.Console.ReadKey();
@@ -170,35 +168,9 @@ namespace DwgToSvgConverter
 
 
 
-        public static string GetDesktopPath(string filename)
-        {
-            string desk = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
-            return System.IO.Path.Combine(desk, filename);
-        }
-
-
-        public static bool DriveExists(string name)
-        {
-            System.IO.DriveInfo[] drives = System.IO.DriveInfo.GetDrives();
-
-            // System.IO.DriveInfo di = new System.IO.DriveInfo("");
-            
-            foreach (System.IO.DriveInfo di in drives)
-            {
-                // System.Console.WriteLine(di.Name);
-                if (StringComparer.InvariantCultureIgnoreCase.Equals(name, di.Name))
-                    return true;
-            }
-
-            return false;
-        }
-
-
-
         // SaveAImage(model, @"test.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         public static void SaveAImage(DxfModel model, string path, System.Drawing.Imaging.ImageFormat fmt)
         {
-
             // Convert the CAD drawing to a bitmap.
             System.Drawing.Bitmap bitmap = ImageExporter.CreateAutoSizedBitmap(
                 model,
@@ -212,10 +184,10 @@ namespace DwgToSvgConverter
             // context.Response.ContentType = "image/jpeg";
             // bitmap.Save(context.Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             bitmap.Save(path, fmt);
-
         }
 
 
+    } // End Class 
 
-    }
-}
+
+} // End Namespace 
