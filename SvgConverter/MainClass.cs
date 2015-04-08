@@ -77,26 +77,16 @@ namespace SvgConverter
 			}
 			*/
 
-
-			// doc.UCSs.
-
-
-
 			foreach(netDxf.Entities.LwPolyline x in doc.LwPolylines)
 			{
 				if(System.StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", x.Layer.Name))
 				System.Console.WriteLine(x.Layer.Name);
 			}
 
-
-
 			foreach( netDxf.Entities.EntityObject dim in doc.Dimensions)
 			{
 				System.Console.WriteLine(dim);
 			}
-
-
-
 
             foreach (netDxf.Entities.Line l in doc.Lines)
             {

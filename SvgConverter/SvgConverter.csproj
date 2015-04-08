@@ -37,9 +37,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="PdfSharp">
+      <HintPath>Libs\PdfSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +85,7 @@
     <None Include="drawing.svg" />
     <None Include="drawing.dxf" />
     <Compile Include="SVG.cs" />
+    <Compile Include="SvgToPdf.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="0001_GB01_OG14_0000_Aperture.svg" />
