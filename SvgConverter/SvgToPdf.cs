@@ -43,14 +43,16 @@ namespace SvgConverter
         public SvgToPdf(string fileName)
         {
             doc = new System.Xml.XmlDocument();
-            doc.XmlResolver = null;
+            if(System.Environment.OSVersion.Platform != System.PlatformID.Unix)
+                doc.XmlResolver = null; // .NET Framework
 
 
-			string str = System.IO.File.ReadAllText (fileName, System.Text.Encoding.ASCII);
-			System.Console.WriteLine (str);
-            // doc.Load(fileName);
-			doc.LoadXml (str);
+			// string str = System.IO.File.ReadAllText (fileName, System.Text.Encoding.ASCII);
+            // System.Console.WriteLine (str);
+            // doc.LoadXml(str);
 
+            doc.Load(fileName);
+			
             System.Console.WriteLine("test");
         }
 

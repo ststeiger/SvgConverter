@@ -28,7 +28,8 @@ namespace SvgConverter
 		public void CreateSvg(string version)
 		{
 			this.SvgDocument = new System.Xml.XmlDocument();
-			this.SvgDocument.XmlResolver = null;
+            if (System.Environment.OSVersion.Platform != System.PlatformID.Unix)
+                this.SvgDocument.XmlResolver = null; // .NET Framework
 
 			//System.Xml.XmlDocumentType doctype = SvgDocument.CreateDocumentType("html", "-//W3C//DTD HTML 4.01//EN", "http://www.w3.org/TR/html4/strict.dtd", null);
 			System.Xml.XmlDocumentType doctype = SvgDocument.CreateDocumentType("svg", "-//W3C//DTD SVG 1.1//EN", "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd", null);

@@ -189,7 +189,9 @@ namespace ApertureService
 		public static void TransformPath(string file)
 		{
 			System.Xml.XmlDocument doc = new System.Xml.XmlDocument ();
-            doc.XmlResolver = null;
+            if (System.Environment.OSVersion.Platform != System.PlatformID.Unix)
+                doc.XmlResolver = null; // .NET Framework
+
 			doc.Load (file);
 
 			System.Xml.XmlNamespaceManager nspmgr = new System.Xml.XmlNamespaceManager (doc.NameTable);
