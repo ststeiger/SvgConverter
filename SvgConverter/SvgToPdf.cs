@@ -116,10 +116,16 @@ namespace SvgConverter
 		{
 			// Create new PDF document
 			this.Pdf = new PdfSharp.Pdf.PdfDocument();
-			this.Pdf.Info.CreationDate = System.DateTime.Now;
+            this.Pdf.Info.CreationDate = System.DateTime.Now.AddYears(-400);
+
+            this.Pdf.Info.ModificationDate = new System.DateTime(System.DateTime.UtcNow.Ticks); // Throws exception on UTC time
 			this.Pdf.Info.Title = "PDFsharp SVG";
 			this.Pdf.Info.Author = "Stefan Steiger";
 			this.Pdf.Info.Subject = "SVG";
+
+
+            System.Console.WriteLine(this.Pdf.Info.Producer);
+
 
 			// Create new page
 			PdfSharp.Pdf.PdfPage page = this.Pdf.AddPage();
