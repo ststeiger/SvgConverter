@@ -6,9 +6,9 @@ namespace SvgConverter
     public class SvgToPdf
     {
 
-        public System.Xml.XmlDocument doc;
+        public System.Xml.XmlDocument Xml;
 		public PdfSharp.Pdf.PdfDocument Pdf;
-		public PdfSharp.Drawing.XGraphics gfx;
+		public PdfSharp.Drawing.XGraphics gfxPdf;
 
 
 		public static string GetTestFileName()
@@ -22,12 +22,12 @@ namespace SvgConverter
 			fn = System.IO.Path.GetFullPath (fn);
 
 			return fn;
-		}
+		} // End Function GetTestFileName 
 
 
 		public void disp()
 		{
-			this.gfx.Dispose ();
+            this.gfxPdf.Dispose();
 			this.Pdf.Dispose();
 		}
 
@@ -35,26 +35,79 @@ namespace SvgConverter
         public SvgToPdf()
 			: this(GetTestFileName())
         {
-            // doc = new System.Xml.XmlDocument();
-            // doc.XmlResolver = null;
-        }
+            // Xml = new System.Xml.XmlDocument();
+            // Xml.XmlResolver = null;
+        } // End Constructor SvgToPdf 
 
 
         public SvgToPdf(string fileName)
         {
-            doc = new System.Xml.XmlDocument();
+            Xml = new System.Xml.XmlDocument();
             if(System.Environment.OSVersion.Platform != System.PlatformID.Unix)
-                doc.XmlResolver = null; // .NET Framework
+                Xml.XmlResolver = null; // .NET Framework
 
 
 			// string str = System.IO.File.ReadAllText (fileName, System.Text.Encoding.ASCII);
             // System.Console.WriteLine (str);
-            // doc.LoadXml(str);
+            // Xml.LoadXml(str);
 
-            doc.Load(fileName);
+            Xml.Load(fileName);
 			
             System.Console.WriteLine("test");
+        } // End Constructor SvgToPdf 
+
+
+        public System.Drawing.Size Dimension
+        {
+            get
+            {
+                int deltaX = System.Math.Abs( BottomRight.X - TopLeft.X);
+                int deltaY = System.Math.Abs(BottomRight.Y - TopLeft.Y);
+
+                return new System.Drawing.Size(deltaX, deltaY);
+            }
         }
+
+
+        private System.Drawing.Point m_TopLeft;
+        private System.Drawing.Point m_BottomRight;
+
+
+        private void GetDimensions()
+        {
+            m_TopLeft = new System.Drawing.Point(-500, -500);
+            m_BottomRight = new System.Drawing.Point(500, 500);
+        }
+
+
+        public System.Drawing.Point TopLeft
+        {
+            get
+            {
+                if (m_TopLeft != null)
+                    return m_TopLeft;
+
+                GetDimensions();
+
+                return m_TopLeft;
+            }
+        }
+
+
+        public System.Drawing.Point BottomRight
+        {
+            get
+            {
+                if (m_BottomRight != null)
+                    return m_BottomRight;
+
+                GetDimensions();
+
+                return m_BottomRight;
+            }
+        }
+
+
 
 		public void InitPdf()
 		{
@@ -71,7 +124,7 @@ namespace SvgConverter
 			page.Width = PdfSharp.Drawing.XUnit.FromMillimeter(200);
 			page.Height = PdfSharp.Drawing.XUnit.FromMillimeter(200);
 
-			this.gfx = PdfSharp.Drawing.XGraphics.FromPdfPage(page);
+            this.gfxPdf = PdfSharp.Drawing.XGraphics.FromPdfPage(page);
 		}
 
 
@@ -90,7 +143,7 @@ namespace SvgConverter
             double width = 20;
             double height = 20;
 
-            this.gfx.DrawEllipse(pen, brush, x, y, width, height);
+            this.gfxPdf.DrawEllipse(pen, brush, x, y, width, height);
 			// this.gfx.DrawArc
 
 			/*
@@ -102,7 +155,7 @@ namespace SvgConverter
 			});
 			*/
 
-			this.gfx.DrawPolygon (pen, brush
+            this.gfxPdf.DrawPolygon(pen, brush
 				,new System.Drawing.Point[]
 			     { 
 				     new System.Drawing.Point(150,150)
@@ -120,8 +173,12 @@ namespace SvgConverter
             // Send PDF to browser
             // System.IO.MemoryStream stream = new System.IO.MemoryStream();
 			// this.Pdf.Save(stream, false);
-			this.Pdf.Save(@"/root/Desktop/foosvgbar.pdf");
 
+
+            string fn = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
+            fn = System.IO.Path.Combine(fn, "foosvgbar.pdf");
+
+            this.Pdf.Save(fn);
 
             //Response.Clear();
             //Response.ContentType = "application/pdf";
@@ -147,7 +204,7 @@ namespace SvgConverter
 
         public void TraverseNodes()
         {
-            TraverseNodes(doc.DocumentElement);
+            TraverseNodes(Xml.DocumentElement);
         }
 
 
