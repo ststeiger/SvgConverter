@@ -1,0 +1,12 @@
+﻿
+http://superuser.com/questions/381125/how-do-i-convert-an-svg-to-a-pdf-on-linux
+Dependencies on Ubuntu Lucid:
+
+- libcairo.so.2
+- libgobject-2.0.so.0
+- libgthread-2.0.so.0
+- libglib-2.0.so.0
+- librsvg-2.so.2
+
+-----libpthread.so.0
+-----libc.so.6
