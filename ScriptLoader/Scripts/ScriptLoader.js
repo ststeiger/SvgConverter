@@ -31,7 +31,7 @@ var cScriptLoader = (function ()
             {
                 _this.log('Error loading style "' + filename + '".');
             };
-            document.getElementsByTagName("head")[0].appendChild(link);
+            _this.m_head.appendChild(link);
         };
         this.loadScript = function (i)
         {
@@ -56,7 +56,7 @@ var cScriptLoader = (function ()
                 loadNextScript();
             };
             _this.log('Loading script "' + _this.m_js_files[i] + '".');
-            document.head.appendChild(script);
+            _this.m_head.appendChild(script);
         };
         this.loadFiles = function ()
         {
@@ -68,6 +68,8 @@ var cScriptLoader = (function ()
         };
         this.m_js_files = [];
         this.m_css_files = [];
+        this.m_head = document.getElementsByTagName("head")[0];
+        // this.m_head = document.head; // IE9+ only
         function endsWith(str, suffix)
         {
             if (str === null || suffix === null)

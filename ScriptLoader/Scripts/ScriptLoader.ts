@@ -1,6 +1,7 @@
 class cScriptLoader {
     private m_js_files: string[];
 	private m_css_files: string[];
+	private m_head:HTMLHeadElement;
 	
 	private log = (t:any) =>
 	{
@@ -11,6 +12,8 @@ class cScriptLoader {
     constructor(files: string[]) {
         this.m_js_files = [];
 		this.m_css_files = [];
+		this.m_head = document.getElementsByTagName("head")[0];
+		// this.m_head = document.head; // IE9+ only
 		
 		
 		function endsWith(str:string, suffix:string):boolean 
@@ -70,7 +73,7 @@ class cScriptLoader {
 			this.log('Error loading style "' + filename + '".');
         };
 		
-		document.getElementsByTagName("head")[0].appendChild(link);
+		this.m_head.appendChild(link);
 	}
 	
 	
@@ -103,7 +106,7 @@ class cScriptLoader {
 		
 		
 		this.log('Loading script "' + this.m_js_files[i] + '".');
-        document.head.appendChild(script);
+		this.m_head.appendChild(script);
     }
 	
 	public loadFiles = () => 
