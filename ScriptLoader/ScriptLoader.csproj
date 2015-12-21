@@ -54,13 +54,13 @@
     <Content Include="Scripts\Script2.js" />
     <Content Include="Scripts\Script3.js" />
     <Content Include="Scripts\Script4.js" />
-    <Content Include="Scripts\MyScriptLoader.js" />
+    <Content Include="Scripts\ScriptLoader.js" />
     <Content Include="Scripts\ScriptLoader.ts" />
     <Content Include="Scripts\test1.css" />
     <Content Include="Scripts\test2.css" />
     <Content Include="Scripts\test.css" />
     <Content Include="Scripts\Script5.js" />
-    <Content Include="Scripts\ScriptLoader.js" />
+    <Content Include="Scripts\OldScriptLoader.js" />
     <Content Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
