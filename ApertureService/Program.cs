@@ -11,9 +11,8 @@ namespace ApertureService
         {
             ApertureCrap.ApScriptingService ass = new ApertureCrap.ApScriptingService();
             ass.Url = "https://www6.cor-asp.ch/ApWebServices/ApScriptingService.asmx";
-            ass.Url = "http://vmswisslife/ApWebServices/ApScriptingService.asmx";
-            ass.Url = "http://vmjuliusbaer/ + ";
-
+            // ass.Url = "http://vmwhatever/ApWebServices/ApScriptingService.asmx";
+            
             return ass;
         } // End Function GetApertureWebService 
 
@@ -154,7 +153,6 @@ namespace ApertureService
         } // End Function ToAwsString 
 
 
-
         public static string ModifyUrl(string url)
         {
             System.Collections.Specialized.NameValueCollection originalQuery = System.Web.HttpUtility.ParseQueryString(new System.Uri(url).Query);
@@ -166,11 +164,11 @@ namespace ApertureService
             nameValues.Remove("F");
             nameValues.Remove("dx");
             nameValues.Remove("dy");
-            
 
-            // string projname = "JuliusBaer_Portal_DE";
+
+            // string projname = "COR_Demo_Portal";
             string projname = nameValues["p"];
-            // string d = "8048_GB03_OG07_0000";
+            // string d = "0001_GB01_OG14_0000";
             string d = nameValues["d"];
 
 
@@ -192,8 +190,6 @@ namespace ApertureService
         }
 
 
-
-
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -206,7 +202,7 @@ namespace ApertureService
             Application.Run(new Form1());
 #endif
 
-            string url = @"http://roomplanning/COR_Basic_JuliusBaer/ajax/PdfLegende.ashx?name=6612_GB01_OG02_0000&path=http://vmjuliusbaer/ApWebServices/ApDrawingPDFs.aspx?p=JuliusBaer_Portal_DE$amp$d=6612_GB01_OG02_0000$amp$xlr=59.886098762886604$amp$ylr=15.116451999999999$amp$yul=-24.363888$amp$xul=-7.393284762886594$amp$dx=1653$amp$dy=970$amp$L=RaumNutzung$amp$S=Nutzungsart$amp$SEL=0000000002P2000URG$amp$F=PNG$amp$uu=2&l=Nutzungsart&dwg=6612_GB01_OG02_0000&lycode=Nutzungsart&BE_ID=@BE_ID&legendvisible=false";
+            string url = @"https://www6.cor-asp.ch/COR_Basic_Demo/ajax/PdfLegende.ashx?name=0001_GB01_OG14_0000&path=https://www6.cor-asp.ch/ApWebServices/ApDrawingPDFs.aspx?p=COR_Demo_Portal$amp$d=0001_GB01_OG14_0000$amp$xlr=236.36265042399265$amp$ylr=165.386215$amp$yul=134.932205$amp$xul=184.29521757600736$amp$dx=1867$amp$dy=1092$amp$L=RaumNutzung$amp$S=Nutzungsart$amp$SEL=0000000002FX0003D4$amp$F=PNG$amp$uu=2&l=Nutzungsart&dwg=0001_GB01_OG14_0000&lycode=Raum%20Nutzungsart&BE_ID=12435&legendvisible=false";
 
             string urlMod = ModifyUrl(url);
             System.Console.WriteLine(urlMod);
@@ -215,20 +211,15 @@ namespace ApertureService
             string projname = "COR_Demo_Portal";
             string d = "0001_GB01_OG14_0000";
             
-            projname = "005_SwissLife";
-            d = "0001_gbHG_OG05_0000";
+            projname = "PortalName";
+            d = "AP_DWG";
             
-            projname = "JuliusBaer_Portal_DE";
-            d = "8048_GB03_OG03_0000";
-
             ApertureBounds apb = GetBounds(d, projname);
             System.Console.WriteLine(apb);
 
             ClickDrawing(d, projname);
             // TransformPath ();
         } // End Sub Main 
-
-
 
 
     } // End Class Program 
