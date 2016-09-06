@@ -9,7 +9,7 @@ using WW.Math;
 namespace DwgToSvgConverter
 {
 
-
+    
     static class Program
     {
 
@@ -145,7 +145,18 @@ namespace DwgToSvgConverter
 
             } // Next ent
 
+
+
+
+            // System.Drawing.Printing.PaperSize ps = new System.Drawing.Printing.PaperSize();
             
+            
+
+
+            
+            ExportPdf.WriteDefaultLayoutToPdf(model, 12, @"d:\testme.pdf", true, 10);
+
+
 			string ExportName = null;
 
 			if (System.Environment.OSVersion.Platform == System.PlatformID.Unix)

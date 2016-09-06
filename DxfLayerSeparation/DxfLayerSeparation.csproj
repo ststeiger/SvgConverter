@@ -5,12 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5708F5A7-9AAF-41F3-A100-384491B20DB4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DxfLayerSeparation</RootNamespace>
     <AssemblyName>DxfLayerSeparation</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -38,6 +42,26 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WW, Version=4.0.36.35, Culture=neutral, PublicKeyToken=87d16b8f7b531b65, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\WW.dll</HintPath>
+    </Reference>
+    <Reference Include="WW.Cad, Version=4.0.36.35, Culture=neutral, PublicKeyToken=87d16b8f7b531b65, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\WW.Cad.dll</HintPath>
+    </Reference>
+    <Reference Include="WW.GL, Version=4.0.36.35, Culture=neutral, PublicKeyToken=87d16b8f7b531b65, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\WW.GL.dll</HintPath>
+    </Reference>
+    <Reference Include="WW.License, Version=4.0.0.0, Culture=neutral, PublicKeyToken=87d16b8f7b531b65, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\WW.License.dll</HintPath>
+    </Reference>
+    <Reference Include="WW.Pdf, Version=4.0.36.35, Culture=neutral, PublicKeyToken=87d16b8f7b531b65, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\WW.Pdf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
@@ -46,6 +70,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="LayerExtractorVisitor.cs" />
+    <Compile Include="MessageBoxHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -56,7 +82,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -67,8 +95,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Libs\" />
+    <Content Include="Libs\WW.Cad.dll" />
+    <Content Include="Libs\WW.Cad.xml" />
+    <Content Include="Libs\WW.dll" />
+    <Content Include="Libs\WW.GL.dll" />
+    <Content Include="Libs\WW.GL.xml" />
+    <Content Include="Libs\WW.License.dll" />
+    <Content Include="Libs\WW.Pdf.dll" />
+    <Content Include="Libs\WW.Pdf.xml" />
+    <Content Include="Libs\WW.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
