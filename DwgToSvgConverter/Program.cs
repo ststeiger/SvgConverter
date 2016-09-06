@@ -149,12 +149,12 @@ namespace DwgToSvgConverter
 
 
             // System.Drawing.Printing.PaperSize ps = new System.Drawing.Printing.PaperSize();
-            
-            
 
 
-            
-            ExportPdf.WriteDefaultLayoutToPdf(model, 12, @"d:\testme.pdf", true, 10);
+
+
+
+            ExportPdf.WriteDefaultLayoutToPdf(model, 0.393701f, @"d:\testme.pdf", true, 10);
 
 
 			string ExportName = null;

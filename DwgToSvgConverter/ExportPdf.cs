@@ -114,9 +114,9 @@ namespace DwgToSvgConverter
         }
 
 
-        
-        
-        public static void WriteDefaultLayoutToPdf(DxfModel model, 
+
+
+        public static void WriteDefaultLayoutToPdf(DxfModel model,
                                                     float margin, string outfile,
                                                     bool embedFonts, short lineWeight)
         {
@@ -146,6 +146,7 @@ namespace DwgToSvgConverter
             DxfLayout layout = model.Header.ShowModelSpace
                                    ? null
                                    : model.ActiveLayout;
+
             if (layout != null)
             {
                 // output layout
@@ -181,6 +182,7 @@ namespace DwgToSvgConverter
             // Lengths in inches.
             float pageWidth = paperSize.Width / 100f;
             float pageHeight = paperSize.Height / 100f;
+
             // Scale and transform such that its fits max width/height
             // and the top middle of the cad drawing will match the 
             // top middle of the pdf page.
@@ -195,6 +197,7 @@ namespace DwgToSvgConverter
                 new Point3D(new Vector3D(pageWidth / 2d, pageHeight - margin, 0d) * PdfExporter.InchToPixel),
                 out scaling
                 );
+
             using (System.IO.Stream stream = System.IO.File.Create(outfile))
             {
                 PdfExporter pdfGraphics = new PdfExporter(stream);
@@ -255,6 +258,7 @@ namespace DwgToSvgConverter
                 new Point3D(new Vector3D(pageWidth / 2d, pageHeight - margin, 0d) * PdfExporter.InchToPixel),
                 out scaling
                 );
+
             using (System.IO.Stream stream = System.IO.File.Create(outfile))
             {
                 PdfExporter pdfGraphics = new PdfExporter(stream);
@@ -274,8 +278,11 @@ namespace DwgToSvgConverter
                     );
                 pdfGraphics.EndDocument();
             }
+
         }
 
 
     }
+
+
 }
