@@ -113,6 +113,131 @@ namespace DwgToSvgConverter
 
 
 
+        public static string HandleAllowedAccentCharacters(string stIn)
+        {
+            // --- Begin German ---
+
+            stIn = stIn.Replace("ä", "ae");
+            stIn = stIn.Replace("ö", "oe");
+            stIn = stIn.Replace("ü", "ue");
+
+            stIn = stIn.Replace("Ä", "Ae");
+            stIn = stIn.Replace("Ö", "Oe");
+            stIn = stIn.Replace("Ü", "Ue");
+
+            // --- End German ---
+
+
+            // --- Begin French ---
+
+            stIn = stIn.Replace("é", "e");
+            stIn = stIn.Replace("è", "e");
+            stIn = stIn.Replace("ë", "e");
+            stIn = stIn.Replace("ê", "e");
+
+            stIn = stIn.Replace("ï", "i");
+            stIn = stIn.Replace("î", "i");
+
+            stIn = stIn.Replace("ò", "o");
+            stIn = stIn.Replace("ó", "o");
+            stIn = stIn.Replace("ô", "o");
+
+            stIn = stIn.Replace("ç", "c");
+
+            stIn = stIn.Replace("à", "a");
+            stIn = stIn.Replace("â", "a");
+
+            stIn = stIn.Replace("û", "u");
+            stIn = stIn.Replace("ú", "u");
+            stIn = stIn.Replace("ù", "u");
+            
+            stIn = stIn.Replace("æ", "ae");
+
+            stIn = stIn.Replace("É", "E");
+            stIn = stIn.Replace("È", "E");
+            stIn = stIn.Replace("Ë", "E");
+            stIn = stIn.Replace("Ê", "E");
+
+            stIn = stIn.Replace("Ï", "I");
+            stIn = stIn.Replace("Î", "I");
+
+            stIn = stIn.Replace("Ò", "O");
+            stIn = stIn.Replace("Ó", "O");
+            stIn = stIn.Replace("Ô", "O");
+
+            stIn = stIn.Replace("Ç", "C");
+
+            stIn = stIn.Replace("À", "A");
+            stIn = stIn.Replace("Â", "A");
+
+            stIn = stIn.Replace("Û", "U");
+            stIn = stIn.Replace("Ú", "U");
+            stIn = stIn.Replace("Ù", "U");
+
+            stIn = stIn.Replace("Æ", "AE");
+
+            // --- End French ---
+
+            return stIn;
+        }
+
+
+        // string str = ApertureSucks.Latinize("(æøå âôû?aè");
+        public static string Latinize(string stIn)
+        {
+            // Special treatment for German + French accents
+            stIn = HandleAllowedAccentCharacters(stIn);
+
+            string stFormD = stIn.Normalize(System.Text.NormalizationForm.FormD);
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            for (int ich = 0; ich < stFormD.Length; ich++)
+            {
+                System.Globalization.UnicodeCategory uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
+
+                if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(stFormD[ich]);
+                } // End if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+
+            } // Next ich
+
+
+            //return (sb.ToString().Normalize(System.Text.NormalizationForm.FormC));
+            return (sb.ToString().Normalize(System.Text.NormalizationForm.FormKC));
+        } // End Function Latinize
+
+
+        public static bool HasEncodingBug(DxfModel model)
+        {
+            bool bHasEncodingBug = false;
+
+            foreach (var x in model.Layers)
+            {
+                string layerName = HandleAllowedAccentCharacters(x.Name);
+                string latin = Latinize(x.Name);
+
+                if (!System.StringComparer.OrdinalIgnoreCase.Equals(latin, layerName))
+                {
+                    // return true;
+                    bHasEncodingBug = true;
+
+                    // TODO: Rename layers.
+
+                    System.Console.WriteLine(x.Name);
+                    System.Console.WriteLine("  - Latin: " + latin);
+
+                    byte[] encoded = System.Text.Encoding.GetEncoding((int)model.Header.DrawingCodePage).GetBytes(x.Name);
+                    string corrected = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(encoded);
+                    System.Console.WriteLine("  - Actual: " + corrected);
+                }
+                // else System.Console.WriteLine(x.Name);
+            }
+
+            return bHasEncodingBug;
+        }
+
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -150,6 +275,7 @@ namespace DwgToSvgConverter
                 model = DxfReader.Read(filename);
             }
 
+            HasEncodingBug(model);
 
             FixModel(model);
 
