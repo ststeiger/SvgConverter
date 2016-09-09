@@ -26,6 +26,7 @@ namespace DwgToSvgConverter
             //    //System.Console.WriteLine(model.Entities[i].Layer.Name);
             //}
 
+            // https://www.woutware.com/Forum/Topic/1388/svg-export-path-goes-2x-around?returnUrl=%2FForum%2FBoard%2F2%2Fquestions-and-general-support&page=1
             if (entity is WW.Cad.Model.Entities.DxfPolyline2D)
             {
                 WW.Cad.Model.Entities.DxfPolyline2D dxfPolyline = (WW.Cad.Model.Entities.DxfPolyline2D)entity;
@@ -41,6 +42,9 @@ namespace DwgToSvgConverter
             else if (entity is WW.Cad.Model.Entities.DxfLwPolyline)
             {
                 WW.Cad.Model.Entities.DxfLwPolyline dwgPolyLine = (WW.Cad.Model.Entities.DxfLwPolyline)entity;
+
+                // https://www.woutware.com/Forum/Topic/20/generating-thick-lines?returnUrl=%2FForum%2FUserPosts%3FuserId%3D743420688
+                // set the property ConstantWidth. Don't confuse it with property Thickness though: the thickness is the extrusion along its z-axis
                 dwgPolyLine.ConstantWidth = 0.0;
                 dwgPolyLine.LineWeight = 0;
                 dwgPolyLine.Thickness = 0.0;
