@@ -114,8 +114,9 @@ namespace DwgToSvgConverter
 
                 // System.Console.WriteLine(str);
                 // This is "not scalable for many different encodings"...
-                byte[] encoded = System.Text.Encoding.GetEncoding("ibm850").GetBytes(str);
+                byte[] encoded = System.Text.Encoding.GetEncoding((int)model.Header.DrawingCodePage).GetBytes(str);
                 string corrected = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(encoded);
+
 
                 // System.Console.WriteLine(corrected);
                 System.IO.File.WriteAllText(@"d:\testfile_OG14.svg", corrected, System.Text.Encoding.UTF8);
