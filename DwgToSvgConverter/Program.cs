@@ -14,6 +14,101 @@ namespace DwgToSvgConverter
     {
 
 
+        private static void DoubleLineFix(WW.Cad.Model.Entities.DxfEntity entity)
+        {
+            //if (System.StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", model.Entities[i].Layer.Name))
+            //{
+            //    //System.Console.WriteLine(model.Entities[i].AcClass);
+            //    //System.Console.WriteLine(model.Entities[i].LineWeight);
+            //    //System.Console.WriteLine(model.Entities[i].EntityType);
+            //    //System.Console.WriteLine(model.Entities[i].LineType);
+            //    //System.Console.WriteLine(model.Entities[i].LineTypeScale);
+            //    //System.Console.WriteLine(model.Entities[i].Layer.Name);
+            //}
+
+            if (entity is WW.Cad.Model.Entities.DxfPolyline2D)
+            {
+                WW.Cad.Model.Entities.DxfPolyline2D dxfPolyline = (WW.Cad.Model.Entities.DxfPolyline2D)entity;
+                dxfPolyline.DefaultStartWidth = 0.0;
+                dxfPolyline.DefaultEndWidth = 0.0;
+
+                foreach (WW.Cad.Model.Entities.DxfVertex2D tVertex in dxfPolyline.Vertices)
+                {
+                    tVertex.StartWidth = 0.0;
+                    tVertex.EndWidth = 0.0;
+                }
+            }
+            else if (entity is WW.Cad.Model.Entities.DxfLwPolyline)
+            {
+                WW.Cad.Model.Entities.DxfLwPolyline dwgPolyLine = (WW.Cad.Model.Entities.DxfLwPolyline)entity;
+                dwgPolyLine.ConstantWidth = 0.0;
+                dwgPolyLine.LineWeight = 0;
+                dwgPolyLine.Thickness = 0.0;
+
+                foreach (WW.Cad.Model.Entities.DxfLwPolyline.Vertex tVertex in dwgPolyLine.Vertices)
+                {
+                    tVertex.StartWidth = 0.0;
+                    tVertex.EndWidth = 0.0;
+                }
+            }
+        }
+
+
+        public static void FixModel(DxfModel model)
+        {
+
+
+            //foreach (WW.Cad.Model.Objects.DxfGroup thisGroup in model.Groups)
+            //{
+
+            //} // Next thisGroup 
+
+
+            //foreach (WW.Cad.Model.Entities.DxfEntity ent in model.ModelLayout.Entities)
+            //{
+            //    if (!ls.Contains(ent.Layer.Name))
+            //        ls.Add(ent.Layer.Name);
+            //} // Next ent 
+
+
+            //for (int i = 0; i < model.Layouts.Count; ++i)
+            //{
+
+            //    foreach (WW.Cad.Model.Entities.DxfEntity ent in model.Layouts[i].Entities)
+            //    {
+            //        if (!ls.Contains(ent.Layer.Name))
+            //            ls.Add(ent.Layer.Name);
+            //    }
+
+            //} // Next i 
+            
+
+            foreach (WW.Cad.Model.Tables.DxfBlock thisAnonymousBlock in model.AnonymousBlocks)
+            {
+                for (int i = 0; i < thisAnonymousBlock.Entities.Count; ++i)
+                {
+                    DoubleLineFix(thisAnonymousBlock.Entities[i]);
+                }
+
+            } // Next thisBlock
+
+            foreach (WW.Cad.Model.Tables.DxfBlock thisBlock in model.Blocks)
+            {
+                for (int i = 0; i < thisBlock.Entities.Count; ++i)
+                {
+                    DoubleLineFix(thisBlock.Entities[i]);
+                }
+            } // Next thisBlock
+
+            for (int i = 0; i < model.Entities.Count; ++i)
+            {
+                DoubleLineFix(model.Entities[i]);
+            }
+
+        }
+
+
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -29,17 +124,14 @@ namespace DwgToSvgConverter
 
             string filename = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             // filename = System.IO.Path.Combine(filename, "..", "..", "Zimmertyp_1_.dwg");
-            //filename = System.IO.Path.Combine(filename, "..", "..", "..", "SvgConverter", "drawing.dxf");
-            //filename = System.IO.Path.Combine(filename, "..", "..", "..", "ApertureService", "0001_GB01_OG14_0000_Aperture.dxf");
-            filename = System.IO.Path.Combine(filename, "..", "..", "0001_GB01_OG14_0000_Aperture_dxf13.dxf");
-            
+            // filename = System.IO.Path.Combine(filename, "..", "..", "..", "SvgConverter", "drawing.dxf");
+            // filename = System.IO.Path.Combine(filename, "..", "..", "..", "ApertureService", "0001_GB01_OG14_0000_Aperture.dxf");
+            // filename = System.IO.Path.Combine(filename, "..", "..", "0001_GB01_OG14_0000_Aperture_dxf13.dxf");
+            // filename = @"D:\Temp\Test\6260_GB01_OG02.dwg";
+            // filename = @"D:\Temp\Test\0001_GB01_OG14_0000.dxf";
+            filename = @"D:\Temp\Test\0001_GB01_OG14_0000.dwg";
 
             filename = System.IO.Path.GetFullPath(filename);
-            // filename = string.Format( @"D:\{0}\Downloads\7602_GB01_OG01_0000_Aperture.dxf", Environment.UserName);
-            // filename = string.Format(@"D:\{0}\Downloads\8001_GB01_EG00_0000.dxf", Environment.UserName); // JB
-            // filename = string.Format(@"D:\{0}\Downloads\3507_GB01_EG00_0000.dxf", Environment.UserName); // WC
-            // filename = string.Format(@"D:\{0}\Downloads\7602_GB01_EG00_0000.dxf", Environment.UserName); // WC
-            
 
 
             MessageBoxHandler.CloseNextMessageBoxByTitle("Wout Ware trial"); // Annoying
@@ -55,106 +147,9 @@ namespace DwgToSvgConverter
             }
 
 
+            FixModel(model);
 
-            /*
-            foreach (WW.Cad.Model.Objects.DxfGroup thisGroup in model.Groups)
-            {
-                
-            } // Next thisGroup 
-            
-
-
-
-            foreach (WW.Cad.Model.Tables.DxfBlock thisBlock in model.AnonymousBlocks)
-            {
-                foreach (WW.Cad.Model.Entities.DxfEntity ent in thisBlock.Entities)
-                {
-                    if (StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer))
-                    {
-                        System.Console.WriteLine(ent.AcClass);
-                        System.Console.WriteLine(ent.LineWeight);
-                        System.Console.WriteLine(ent.EntityType);
-                        System.Console.WriteLine(ent.LineType);
-                        System.Console.WriteLine(ent.LineTypeScale);
-                        System.Console.WriteLine(ent.Layer);
-                    }
-                } // Next ent
-                
-            } // Next thisBlock
-
-            
-            foreach (WW.Cad.Model.Tables.DxfBlock thisBlock in model.Blocks)
-            {
-                foreach (WW.Cad.Model.Entities.DxfEntity ent in thisBlock.Entities)
-                {
-                    if (StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer))
-                    {
-                        System.Console.WriteLine(ent.AcClass);
-                        System.Console.WriteLine(ent.LineWeight);
-                        System.Console.WriteLine(ent.EntityType);
-                        System.Console.WriteLine(ent.LineType);
-                        System.Console.WriteLine(ent.LineTypeScale);
-                        System.Console.WriteLine(ent.Layer);
-                    }
-                } // Next ent
-
-            } // Next thisBlock
-            */
-
-
-            foreach (WW.Cad.Model.Entities.DxfEntity ent in model.Entities)
-            {
-
-                if(System.StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer.Name))
-                {
-                    //System.Console.WriteLine(ent.AcClass);
-                    //System.Console.WriteLine(ent.LineWeight);
-                    //System.Console.WriteLine(ent.EntityType);
-                    //System.Console.WriteLine(ent.LineType);
-                    //System.Console.WriteLine(ent.LineTypeScale);
-                    //System.Console.WriteLine(ent.Layer.Name);
-
-
-					// WW.Cad.Model.Entities.DxfLwPolyline
-
-
-                    // http://www.woutware.com/doc/cadlib3.5/html/3a2347ab-838e-26ca-5aed-889ec5f96526.htm
-                    WW.Cad.Model.Entities.DxfPolyline2D dp = (WW.Cad.Model.Entities.DxfPolyline2D)ent;
-
-                    //ent.LineTypeScale = -1;
-                    // System.Console.WriteLine(dp.LineWeight);
-                    dp.DefaultStartWidth = 0.0;
-                    dp.DefaultEndWidth = 0.0;
-                    // dp.LineWeight = (short)0.0;
-
-                    // dp.LineType = WW.Cad.Model
-
-
-                    foreach (WW.Cad.Model.Entities.DxfVertex2D thisVertex in dp.Vertices)
-                    {
-                        thisVertex.StartWidth = 0.0;
-                        thisVertex.EndWidth = 0.0;
-                        // thisVertex.LineTypeScale = -1;
-                        // thisVertex.LineWeight = (short)0.0;
-                    } // Next thisVertex
-                    
-                    // System.Console.WriteLine(dp.DefaultStartWidth);
-                    // System.Console.WriteLine(dp.DefaultEndWidth);
-
-                } // End if(StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", ent.Layer.Name))
-
-            } // Next ent
-
-
-
-
-            // System.Drawing.Printing.PaperSize ps = new System.Drawing.Printing.PaperSize();
-
-
-
-
-
-            ExportPdf.WriteDefaultLayoutToPdf(model, 0.393701f, @"d:\testme.pdf", true, 10);
+            // ExportPdf.WriteDefaultLayoutToPdf(model, 0.393701f, @"d:\testme.pdf", true, 10);
 
 
 			string ExportName = null;

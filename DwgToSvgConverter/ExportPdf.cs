@@ -106,24 +106,20 @@ namespace DwgToSvgConverter
                 default:
                     paperSize = new System.Drawing.Printing.PaperSize("A5", 580, 830);
                     break;
-            }
+            } // End switch (paperFormat.ToString()) 
 
             // paperSize.RawKind = (int)PaperKind.Custom;
 
             return paperSize;
-        }
+        } // End Function CreatePaperSize
 
 
-
-
-        public static void WriteDefaultLayoutToPdf(DxfModel model,
-                                                    float margin, string outfile,
-                                                    bool embedFonts, short lineWeight)
+        public static void WriteDefaultLayoutToPdf(DxfModel model, float margin, string outfile, bool embedFonts, short lineWeight)
         {
             System.Drawing.Printing.PaperSize paperSize = ExportPdf.CreatePaperSize("A4");
 
             WriteDefaultLayoutToPdf(model, paperSize, margin, outfile, embedFonts, lineWeight);
-        }
+        } // End Sub WriteDefaultLayoutToPdf
 
 
         /// <summary>
@@ -139,13 +135,9 @@ namespace DwgToSvgConverter
         /// <param name="outfile">path of PDF output file</param>
         /// <param name="embedFonts">embed fonts into PDF?</param>
         /// <param name="lineWeight">default line weight in 100th of mm</param>
-        public static void WriteDefaultLayoutToPdf(DxfModel model, System.Drawing.Printing.PaperSize paperSize,
-                                                    float margin, string outfile,
-                                                    bool embedFonts, short lineWeight)
+        public static void WriteDefaultLayoutToPdf(DxfModel model, System.Drawing.Printing.PaperSize paperSize, float margin, string outfile, bool embedFonts, short lineWeight)
         {
-            DxfLayout layout = model.Header.ShowModelSpace
-                                   ? null
-                                   : model.ActiveLayout;
+            DxfLayout layout = model.Header.ShowModelSpace ? null : model.ActiveLayout;
 
             if (layout != null)
             {
@@ -157,7 +149,8 @@ namespace DwgToSvgConverter
                 // output model
                 WriteModelToPdf(model, paperSize, margin, outfile, embedFonts, lineWeight);
             }
-        }
+
+        } // End Sub WriteDefaultLayoutToPdf
 
 
         /// <summary>
@@ -196,7 +189,7 @@ namespace DwgToSvgConverter
                 new Point3D(new Vector3D(pageWidth - margin, pageHeight - margin, 0d) * PdfExporter.InchToPixel),
                 new Point3D(new Vector3D(pageWidth / 2d, pageHeight - margin, 0d) * PdfExporter.InchToPixel),
                 out scaling
-                );
+            );
 
             using (System.IO.Stream stream = System.IO.File.Create(outfile))
             {
@@ -207,6 +200,7 @@ namespace DwgToSvgConverter
                 WW.Cad.Drawing.GraphicsConfig config = (WW.Cad.Drawing.GraphicsConfig)WW.Cad.Drawing.GraphicsConfig.AcadLikeWithWhiteBackground.Clone();
                 config.TryDrawingTextAsText = embedFonts;
                 config.DefaultLineWeight = lineWeight;
+                
                 pdfGraphics.DrawPage(
                     model,
                     config,
@@ -215,10 +209,13 @@ namespace DwgToSvgConverter
                     null,
                     null,
                     paperSize
-                    );
+                );
+                
                 pdfGraphics.EndDocument();
-            }
-        }
+            } // End Using stream  
+
+        } // End Sub WriteModelToPdf 
+
 
         /// <summary>
         /// Write a layout to a PDF file.
@@ -244,6 +241,7 @@ namespace DwgToSvgConverter
             // Lengths in inches.
             float pageWidth = paperSize.Width / 100f;
             float pageHeight = paperSize.Height / 100f;
+
             // Scale and transform such that its fits max width/height
             // and the top left middle of the cad drawing will match the 
             // top middle of the pdf page.
@@ -257,7 +255,7 @@ namespace DwgToSvgConverter
                 new Point3D(new Vector3D(pageWidth - margin, pageHeight - margin, 0d) * PdfExporter.InchToPixel),
                 new Point3D(new Vector3D(pageWidth / 2d, pageHeight - margin, 0d) * PdfExporter.InchToPixel),
                 out scaling
-                );
+            ); //End Using DxfUtil.GetScaleTransform 
 
             using (System.IO.Stream stream = System.IO.File.Create(outfile))
             {
@@ -267,6 +265,7 @@ namespace DwgToSvgConverter
                 WW.Cad.Drawing.GraphicsConfig config = new WW.Cad.Drawing.GraphicsConfig(System.Drawing.Color.White, true);
                 config.TryDrawingTextAsText = embedFonts;
                 config.DefaultLineWeight = lineWeight;
+
                 pdfGraphics.DrawPage(
                     model,
                     config,
@@ -275,14 +274,15 @@ namespace DwgToSvgConverter
                     layout,
                     null,
                     paperSize
-                    );
+                );
+
                 pdfGraphics.EndDocument();
-            }
+            } // End Using stream 
 
-        }
-
-
-    }
+        } // End Sub WriteLayoutToPdf 
 
 
-}
+    } // End Class ExportPdf 
+
+
+} // End Namespace DwgToSvgConverter 
