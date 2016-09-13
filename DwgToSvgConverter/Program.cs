@@ -1,5 +1,5 @@
 ﻿
-#define DO_NOT_CORRECT_FOR_TEIGHA_BUG 
+// #define COMPENSATE_TEIGHA_BUG  
 
 
 using WW.Cad.IO;
@@ -68,7 +68,7 @@ namespace DwgToSvgConverter
                 } // Next tVertex 
 
             } // End else if (entity is WW.Cad.Model.Entities.DxfLwPolyline) 
-            #if  !DO_NOT_CORRECT_FOR_TEIGHA_BUG
+#if  COMPENSATE_TEIGHA_BUG
             else if (entity is WW.Cad.Model.Entities.DxfText)
             {
                 WW.Cad.Model.Entities.DxfText dxtext = (WW.Cad.Model.Entities.DxfText)entity;
@@ -80,14 +80,19 @@ namespace DwgToSvgConverter
                 } // End if (FixBrokenText(drawingCodePage, dxtext.Text, ref corrected)) 
 
             } // End else if (entity is WW.Cad.Model.Entities.DxfText) 
-            #endif
-            
+#endif
+
 
         } // End Sub FixDoubleLines 
 
 
         public static void FixModel(DxfModel model)
         {
+#if COMPENSATE_TEIGHA_BUG
+            FixLayerEncoding(model);
+#endif
+            
+
             //foreach (WW.Cad.Model.Objects.DxfGroup thisGroup in model.Groups)
             //{
 
@@ -137,11 +142,6 @@ namespace DwgToSvgConverter
                 FixDoubleLines(drawingCodePage, model.Entities[i]);
             }
 
-
-#if DO_NOT_CORRECT_FOR_TEIGHA_BUG
-            return;
-#endif
-            FixLayerEncoding(model);
         }
 
 
