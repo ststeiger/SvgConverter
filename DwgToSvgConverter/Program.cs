@@ -14,7 +14,7 @@ namespace DwgToSvgConverter
     {
 
 
-        private static void DoubleLineFix(WW.Cad.Model.Entities.DxfEntity entity)
+        public static void FixDoubleLines(WW.Cad.Model.DrawingCodePage drawingCodePage, WW.Cad.Model.Entities.DxfEntity entity)
         {
             //if (System.StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", model.Entities[i].Layer.Name))
             //{
@@ -24,19 +24,29 @@ namespace DwgToSvgConverter
             //    //System.Console.WriteLine(model.Entities[i].LineType);
             //    //System.Console.WriteLine(model.Entities[i].LineTypeScale);
             //    //System.Console.WriteLine(model.Entities[i].Layer.Name);
-            //}
+            //} //End if (System.StringComparer.OrdinalIgnoreCase.Equals("FM_OBJEKT_RAUM", model.Entities[i].Layer.Name))
 
+            
+            if (entity is WW.Cad.Model.Entities.DxfInsert)
+            {
+                WW.Cad.Model.Entities.DxfInsert ins = (WW.Cad.Model.Entities.DxfInsert)entity;
+                for(int i = 0; i < ins.Block.Entities.Count;++i)
+                {
+                    FixDoubleLines(drawingCodePage, ins.Block.Entities[i]);
+                } // Next i 
+
+            } // End if (entity is WW.Cad.Model.Entities.DxfInsert) 
             // https://www.woutware.com/Forum/Topic/1388/svg-export-path-goes-2x-around?returnUrl=%2FForum%2FBoard%2F2%2Fquestions-and-general-support&page=1
-            if (entity is WW.Cad.Model.Entities.DxfPolyline2D)
+            else if (entity is WW.Cad.Model.Entities.DxfPolyline2D)
             {
                 WW.Cad.Model.Entities.DxfPolyline2D dxfPolyline = (WW.Cad.Model.Entities.DxfPolyline2D)entity;
                 dxfPolyline.DefaultStartWidth = 0.0;
                 dxfPolyline.DefaultEndWidth = 0.0;
 
-                foreach (WW.Cad.Model.Entities.DxfVertex2D tVertex in dxfPolyline.Vertices)
+                foreach (WW.Cad.Model.Entities.DxfVertex2D thisVertex in dxfPolyline.Vertices)
                 {
-                    tVertex.StartWidth = 0.0;
-                    tVertex.EndWidth = 0.0;
+                    thisVertex.StartWidth = 0.0;
+                    thisVertex.EndWidth = 0.0;
                 }
             }
             else if (entity is WW.Cad.Model.Entities.DxfLwPolyline)
@@ -49,18 +59,33 @@ namespace DwgToSvgConverter
                 dwgPolyLine.LineWeight = 0;
                 dwgPolyLine.Thickness = 0.0;
 
-                foreach (WW.Cad.Model.Entities.DxfLwPolyline.Vertex tVertex in dwgPolyLine.Vertices)
+                foreach (WW.Cad.Model.Entities.DxfLwPolyline.Vertex thisVertex in dwgPolyLine.Vertices)
                 {
-                    tVertex.StartWidth = 0.0;
-                    tVertex.EndWidth = 0.0;
-                }
-            }
-        }
+                    thisVertex.StartWidth = 0.0;
+                    thisVertex.EndWidth = 0.0;
+                } // Next tVertex 
+
+            } // End else if (entity is WW.Cad.Model.Entities.DxfLwPolyline) 
+            else if (entity is WW.Cad.Model.Entities.DxfText)
+            {
+                WW.Cad.Model.Entities.DxfText dxtext = (WW.Cad.Model.Entities.DxfText)entity;
+
+                string corrected = null;
+                if (FixTextWithWrongEncoding(drawingCodePage, dxtext.Text, ref corrected))
+                {
+                    dxtext.Text = corrected;
+                } // End if (FixBrokenText(drawingCodePage, dxtext.Text, ref corrected)) 
+
+            } // End else if (entity is WW.Cad.Model.Entities.DxfText) 
+
+            
+
+        } // End Sub FixDoubleLines 
 
 
         public static void FixModel(DxfModel model)
         {
-
+            FixLayerEncoding(model);
 
             //foreach (WW.Cad.Model.Objects.DxfGroup thisGroup in model.Groups)
             //{
@@ -87,26 +112,28 @@ namespace DwgToSvgConverter
             //} // Next i 
             
 
-            foreach (WW.Cad.Model.Tables.DxfBlock thisAnonymousBlock in model.AnonymousBlocks)
-            {
-                for (int i = 0; i < thisAnonymousBlock.Entities.Count; ++i)
-                {
-                    DoubleLineFix(thisAnonymousBlock.Entities[i]);
-                }
+            //foreach (WW.Cad.Model.Tables.DxfBlock thisAnonymousBlock in model.AnonymousBlocks)
+            //{
+            //    for (int i = 0; i < thisAnonymousBlock.Entities.Count; ++i)
+            //    {
+            //        DoubleLineFix(thisAnonymousBlock.Entities[i]);
+            //    }
 
-            } // Next thisBlock
+            //} // Next thisBlock
 
-            foreach (WW.Cad.Model.Tables.DxfBlock thisBlock in model.Blocks)
-            {
-                for (int i = 0; i < thisBlock.Entities.Count; ++i)
-                {
-                    DoubleLineFix(thisBlock.Entities[i]);
-                }
-            } // Next thisBlock
+            //foreach (WW.Cad.Model.Tables.DxfBlock thisBlock in model.Blocks)
+            //{
+            //    for (int i = 0; i < thisBlock.Entities.Count; ++i)
+            //    {
+            //        DoubleLineFix(thisBlock.Entities[i]);
+            //    }
+            //} // Next thisBlock
 
+            // Use recursion instead of multiple loops 
+            WW.Cad.Model.DrawingCodePage drawingCodePage = model.Header.DrawingCodePage;
             for (int i = 0; i < model.Entities.Count; ++i)
             {
-                DoubleLineFix(model.Entities[i]);
+                FixDoubleLines(drawingCodePage, model.Entities[i]);
             }
 
         }
@@ -115,70 +142,111 @@ namespace DwgToSvgConverter
 
         public static string HandleAllowedAccentCharacters(string stIn)
         {
+            string retVal = null;
             // --- Begin German ---
 
-            stIn = stIn.Replace("ä", "ae");
-            stIn = stIn.Replace("ö", "oe");
-            stIn = stIn.Replace("ü", "ue");
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(stIn);
 
-            stIn = stIn.Replace("Ä", "Ae");
-            stIn = stIn.Replace("Ö", "Oe");
-            stIn = stIn.Replace("Ü", "Ue");
+            sb = sb.Replace("ä", "ae");
+            sb = sb.Replace("ö", "oe");
+            sb = sb.Replace("ü", "ue");
 
+            sb = sb.Replace("Ä", "Ae");
+            sb = sb.Replace("Ö", "Oe");
+            sb = sb.Replace("Ü", "Ue");
+
+            sb = sb.Replace("ß", "ss");
+            sb = sb.Replace("ß", "SS");
+            
             // --- End German ---
 
 
             // --- Begin French ---
 
-            stIn = stIn.Replace("é", "e");
-            stIn = stIn.Replace("è", "e");
-            stIn = stIn.Replace("ë", "e");
-            stIn = stIn.Replace("ê", "e");
+            sb = sb.Replace("à", "a");
+            sb = sb.Replace("á", "a");
+            sb = sb.Replace("â", "a");
 
-            stIn = stIn.Replace("ï", "i");
-            stIn = stIn.Replace("î", "i");
+            sb = sb.Replace("ç", "c");
 
-            stIn = stIn.Replace("ò", "o");
-            stIn = stIn.Replace("ó", "o");
-            stIn = stIn.Replace("ô", "o");
+            sb = sb.Replace("é", "e");
+            sb = sb.Replace("è", "e");
+            sb = sb.Replace("ë", "e");
+            sb = sb.Replace("ê", "e");
 
-            stIn = stIn.Replace("ç", "c");
+            sb = sb.Replace("ï", "i");
+            sb = sb.Replace("î", "i");
 
-            stIn = stIn.Replace("à", "a");
-            stIn = stIn.Replace("â", "a");
+            sb = sb.Replace("ò", "o");
+            sb = sb.Replace("ó", "o");
+            sb = sb.Replace("ô", "o");
 
-            stIn = stIn.Replace("û", "u");
-            stIn = stIn.Replace("ú", "u");
-            stIn = stIn.Replace("ù", "u");
+            sb = sb.Replace("ú", "u");
+            sb = sb.Replace("ù", "u");
+            sb = sb.Replace("û", "u");
             
-            stIn = stIn.Replace("æ", "ae");
+            sb = sb.Replace("æ", "ae");
 
-            stIn = stIn.Replace("É", "E");
-            stIn = stIn.Replace("È", "E");
-            stIn = stIn.Replace("Ë", "E");
-            stIn = stIn.Replace("Ê", "E");
 
-            stIn = stIn.Replace("Ï", "I");
-            stIn = stIn.Replace("Î", "I");
 
-            stIn = stIn.Replace("Ò", "O");
-            stIn = stIn.Replace("Ó", "O");
-            stIn = stIn.Replace("Ô", "O");
+            sb = sb.Replace("À", "A");
+            sb = sb.Replace("Á", "A");
+            sb = sb.Replace("Â", "A");
 
-            stIn = stIn.Replace("Ç", "C");
+            sb = sb.Replace("Ç", "C");
 
-            stIn = stIn.Replace("À", "A");
-            stIn = stIn.Replace("Â", "A");
+            sb = sb.Replace("É", "E");
+            sb = sb.Replace("È", "E");
+            sb = sb.Replace("Ê", "E");
+            sb = sb.Replace("Ë", "E");
 
-            stIn = stIn.Replace("Û", "U");
-            stIn = stIn.Replace("Ú", "U");
-            stIn = stIn.Replace("Ù", "U");
+            sb = sb.Replace("Ï", "I");
+            sb = sb.Replace("Î", "I");
 
-            stIn = stIn.Replace("Æ", "AE");
+            sb = sb.Replace("Ò", "O");
+            sb = sb.Replace("Ó", "O");
+            sb = sb.Replace("Ô", "O");
+
+            sb = sb.Replace("Û", "U");
+            sb = sb.Replace("Ú", "U");
+            sb = sb.Replace("Ù", "U");
+
+            sb = sb.Replace("Æ", "AE");
 
             // --- End French ---
 
-            return stIn;
+
+            // --- Begin Spanish ---
+            sb = sb.Replace("ñ", "n");
+            sb = sb.Replace("õ", "o");
+            sb = sb.Replace("í", "i");
+            sb = sb.Replace("ì", "i");
+
+            sb = sb.Replace("Ñ", "N");
+            sb = sb.Replace("Õ", "O");
+            sb = sb.Replace("Í", "I");
+            sb = sb.Replace("Ì", "I");
+
+
+            sb = sb.Replace("¿", "?");
+            sb = sb.Replace("¡", "!");
+            // --- End Spanish ---
+
+
+            
+            // --- Begin Swedish/Norwegian/Danish ---
+            sb = sb.Replace("å", "a");
+            sb = sb.Replace("ø", "o");
+
+            sb = sb.Replace("Å", "A");
+            sb = sb.Replace("Ø", "O");
+            // --- End Swedish/Norwegian/Danish ---
+
+            retVal = sb.ToString();
+            sb.Clear();
+            sb = null;
+
+            return retVal;
         }
 
 
@@ -208,34 +276,38 @@ namespace DwgToSvgConverter
         } // End Function Latinize
 
 
-        public static bool HasEncodingBug(DxfModel model)
+        public static bool FixTextWithWrongEncoding(WW.Cad.Model.DrawingCodePage drawingCodePage, string text, ref string correctedText)
         {
-            bool bHasEncodingBug = false;
+            string normalizedText = HandleAllowedAccentCharacters(text);
+            string latinText = Latinize(text);
 
-            foreach (var x in model.Layers)
+            if (!System.StringComparer.OrdinalIgnoreCase.Equals(latinText, normalizedText))
             {
-                string layerName = HandleAllowedAccentCharacters(x.Name);
-                string latin = Latinize(x.Name);
+                System.Console.WriteLine("Invalid characters in text '" + text + "'");
+                System.Console.WriteLine("  - Latin: " + latinText);
+                byte[] encoded = System.Text.Encoding.GetEncoding((int)drawingCodePage).GetBytes(text);
+                correctedText = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(encoded);
+                System.Console.WriteLine("  - Actual: " + correctedText);
+                System.Console.WriteLine("fixed");
+                return true;
+            } // End if (!System.StringComparer.OrdinalIgnoreCase.Equals(latin, layerName)) 
+            // else System.Console.WriteLine(text);
+            return false;
+        } // End Function FixTextWithWrongEncoding 
 
-                if (!System.StringComparer.OrdinalIgnoreCase.Equals(latin, layerName))
+
+        public static void FixLayerEncoding(DxfModel model)
+        {
+            foreach (WW.Cad.Model.Tables.DxfLayer thisLayer in model.Layers)
+            {
+                string corrected = null;
+                if (FixTextWithWrongEncoding(model.Header.DrawingCodePage, thisLayer.Name, ref corrected))
                 {
-                    // return true;
-                    bHasEncodingBug = true;
-
-                    // TODO: Rename layers.
-
-                    System.Console.WriteLine(x.Name);
-                    System.Console.WriteLine("  - Latin: " + latin);
-
-                    byte[] encoded = System.Text.Encoding.GetEncoding((int)model.Header.DrawingCodePage).GetBytes(x.Name);
-                    string corrected = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(encoded);
-                    System.Console.WriteLine("  - Actual: " + corrected);
+                    thisLayer.Name = corrected;
                 }
-                // else System.Console.WriteLine(x.Name);
-            }
+            } // Next thisLayer 
 
-            return bHasEncodingBug;
-        }
+        } // End Sub FixLayerEncoding 
 
 
         /// <summary>
@@ -262,7 +334,7 @@ namespace DwgToSvgConverter
 
             filename = System.IO.Path.GetFullPath(filename);
 
-
+            
             MessageBoxHandler.CloseNextMessageBoxByTitle("Wout Ware trial"); // Annoying
             DxfModel model;
             string extension = System.IO.Path.GetExtension(filename);
@@ -275,8 +347,7 @@ namespace DwgToSvgConverter
                 model = DxfReader.Read(filename);
             }
 
-            HasEncodingBug(model);
-
+            
             FixModel(model);
 
             // ExportPdf.WriteDefaultLayoutToPdf(model, 0.393701f, @"d:\testme.pdf", true, 10);

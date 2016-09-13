@@ -71,12 +71,57 @@ namespace DwgToSvgConverter
             } // End using stream 
             */
 
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-            
+            using (System.IO.StringWriter stringWriter = new System.IO.StringWriter(sb))
+            {
+                using (System.Xml.XmlTextWriter xmlWriter = new System.Xml.XmlTextWriter(stringWriter))
+                {
+                    WW.Cad.IO.SvgExporter exporter = new WW.Cad.IO.SvgExporter(xmlWriter, paperSize);
+
+                    exporter.Title = "tempSvg";
+                    exporter.ExportCadLayersAsSvgGroups = true;
+                    exporter.WriteSvgXmlElementAttributes += AdditionalAttribute;
+                    // exporter.WriteSvgXmlElementAttributes += OverwriteStrokeWidth;
+                    exporter.WriteBackgroundRectangle = true;
+
+
+                    WW.Cad.Drawing.GraphicsConfig gc = new WW.Cad.Drawing.GraphicsConfig();
+                    gc.FixedForegroundColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColor.FromRgb(0, 0, 0)); // stroke
+                    // gc.FixedForegroundColor = WW.Drawing.ArgbColors.HotPink; // Stroke
+                    gc.CorrectColorForBackgroundColor = false;
+                    gc.TryDrawingTextAsText = true;
+                    gc.NodeColor = WW.Drawing.ArgbColors.HotPink;
+                    // gc.BackColor = WW.Drawing.ArgbColors.HotPink;
+
+                    gc.ShowDimensionDefinitionPoints = false;
+                    gc.BackColor = WW.Drawing.ArgbColor.FromArgb(0, WW.Drawing.ArgbColors.White);
+
+                    // exporter.Draw(model, WW.Cad.Drawing.GraphicsConfig.WhiteBackgroundCorrectForBackColor, to2DTransform);
+                    exporter.Draw(model, gc, to2DTransform);
+
+
+                    // System.Console.WriteLine(str);
+                    // This is "not scalable for many different encodings"...
+
+                    string strSVG = sb.ToString();
+                    // byte[] encoded = System.Text.Encoding.GetEncoding((int)model.Header.DrawingCodePage).GetBytes(strSVG);
+                    // string corrected = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(encoded);
+
+                    // System.Console.WriteLine(corrected);
+                    System.IO.File.WriteAllText(@"d:\testfile_OG14.svg", strSVG, System.Text.Encoding.UTF8);
+                    System.Console.WriteLine("Finished");
+                }
+
+            }
+
+
+
+            /*
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
             {
                 WW.Cad.IO.SvgExporter exporter = new WW.Cad.IO.SvgExporter(stream, paperSize);
-
+                
                 exporter.Title = "tempSvg";
                 exporter.ExportCadLayersAsSvgGroups = true;
                 exporter.WriteSvgXmlElementAttributes += AdditionalAttribute;
@@ -124,6 +169,7 @@ namespace DwgToSvgConverter
 
                 //ba = System.Text.Encoding.UTF8.GetBytes(str);
             } // End using stream 
+             */
 
         } // End Sub ExportToSvg
 
