@@ -1,5 +1,5 @@
 ﻿
-// #define COMPENSATE_TEIGHA_BUG  
+#define COMPENSATE_TEIGHA_BUG  
 
 
 using WW.Cad.IO;
@@ -7,6 +7,7 @@ using WW.Cad.Model;
 using WW.Cad.Drawing;
 
 using WW.Math;
+
 
 namespace DwgToSvgConverter
 {
@@ -49,7 +50,7 @@ namespace DwgToSvgConverter
                 {
                     thisVertex.StartWidth = 0.0;
                     thisVertex.EndWidth = 0.0;
-                }
+                } // Next thisVertex 
             }
             else if (entity is WW.Cad.Model.Entities.DxfLwPolyline)
             {
@@ -140,9 +141,9 @@ namespace DwgToSvgConverter
             for (int i = 0; i < model.Entities.Count; ++i)
             {
                 FixDoubleLines(drawingCodePage, model.Entities[i]);
-            }
+            } // Next i 
 
-        }
+        } // End Sub FixModel
 
 
 
@@ -253,7 +254,7 @@ namespace DwgToSvgConverter
             sb = null;
 
             return retVal;
-        }
+        } // End Function HandleAllowedAccentCharacters 
 
 
         // string str = ApertureSucks.Latinize("(æøå âôû?aè");
@@ -310,7 +311,8 @@ namespace DwgToSvgConverter
                 if (FixTextWithWrongEncoding(model.Header.DrawingCodePage, thisLayer.Name, ref corrected))
                 {
                     thisLayer.Name = corrected;
-                }
+                } // End if (FixTextWithWrongEncoding(model.Header.DrawingCodePage, thisLayer.Name, ref corrected)) 
+
             } // Next thisLayer 
 
         } // End Sub FixLayerEncoding 

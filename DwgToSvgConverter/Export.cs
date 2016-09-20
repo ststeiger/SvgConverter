@@ -75,6 +75,7 @@ namespace DwgToSvgConverter
 
             using (System.IO.StringWriter stringWriter = new System.IO.StringWriter(sb))
             {
+
                 using (System.Xml.XmlTextWriter xmlWriter = new System.Xml.XmlTextWriter(stringWriter))
                 {
                     WW.Cad.IO.SvgExporter exporter = new WW.Cad.IO.SvgExporter(xmlWriter, paperSize);
@@ -111,9 +112,9 @@ namespace DwgToSvgConverter
                     // System.Console.WriteLine(corrected);
                     System.IO.File.WriteAllText(@"d:\testfile_OG14.svg", strSVG, System.Text.Encoding.UTF8);
                     System.Console.WriteLine("Finished");
-                }
+                } // End Using xmlWriter 
 
-            }
+            } // End Using stringWriter 
 
 
 
